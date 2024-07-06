@@ -504,7 +504,7 @@ p{letter-spacing: 0;margin-bottom: 20px;}
 
 /* Add this class for the new opacity */
 .nav-scrolled {
-    background-color: rgba(0, 0, 0, 0.7) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .industify_fn_header{
@@ -991,7 +991,7 @@ border-radius: 0px 0px 4px 4px;
 [data-nav-skin="translight"] .industify_fn_header{position: absolute;background-color: rgba(255,255,255,.3);border-bottom: none;}
 
 /* transdark */
-[data-nav-skin="transdark"] .industify_fn_header{position: fixed;background-color: rgba(0,0,0,0.4);border-bottom: none;}
+[data-nav-skin="transdark"] .industify_fn_header{position: fixed;background-color: rgba(0,0,0,0.2);border-bottom: none;}
 [data-nav-skin="transdark"] .industify_fn_header .desktop_logo_dark{display: none;}
 [data-nav-skin="transdark"] .industify_fn_header .desktop_logo{display: block;}
 [data-nav-skin="transdark"] .industify_fn_header .vert_nav > li > a{color: #eee;}
