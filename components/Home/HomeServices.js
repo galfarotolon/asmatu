@@ -9,51 +9,11 @@ import 'swiper/css/pagination';
 import { Arrow_r } from '../../public/svg/icon';
 import { useInView } from "react-intersection-observer";
 
+import { SubmenuServices } from '@/data/services';
+
 // Import images
-const service1 = "/img/service/single/areas-actividad.jpg";
-const service2 = "/img/service/single/molinos-viento.jpg";
-const service3 = "/img/service/single/proyecto-urbanismo-asmatu.jpg";
-const service4 = "/img/service/single/area-internacional-asmatu.jpg";
-const service5 = "/img/service/single/apartado-area-edificacion.jpg";
 
 
-const services = [
-    {
-        link: "/services/serviceSinglePage1",
-        img: "img/thumb/480-700.jpg",
-        bg: service1,
-        title: "Ingeniería Civil y Edificación"
-
-    },
-    {
-        link: "/services/serviceSinglePage2",
-        img: "img/thumb/480-700.jpg",
-        bg: service2,
-        title: "Consultoría Ambiental"
-
-    },
-    {
-        link: "/services/serviceSinglePage3",
-        img: "img/thumb/480-700.jpg",
-        bg: service3,
-        title: "Planificación y Diseño Urbano"
-
-    },
-    {
-        link: "/services/serviceSinglePage4",
-        img: "img/thumb/480-700.jpg",
-        bg: service4,
-        title: "Consultoría Internacional"
-
-    },
-    {
-        link: "/services/serviceSinglePage5",
-        img: "img/thumb/480-700.jpg",
-        bg: service5,
-        title: "Gestión de Proyectos"
-
-    },
-];
 
 export default function HomeServices() {
     const serviceVariants = {
@@ -112,7 +72,7 @@ export default function HomeServices() {
                                 }
                             }}
                         >
-                            {services.map((item, i) => (
+                            {SubmenuServices.map((item, i) => (
                                 <SwiperSlide key={i}>
                                     <div className="item service-card">
                                         <Link href={item.link} className="full_link" ></Link>

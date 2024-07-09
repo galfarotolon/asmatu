@@ -2,10 +2,10 @@ import DesktopHeader from './desktop-header'
 import Footer from './footer'
 import MobileHeader from './mobile-header'
 
-export default function Layout({ children, className }) {
+export default function Layout({ children }) {
     return (
         <>
-            <div className="industify_fn_wrapper_all" data-nav-skin={className}>
+            <div className="industify_fn_wrapper_all">
 
                 {/* <!-- Wrapper --> */}
                 <div className="industify_fn_wrapper">

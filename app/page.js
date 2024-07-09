@@ -15,7 +15,7 @@ import Layout from "@/layouts/layout";
 export default function Home() {
     return (
         <>
-            <Layout className={"transdark"}>
+            <Layout>
 
                 <HomeSlider />
                 <HomePrinciples />

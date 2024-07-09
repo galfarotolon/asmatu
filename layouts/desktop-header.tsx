@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Image from "next/image";
+import { SubmenuServices } from "@/data/services"; // Import services array
 
 export default function DesktopHeader() {
   const { language, switchLanguage, t } = useLanguage();
@@ -34,10 +35,7 @@ export default function DesktopHeader() {
   }, []);
 
   return (
-    <div
-      ref={headerRef}
-      className="industify_fn_header sticky top-0 bg-white shadow-md z-50"
-    >
+    <div ref={headerRef} className="industify_fn_header ">
       <div className="header_inner">
         <div className="menu_logo">
           <Link href="/">
@@ -50,9 +48,9 @@ export default function DesktopHeader() {
             />
             <Image
               className="desktop_logo_dark"
-              src="/img/logo-dark.png"
+              src="/img/logotipo-asmatu.png"
               alt="Asmatu Logo"
-              width={200}
+              width={120}
               height={80}
             />
           </Link>
@@ -63,25 +61,16 @@ export default function DesktopHeader() {
               <Link href="/">{t("home")}</Link>
             </li>
             <li>
-              <Link href="/projects">{t("projects")}</Link>
+              <Link href="/proyectos">{t("projects")}</Link>
             </li>
             <li className="menu-item-has-children">
-              <Link href="/services">{t("services")}</Link>
+              <Link href="/servicios">{t("services")}</Link>
               <ul className="sub-menu">
-                <li>
-                  <Link href="/services/civil-engineering">
-                    {t("civilEngineering")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services/urbanism">{t("urbanism")}</Link>
-                </li>
-                <li>
-                  <Link href="/services/building">{t("building")}</Link>
-                </li>
-                <li>
-                  <Link href="/services/environment">{t("environment")}</Link>
-                </li>
+                {SubmenuServices.map((service, index) => (
+                  <li key={index}>
+                    <Link href={service.link}>{service.title}</Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li>

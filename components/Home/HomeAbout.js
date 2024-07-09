@@ -25,7 +25,7 @@ export default function HomeAbout() {
 
     return (
         <>
-            <div className="about_section py-10 md:py-20">
+            <div className="about_section py-10 md:py-20 bg-white">
 
                 {/* <!-- About Shortcode --> */}
                 <div className="fn_cs_about px-4 md:px-20">

@@ -12,7 +12,7 @@ export default function Breadcumb({ firstChild, SecondChild }) {
                         <h3>{SecondChild ? SecondChild : firstChild}</h3>
                         <div className="industify_fn_breadcrumbs">
                             <ul>
-                                <li><Link href="/" title="Home">Home</Link></li>
+                                <li><Link href="/" title="Inicio">Inicio</Link></li>
                                 <li className="separator"><span></span></li>
                                 <li><Link href={`/${href}`} title={firstChild}>{firstChild}</Link></li>
                                 {SecondChild ?
