@@ -1,14 +1,15 @@
 import DesktopHeader from './desktop-header'
 import Footer from './footer'
 import MobileHeader from './mobile-header'
+import "../styles/globals.css";
 
 export default function Layout({ children }) {
     return (
         <>
-            <div className="industify_fn_wrapper_all">
+            <div className="">
 
                 {/* <!-- Wrapper --> */}
-                <div className="industify_fn_wrapper">
+                <div className="">
 
                     {/* <!-- Header --> */}
                     <DesktopHeader />

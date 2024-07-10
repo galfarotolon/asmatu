@@ -85,7 +85,8 @@
 
 .toll_free_lang .nice-select .list,.toll_free_lang .nice-select.open .list {
     width: 100%;
-    background: #121312
+    background: #121312;
+    color: white;
 }
 
 .nice-select.disabled {
@@ -206,7 +207,7 @@
 .toll_free_lang .nice-select{
     background: transparent;
     border: 0;
-    color: #e8e8e8;
+
 }
 
 .toll_free_lang .nice-select ul{
