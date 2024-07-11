@@ -70,19 +70,19 @@ export default function Footer() {
                                             <div className="widget_nav_menu">
                                                 <ul className="menu">
                                                     <li>
-                                                        <Link href="/services">Nuestros Servicios</Link>
+                                                        <Link href="/servicios">Nuestros Servicios</Link>
                                                     </li>
                                                     <li>
                                                         <Link href="#">Aviso Legal</Link>
                                                     </li>
                                                     <li>
-                                                        <Link href="#">Vitrina</Link>
+                                                        <Link href="/empresa">Empresa</Link>
                                                     </li>
                                                     <li>
                                                         <Link href="#">Política de Privacidad</Link>
                                                     </li>
                                                     <li>
-                                                        <Link href="#">Afiliados</Link>
+                                                        <Link href="/calidad">Calidad</Link>
                                                     </li>
                                                 </ul>
                                             </div>
