@@ -1,4 +1,4 @@
-import Breadcumb from "@/layouts/breadcumb";
+import Breadcrumb from "@/layouts/breadcrumb";
 import Layout from "@/layouts/layout";
 import Sidebar from "@/layouts/sidebar";
 import Link from "next/link";
@@ -11,7 +11,7 @@ export const metadata = {
 export default function ServicesPage() {
     return (
         <Layout>
-            <Breadcumb firstChild={"Servicios"} />
+            <Breadcrumb firstChild={"Servicios"} />
             <div className="industify_fn_sidebarpage">
                 <div className="container">
                     <div className="s_inner">

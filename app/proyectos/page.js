@@ -1,4 +1,4 @@
-import Breadcumb from '@/layouts/breadcumb';
+import Breadcrumb from '@/layouts/breadcrumb';
 import Layout from '@/layouts/layout';
 import dynamic from 'next/dynamic';
 
@@ -17,7 +17,7 @@ export default function page() {
     return (
         <Layout>
 
-            <Breadcumb firstChild={"Proyectos"} />
+            <Breadcrumb firstChild={"Proyectos"} />
             <PortfolioList />
 
         </Layout>

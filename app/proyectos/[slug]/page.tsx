@@ -1,6 +1,6 @@
 import projects from "@/data/projects";
 import ProjectDetail from "@/components/Portfolio/ProjectDetail";
-import Breadcumb from "@/layouts/breadcumb";
+import Breadcrumb from "@/layouts/breadcrumb";
 import Layout from "@/layouts/layout";
 import { notFound } from "next/navigation";
 
@@ -36,7 +36,7 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
   return (
     <Layout>
       <div className="px-4 md:px-5 lg:px-10 xl:px-20">
-        <Breadcumb firstChild={"Proyectos"} SecondChild={project.title} />
+        <Breadcrumb firstChild={"Proyectos"} SecondChild={project.title} />
         <ProjectDetail project={project} />
       </div>
     </Layout>

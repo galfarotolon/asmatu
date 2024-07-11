@@ -74,10 +74,10 @@ export default function DesktopHeader() {
               </ul>
             </li>
             <li>
-              <Link href="/blog">{t("blog")}</Link>
+              <Link href="/noticias">{t("blog")}</Link>
             </li>
             <li>
-              <Link href="/contact">{t("contact")}</Link>
+              <Link href="/contacto">{t("contact")}</Link>
             </li>
           </ul>
         </div>

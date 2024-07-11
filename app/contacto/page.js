@@ -1,4 +1,4 @@
-import Breadcumb from '@/layouts/breadcumb'
+import Breadcrumb from '@/layouts/breadcrumb'
 import Layout from '@/layouts/layout'
 import { Location } from '@/public/svg/icon'
 import Link from 'next/link'
@@ -11,7 +11,7 @@ export default function page() {
     return (
         <Layout>
 
-            <Breadcumb firstChild={'Contact'} />
+            <Breadcrumb firstChild={'Contact'} />
             <div className="industify_fn_contact">
                 <div className="container">
                     <div className="contact_in">

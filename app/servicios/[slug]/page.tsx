@@ -1,6 +1,6 @@
 import services, { Service } from "@/data/services";
 import ServicesSingle1 from "@/components/Services/ServiceSingle1";
-import Breadcumb from "@/layouts/breadcumb";
+import Breadcrumb from "@/layouts/breadcrumb";
 import Layout from "@/layouts/layout";
 import { notFound } from "next/navigation";
 
@@ -34,8 +34,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <Layout>
-      <div className="px-20">
-        <Breadcumb
+      <div className="px-0 sm:px-5 md:px-20">
+        <Breadcrumb
           firstChild={lang === "es" ? "Servicios" : "Zerbitzuak"}
           SecondChild={"Construcción e Ingeniería"}
         />

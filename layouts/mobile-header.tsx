@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Image from "next/image";
 import { SubmenuServices } from "@/data/services";
@@ -12,7 +12,6 @@ export default function MobileHeader() {
   const [isLangOpen, setLangOpen] = useState(false);
   const [isSelect, setSelect] = useState(language);
   const [isToggled, setToggled] = useState(false);
-  const toggleTrueFalse = () => setToggled(!isToggled);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
   const toggleAreas = () => setAreasOpen(!isAreasOpen);
@@ -24,8 +23,41 @@ export default function MobileHeader() {
     setLangOpen(false); // Close the language dropdown after selecting a language
   };
 
+  // Disable background scroll when menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close menu if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMobileMenuOpen &&
+        !document
+          .getElementById("mobile-menu")
+          ?.contains(event.target as Node) &&
+        !document
+          .getElementById("hamburger-icon")
+          ?.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
-    <div className="industify_fn_header z-50 displayed">
+    <div className="industify_fn_header displayed">
       {/* LOGO & HAMBURGER */}
       <div
         className="bg-white-opacity-90 backdrop-blur-lg p-4 items-center justify-between w-full flex px-10"
@@ -42,6 +74,7 @@ export default function MobileHeader() {
           </Link>
         </div>
         <div
+          id="hamburger-icon"
           onClick={toggleMobileMenu}
           className={`hamburger hamburger--collapse-r ${
             isMobileMenuOpen ? "is-active" : ""
@@ -54,12 +87,13 @@ export default function MobileHeader() {
       </div>
       {/* MOBILE DROPDOWN MENU */}
       <div
+        id="mobile-menu"
         className={`transition-all duration-500 ease-in-out ${
           isMobileMenuOpen ? "block" : "hidden"
-        } backdrop-blur-lg header_mobile`}
+        } backdrop-blur-lg header_mobile fixed top-0 left-0 right-0 bottom-0 overflow-y-auto`}
       >
-        <nav className="p-4 text-lg">
-          <ul className="flex flex-col">
+        <nav className="p-4 text-lg overflow-y-auto">
+          <ul className="flex flex-col ">
             <li className="py-2">
               <Link href="/" className="nav-text" onClick={toggleMobileMenu}>
                 Inicio
@@ -71,12 +105,12 @@ export default function MobileHeader() {
                 className="nav-text"
                 onClick={toggleMobileMenu}
               >
-                Projects
+                Proyectos
               </Link>
             </li>
             <li className="py-2 relative">
               <div
-                className="flex justify-between items-center cursor-pointer nav-text"
+                className="flex justify-between items-center  nav-text"
                 onClick={toggleAreas}
               >
                 <span>Areas de actividad</span>
@@ -89,12 +123,12 @@ export default function MobileHeader() {
                 </span>
               </div>
               <ul
-                className={`transition-max-height overflow-hidden ${
+                className={`transition-max-height overflow-y-auto ${
                   isAreasOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
                 {SubmenuServices.map((service, index) => (
-                  <li key={index} style={{ padding: "0 2.5rem" }}>
+                  <li key={index} style={{ padding: "0 1.5rem" }}>
                     <Link
                       href={service.link}
                       className="nav-text"
@@ -109,11 +143,11 @@ export default function MobileHeader() {
             </li>
             <li className="py-2">
               <Link
-                href="/blog"
+                href="/noticias"
                 className="nav-text"
                 onClick={toggleMobileMenu}
               >
-                {t("blog")}
+                {t("noticias")}
               </Link>
             </li>
             <li className="py-2">
@@ -127,7 +161,7 @@ export default function MobileHeader() {
             </li>
             <div className="toll_free_lang " style={{ marginLeft: 0 }}>
               <div
-                onClick={toggleTrueFalse}
+                onClick={() => setToggled(!isToggled)}
                 className={`nice-select ${isToggled ? "open" : ""}`}
               >
                 <span className="current">{isSelect}</span>

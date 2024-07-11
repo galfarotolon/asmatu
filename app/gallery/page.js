@@ -9,7 +9,7 @@ export default function page() {
     return (
         <Layout>
 
-            {/* <Breadcumb firstChild={'Gallery'} /> */}
+            {/* <Breadcrumb firstChild={'Gallery'} /> */}
             <Gallery />
 
         </Layout>

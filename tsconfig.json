@@ -25,14 +25,18 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "components/Home/HomeClients.js"  ],
+    "**/*.tsx",
+    "components/Home/HomeClients.js",
+    "components/Blog/BlogSideBar.tsx",
+    "app/noticias/[slug]/page.tsx"
+, "app/calidad/page.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -15,7 +15,7 @@ const translations: Translations = {
         building: "Edificación",
         environment: "Medio Ambiente",
         pages: "Páginas",
-        blog: "Blog",
+        blog: "Noticias",
         contact: "Contacto",
     },
     EU: {

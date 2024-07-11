@@ -103,7 +103,6 @@
 /*	01) Base
 /*------------------------------------------------------------------*/
 html {
-	overflow-x: hidden;
 	padding: 0px;
 	margin: 0px;
 	scroll-behavior: smooth;
@@ -116,7 +115,6 @@ body{
 	letter-spacing: 0;
 	font-weight: 400;
 	color: #666;
-	
 	word-break: break-word;
 }
 .fn__svg{
@@ -1342,14 +1340,14 @@ border-radius: 0px 0px 4px 4px;
 	clear: both;
 	position: relative;
 	z-index: 5;
-	padding: 43px 40px 50px 40px;
+	padding: 24px;
 	background-color: #d24e1a;
 }
 .industify_fn_widget_estimate .bfwe_inner p{
 	padding: 0px;
 	margin: 0px;
 	color: #fff;
-	font-size: 22px;
+	font-size: 18px;
 	line-height: 30px;
 	font-weight: 400;
 	letter-spacing: 0px;
@@ -1359,7 +1357,7 @@ border-radius: 0px 0px 4px 4px;
 	display: inline-block;
 	text-decoration: none;
 	background-color: #e9eff4;
-	padding: 14px 25px;
+	padding: 12px 18px;
 	font-size: 14px;
 	line-height: 1.6;
 	letter-spacing: 0.5px;
@@ -1369,6 +1367,10 @@ border-radius: 0px 0px 4px 4px;
 	font-weight: 500;
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
 	font-family:  var(--Rubik);
+
+	@media screen and (max-width: 768px){
+		padding: 12px;
+	}
 }
 .industify_fn_widget_estimate .bfwe_inner a:hover{
 	background-color: #111422;
@@ -1983,7 +1985,7 @@ border-radius: 0px 0px 4px 4px;
 .industify_fn_principles .item{
 	display: flex;
 	flex-wrap: wrap;
-	padding: 94px 0;
+	padding: 40px 0;
 	border-bottom: 5px double #eee;
 }
 .industify_fn_principles li:first-child .item{
@@ -2088,7 +2090,7 @@ border-radius: 0px 0px 4px 4px;
 	border-radius: 5px;
 }
 .industify_fn_postlist .img_holder img{
-	max-height: 600px;
+	max-height: 500px;
 	border-radius: 5px 5px 0 0;
 	min-width: 100%;
 }
@@ -2143,7 +2145,7 @@ border-radius: 0px 0px 4px 4px;
 	content: '';
 	top: 0px;
 	left: 0px;
-	bottom: 15px;
+	bottom: 16px;
 	right: 0px;
 	background-color: #d24e1a;
 	z-index: -1;
@@ -2153,7 +2155,7 @@ border-radius: 0px 0px 4px 4px;
 	content: '';
 	left: 0px;
 	bottom: 0px;
-	border-top: 15px solid #d24e1a;
+	border-top: 16px solid #d24e1a;
 	border-right: 80px solid transparent;
 	z-index: -1;
 }
@@ -9345,9 +9347,14 @@ blockquote{
   /* Custom Classes for Glass Effect and Text Styling */
  
 
-  .header_mobile{
-
+ 
+  
+  .header_mobile {
+	overflow-y: auto;
+	height: 100vh;
+	padding-bottom: 200px;
   }
+  
   
   /* Text Styling */
   .nav-text {
@@ -9364,7 +9371,7 @@ blockquote{
 	padding: 8px;
 	border-bottom: 2px solid transparent;
 	transition: color 0.3s ease, border-bottom 0.3s ease;
-	margin-left: 50px;
+	margin-left: 30px;
   }
   
   .nav-text:hover {
@@ -9387,8 +9394,4 @@ blockquote{
 	  display: none;
 	}
   }
-  
-
-
-
   
