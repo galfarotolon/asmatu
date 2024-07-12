@@ -778,7 +778,7 @@ border-radius: 0px 0px 4px 4px;
 /*------------------------------------------------------------------*/
 .industify_fn_pagetitle{
 	width: 100%;
-	float: left;
+	/* float: left; */
 	clear: both;
 	position: relative;
 }
@@ -787,30 +787,12 @@ border-radius: 0px 0px 4px 4px;
 }
 .industify_fn_pagetitle .title_holder{
 	width: 100%;
-	float: left;
 	clear: both;
 	position: relative;
 	padding: 95px 0px 35px 0px;
+
 }
-.industify_fn_pagetitle .title_holder:after{
-	left: 0px;
-	position: absolute;
-	content: '';
-	bottom: 0px;
-	height: 6px;
-	width: 70px;
-	background-color: #eee;
-}
-.industify_fn_pagetitle .title_holder:before{
-	left: 0px;
-	position: absolute;
-	content: '';
-	bottom: 13px;
-	height: 6px;
-	width: 150px;
-	background-color: #eee;
-	border-radius: 10px;
-}
+
 .industify_fn_pagetitle h3{
 	margin: 0px;
 	padding: 0px;
@@ -823,11 +805,12 @@ border-radius: 0px 0px 4px 4px;
 }
 .industify_fn_breadcrumbs{
 	width: 100%;
-	float: left;
+
 	clear: both;
 	position: relative;
 	padding-top: 13px;
 	padding-bottom: 2px;
+
 }
 .industify_fn_breadcrumbs ul{
 	margin: 0px;
@@ -2334,6 +2317,7 @@ border-radius: 0px 0px 4px 4px;
 }
 .contact_left textarea,
 .contact_left input[type="text"],
+.contact_left input[type="tel"],
 .contact_left input[type="email"]{
 	width: 100%;
 	display: block;
@@ -9345,6 +9329,37 @@ blockquote{
   }
   
   /* Custom Classes for Glass Effect and Text Styling */
+
+
+
+  /*MODAL*/
+
+  .modal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	right: auto;
+	bottom: auto;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	width: 80%;
+	max-width: 600px;
+  }
+  
+  .modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+
+
  
 
  
@@ -9395,3 +9410,20 @@ blockquote{
 	}
   }
   
+
+  .terms-link {
+	display: inline-block;
+    height: auto !important;
+    line-height: 0!important;
+    padding: 4px !important;
+background-color: transparent !important;
+    color: white !important;
+    border-radius: none !important;
+    text-decoration: underline !important;
+
+
+  }	
+  
+  .terms-link:hover{
+	color: #45a2df !important;
+	}

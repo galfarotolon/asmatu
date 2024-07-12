@@ -1,42 +1,13 @@
+'use client'
 import ProjectItem from "./ProjectItem";
 import Link from "next/link";
-
-const projects = [
-    {
-        id: 1,
-        title: "Proyecto y dirección de obra de la mejora del acceso marítimo al puerto de Mutriku",
-        description:
-            "Superamos la inspección, prueba y certificación de productos; somos un proveedor de aseguramiento de calidad total para industrias en todo el mundo.",
-        imageUrl: "/img/portfolio/obra-destacada-asmatu.jpg",
-        link: "/portfolio/portfolioSinglePage1"
-    },
-    {
-        id: 2,
-        title: "Asmatu Proyecto de Energía Solar",
-        description:
-            "Superamos la inspección, prueba y certificación de productos; somos un proveedor de aseguramiento de calidad total para industrias en todo el mundo.",
-        imageUrl: "/img/portfolio/obra-destacada-asmatu.jpg",
-        link: "/portfolio/portfolioSinglePage2"
-    },
-    {
-        id: 3,
-        title: "Asmatu Proyecto de Energía Solar",
-        description:
-            "Superamos la inspección, prueba y certificación de productos; somos un proveedor de aseguramiento de calidad total para industrias en todo el mundo.",
-        imageUrl: "/img/portfolio/obra-destacada-asmatu.jpg",
-        link: "/portfolio/portfolioSinglePage3"
-    },
-    {
-        id: 4,
-        title: "Asmatu Proyecto de Energía Solar",
-        description:
-            "Superamos la inspección, prueba y certificación de productos; somos un proveedor de aseguramiento de calidad total para industrias en todo el mundo.",
-        imageUrl: "/img/portfolio/obra-destacada-asmatu.jpg",
-        link: "/portfolio/portfolioSinglePage4"
-    }
-];
+import projects from "@/data/projects";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function HomeProject() {
+    const { language } = useLanguage();
+    const featuredProjects = projects.filter((project) => project.featured);
+
     return (
         <div className="fn_cs_project_sticky_full">
             <div className="inner">
@@ -62,13 +33,13 @@ export default function HomeProject() {
                 <div className="right_part">
                     <div className="fn_cs_sticky_section">
                         <ul>
-                            {projects.map((project) => (
+                            {featuredProjects.map((project) => (
                                 <ProjectItem
                                     key={project.id}
                                     title={project.title}
                                     description={project.description}
-                                    imageUrl={project.imageUrl}
-                                    link={project.link}
+                                    imageUrl={project.img}
+                                    link={`/${language === "ESP" ? "proyectos" : "proiektuak"}/${language === "ESP" ? project.slugEs : project.slugEu}`}
                                 />
                             ))}
                         </ul>

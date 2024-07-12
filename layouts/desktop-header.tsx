@@ -68,16 +68,22 @@ export default function DesktopHeader() {
               <ul className="sub-menu">
                 {SubmenuServices.map((service, index) => (
                   <li key={index}>
-                    <Link href={service.link}>{service.title}</Link>
+                    <Link
+                      href={
+                        language === "ESP" ? service.linkEs : service.linkEu
+                      }
+                    >
+                      {service.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </li>
             <li>
-              <Link href="/noticias">{t("blog")}</Link>
+              <Link href="/blog">{t("blog")}</Link>
             </li>
             <li>
-              <Link href="/contacto">{t("contact")}</Link>
+              <Link href="/contact">{t("contact")}</Link>
             </li>
           </ul>
         </div>

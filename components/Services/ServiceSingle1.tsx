@@ -60,7 +60,7 @@ const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
                         <p>Contáctenos para obtener información detallada.</p>
                       </div>
                       <div className="link_holder">
-                        <Link href="/contact">Nuestra Responsabilidad</Link>
+                        <Link href="/contacto">Contactanos</Link>
                       </div>
                     </div>
                   </div>

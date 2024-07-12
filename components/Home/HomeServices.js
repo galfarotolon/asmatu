@@ -8,14 +8,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Arrow_r } from '../../public/svg/icon';
 import { useInView } from "react-intersection-observer";
-
+import { useLanguage } from "../../context/LanguageContext";
 import { SubmenuServices } from '@/data/services';
 
-// Import images
-
-
-
 export default function HomeServices() {
+    const { language } = useLanguage(); // Get the current language from the context
+
     const serviceVariants = {
         hidden: { opacity: 0, y: 50 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
@@ -75,7 +73,7 @@ export default function HomeServices() {
                             {SubmenuServices.map((item, i) => (
                                 <SwiperSlide key={i}>
                                     <div className="item service-card">
-                                        <Link href={item.link} className="full_link" ></Link>
+                                        <Link href={language === "ESP" ? item.linkEs : item.linkEu} className="full_link"></Link>
                                         <div className="img_holder">
                                             <img src={item.img} alt="" />
                                             <div className="abs_img" style={{ "backgroundImage": `url(${item.bg})` }}></div>

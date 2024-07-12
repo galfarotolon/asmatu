@@ -5,7 +5,7 @@ export default function Footer() {
         <>
             <footer className="industify_fn_footer">
                 <div className="top_footer">
-                    <div className="top_footer_img" style={{ background: 'url(/img/footer/bg.jpg)' }}></div>
+                    <div className="top_footer_img" style={{ background: 'url(/img/footer/footer.jpg)' }}></div>
 
                     {/* Main Info Section */}
                     <div className="footer_widget">

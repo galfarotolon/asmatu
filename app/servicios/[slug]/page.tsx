@@ -37,7 +37,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       <div className="px-0 sm:px-5 md:px-20">
         <Breadcrumb
           firstChild={lang === "es" ? "Servicios" : "Zerbitzuak"}
-          SecondChild={"Construcción e Ingeniería"}
+          SecondChild={service.title}
         />
         <ServicesSingle1 service={service} lang={lang} />
       </div>

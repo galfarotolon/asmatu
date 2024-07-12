@@ -6,7 +6,8 @@ interface Project {
   category: string;
   img: string;
   title: string;
-  slug: string;
+  slugEs: string;
+  slugEu: string;
   description: string;
   detailedInfo: string;
   quote: string;
@@ -20,9 +21,15 @@ interface Project {
 
 interface ProjectDetailProps {
   project: Project;
+  language: string; // Add language prop
 }
 
-const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
+const PortfolioDetail: React.FC<ProjectDetailProps> = ({
+  project,
+  language,
+}) => {
+  const slug = language === "es" ? project.slugEs : project.slugEu;
+
   return (
     <div>
       {/* Portfolio Content */}
@@ -42,7 +49,6 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
               <div className="content_part">
                 <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
                 <p className="py-10 text-xl">{project.description}</p>
-
                 <p className="py-10">{project.detailedInfo}</p>
                 <blockquote>{project.quote}</blockquote>
                 <div className="share_box">
@@ -51,7 +57,7 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                     <ul>
                       <li>
                         <Link
-                          href={`http://www.facebook.com/sharer.php?u=https://example.com/proyectos/${project.slug}`}
+                          href={`http://www.facebook.com/sharer.php?u=https://example.com/${language === "es" ? "proyectos" : "proiektuak"}/${slug}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -60,7 +66,7 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                       </li>
                       <li>
                         <Link
-                          href={`https://twitter.com/share?url=https://example.com/proyectos/${project.slug}`}
+                          href={`https://twitter.com/share?url=https://example.com/${language === "es" ? "proyectos" : "proiektuak"}/${slug}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -69,7 +75,7 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                       </li>
                       <li>
                         <Link
-                          href={`https://plus.google.com/share?url=https://example.com/proyectos/${project.slug}`}
+                          href={`https://plus.google.com/share?url=https://example.com/${language === "es" ? "proyectos" : "proiektuak"}/${slug}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -78,7 +84,7 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                       </li>
                       <li>
                         <Link
-                          href={`http://pinterest.com/pin/create/button/?url=https://example.com/proyectos/${project.slug}&amp;`}
+                          href={`http://pinterest.com/pin/create/button/?url=https://example.com/${language === "es" ? "proyectos" : "proiektuak"}/${slug}&amp;`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -87,7 +93,7 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                       </li>
                       <li>
                         <Link
-                          href={`https://www.vk.com/sharer.php?url=https://example.com/proyectos/${project.slug}`}
+                          href={`https://www.vk.com/sharer.php?url=https://example.com/${language === "es" ? "proyectos" : "proiektuak"}/${slug}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -136,7 +142,6 @@ const PortfolioDetail: React.FC<ProjectDetailProps> = ({ project }) => {
           </div>
         </div>
       </div>
-      {/* /Portfolio Content */}
     </div>
   );
 };
