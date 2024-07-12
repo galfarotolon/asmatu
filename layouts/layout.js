@@ -7,28 +7,13 @@ export default function Layout({ children }) {
     return (
         <>
             <div className="">
-
-                {/* <!-- Wrapper --> */}
                 <div className="">
-
-                    {/* <!-- Header --> */}
                     <DesktopHeader />
-                    {/* <!-- /Header --> */}
-
-                    {/* <!-- Mobile Menu --> */}
                     <MobileHeader />
-                    {/* <!-- /Mobile Menu --> */}
-
-                    {/* <!-- Preloader --> */}
-                    {/* <Preloader /> */}
-                    {/* <!-- /Preloader --> */}
-
-                    {children}
-
-                    {/* Site Footer Start */}
+                    <div className=''>
+                        {children}
+                    </div>
                     <Footer />
-                    {/* Site Footer End */}
-
                 </div>
             </div>
         </>

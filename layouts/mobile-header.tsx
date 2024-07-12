@@ -128,11 +128,9 @@ export default function MobileHeader() {
                 }`}
               >
                 {SubmenuServices.map((service, index) => (
-                  <li key={index} style={{ padding: "0 1.5rem" }}>
+                  <li key={index} style={{ padding: "0 1rem" }}>
                     <Link
-                      href={
-                        language === "ESP" ? service.linkEs : service.linkEu
-                      }
+                      href={""}
                       className="nav-text"
                       onClick={toggleMobileMenu}
                       style={{ fontSize: "0.8rem" }}
@@ -145,11 +143,11 @@ export default function MobileHeader() {
             </li>
             <li className="py-2">
               <Link
-                href="/noticias"
+                href="/blog"
                 className="nav-text"
                 onClick={toggleMobileMenu}
               >
-                {t("noticias")}
+                {t("blog")}
               </Link>
             </li>
             <li className="py-2">
