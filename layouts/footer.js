@@ -27,7 +27,7 @@ export default function Footer() {
                                                 <p>Tel: 943 317 300</p>
                                                 <p>Fax: 943 316 350</p>
                                                 <p>Email: asmatu@asmatu.es</p>
-                                                <Link href="/trabaja-con-nosotros">TRABAJA CON NOSOTROS</Link>
+                                                <Link href="/empresa/#Trabaja-con-nosotros">TRABAJA CON NOSOTROS</Link>
                                             </div>
                                         </div>
                                     </li>
@@ -103,10 +103,7 @@ export default function Footer() {
                                 <div className="widget_nav_menu">
                                     <ul className="menu">
                                         <li>
-                                            <Link href="/services">Servicios</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">Afiliados</Link>
+                                            <Link href="/servicios">Servicios</Link>
                                         </li>
                                         <li>
                                             <Link href="#">Aviso Legal</Link>
@@ -115,7 +112,7 @@ export default function Footer() {
                                             <Link href="#">Política de Privacidad</Link>
                                         </li>
                                         <li>
-                                            <Link href="#">Carrera</Link>
+                                            <Link href="/empresa/#Trabaja-con-nosotros">Carrera</Link>
                                         </li>
                                     </ul>
                                 </div>

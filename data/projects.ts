@@ -39,7 +39,7 @@ export interface Project {
     {
       id: 2,
       category: "consultoria-ambiental",
-      img: "/img/portfolio/single/2/2.jpg",
+      img: "/img/portfolio/obra-destacada-asmatu.jpg",
       title: "Evaluación de impacto ambiental para la construcción de una nueva planta industrial",
       slugEs: "evaluacion-de-impacto-ambiental-para-la-construccion-de-una-nueva-planta-industrial",
       slugEu: "industria-planta-berri-bat-eraikitzeko-eragin-ambientalaren-ebaluazioa",
@@ -57,7 +57,7 @@ export interface Project {
     {
       id: 3,
       category: "planificacion-urbana",
-      img: "/img/portfolio/single/3/3.jpg",
+      img: "/img/portfolio/molinos-viento.jpg",
       title: "Planificación y diseño urbano para el nuevo barrio residencial en Donostia",
       slugEs: "planificacion-y-diseno-urbano-para-el-nuevo-barrio-residencial-en-donostia",
       slugEu: "donostian-auzo-erresidential-berri-batentzako-hirigintza-eta-diseinu-urbanoa",
@@ -88,7 +88,7 @@ export interface Project {
       location: "América Latina",
       completionDate: "Diciembre 2021",
       squareFootage: "4,000,000",
-      featured: false
+      featured: true
     },
     {
       id: 5,
@@ -106,7 +106,7 @@ export interface Project {
       location: "Norte de España",
       completionDate: "Enero 2022",
       squareFootage: "5,500,000",
-      featured: false
+      featured: true
     }
   ];
   

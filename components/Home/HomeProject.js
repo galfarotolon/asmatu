@@ -27,7 +27,7 @@ export default function HomeProject() {
                             hecho de que realizamos todas las disciplinas internamente en un
                             entorno colaborativo.
                         </p>
-                        <Link href="/portfolio">Ver Todos los Proyectos</Link>
+                        <Link href="/proyectos">Ver Todos los Proyectos</Link>
                     </div>
                 </div>
                 <div className="right_part">
