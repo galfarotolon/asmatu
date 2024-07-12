@@ -130,7 +130,7 @@ export default function MobileHeader() {
                 {SubmenuServices.map((service, index) => (
                   <li key={index} style={{ padding: "0 1rem" }}>
                     <Link
-                      href={""}
+                      href={service.linkEs}
                       className="nav-text"
                       onClick={toggleMobileMenu}
                       style={{ fontSize: "0.8rem" }}
