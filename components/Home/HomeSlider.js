@@ -98,7 +98,7 @@ const HomeSlider = ({ data, locale }) => {
                                         preload="auto"
                                         loop
                                         ref={(el) => (videoRefs.current[index] = el)}
-                                        style={{ width: '100%' }}
+                                        style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
                                         muted
                                         playsInline
                                         autoPlay

@@ -1,26 +1,32 @@
 "use client";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Image from "next/image";
-import { SubmenuServices } from "@/data/services";
 
 export default function MobileHeader() {
-  const { language, switchLanguage, t } = useLanguage();
+  const { language, switchLanguage, headerData } = useLanguage(); // Use language and headerData from context
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAreasOpen, setAreasOpen] = useState(false);
   const [isLangOpen, setLangOpen] = useState(false);
-  const [isSelect, setSelect] = useState(language);
   const [isToggled, setToggled] = useState(false);
+  const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
-  const toggleAreas = () => setAreasOpen(!isAreasOpen);
   const toggleLang = () => setLangOpen(!isLangOpen);
 
-  const handleLanguageChange = (lang: "ESP" | "EU") => {
-    setSelect(lang);
+  const handleLanguageChange = (lang: "es" | "eu") => {
     switchLanguage(lang);
     setLangOpen(false); // Close the language dropdown after selecting a language
+  };
+
+  const toggleSubmenu = (key: string) => {
+    setOpenSubmenus((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
   };
 
   // Disable background scroll when menu is open
@@ -56,6 +62,72 @@ export default function MobileHeader() {
     };
   }, [isMobileMenuOpen]);
 
+  // Render the mobile menu items based on headerData
+  const renderMobileMenuItem = (item, parentPath = "", keyPrefix = "") => {
+    const basePath = language === "es" ? "/" : "/eu";
+    let currentPath;
+
+    if (!item.slug) {
+      currentPath = language === "es" ? "/" : "/eu";
+    } else {
+      currentPath = `${basePath}${basePath.endsWith("/") ? "" : "/"}${item.slug}`;
+    }
+
+    const hasSubItems = item.subItems && item.subItems.length > 0;
+    const submenuKey = keyPrefix + item.slug;
+
+    return (
+      <li key={submenuKey} className="py-2 relative">
+        <div
+          className="flex justify-between items-center nav-text"
+          onClick={() => hasSubItems && toggleSubmenu(submenuKey)}
+        >
+          <Link href={currentPath} onClick={toggleMobileMenu}>
+            {item.title}
+          </Link>
+          {hasSubItems && (
+            <span
+              className={`transition-transform ${
+                openSubmenus[submenuKey] ? "rotate-180" : "rotate-0"
+              }`}
+            >
+              ▼
+            </span>
+          )}
+        </div>
+
+        {hasSubItems && (
+          <ul
+            className={`transition-max-height overflow-y-auto ${
+              openSubmenus[submenuKey]
+                ? "max-h-96 opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
+          >
+            {item.subItems.map((subItem, subIndex) =>
+              subItem ? (
+                <li key={subIndex} style={{ padding: "0 1rem" }}>
+                  <Link
+                    href={`${currentPath}/${subItem.slug}`}
+                    className="nav-text"
+                    onClick={toggleMobileMenu}
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    {subItem.title}
+                  </Link>
+                </li>
+              ) : null
+            )}
+          </ul>
+        )}
+      </li>
+    );
+  };
+
+  if (!headerData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="industify_fn_header displayed">
       {/* LOGO & HAMBURGER */}
@@ -64,9 +136,9 @@ export default function MobileHeader() {
         style={{ justifyContent: "space-between", padding: "0 5%" }}
       >
         <div className="menu_logo">
-          <Link href="/">
+          <Link href={language === "es" ? "/" : "/eu"}>
             <Image
-              src="/img/logotipo-asmatu.png"
+              src={headerData.logos.light.url || "/img/logotipo-asmatu.png"}
               alt="Asmatu Logo"
               width={120}
               height={80}
@@ -76,15 +148,14 @@ export default function MobileHeader() {
         <div
           id="hamburger-icon"
           onClick={toggleMobileMenu}
-          className={`hamburger hamburger--collapse-r ${
-            isMobileMenuOpen ? "is-active" : ""
-          }`}
+          className={`hamburger hamburger--collapse-r ${isMobileMenuOpen ? "is-active" : ""}`}
         >
           <div className="hamburger-box">
             <div className="hamburger-inner"></div>
           </div>
         </div>
       </div>
+
       {/* MOBILE DROPDOWN MENU */}
       <div
         id="mobile-menu"
@@ -93,92 +164,28 @@ export default function MobileHeader() {
         } backdrop-blur-lg header_mobile fixed top-0 left-0 right-0 bottom-0 overflow-y-auto`}
       >
         <nav className="p-4 text-lg overflow-y-auto">
-          <ul className="flex flex-col ">
-            <li className="py-2">
-              <Link href="/" className="nav-text" onClick={toggleMobileMenu}>
-                Inicio
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                href="/proyectos"
-                className="nav-text"
-                onClick={toggleMobileMenu}
-              >
-                Proyectos
-              </Link>
-            </li>
-            <li className="py-2 relative">
-              <div
-                className="flex justify-between items-center  nav-text"
-                onClick={toggleAreas}
-              >
-                <span>Areas de actividad</span>
-                <span
-                  className={`transition-transform ${
-                    isAreasOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                >
-                  ▼
-                </span>
-              </div>
-              <ul
-                className={`transition-max-height overflow-y-auto ${
-                  isAreasOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                {SubmenuServices.map((service, index) => (
-                  <li key={index} style={{ padding: "0 1rem" }}>
-                    <Link
-                      href={service.linkEs}
-                      className="nav-text"
-                      onClick={toggleMobileMenu}
-                      style={{ fontSize: "0.8rem" }}
-                    >
-                      {service.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-            <li className="py-2">
-              <Link
-                href="/blog"
-                className="nav-text"
-                onClick={toggleMobileMenu}
-              >
-                blog
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                href="/contact"
-                className="nav-text"
-                onClick={toggleMobileMenu}
-              >
-                contacto
-              </Link>
-            </li>
-            <div className="toll_free_lang " style={{ marginLeft: 0 }}>
+          <ul className="flex flex-col">
+            {headerData.menuItems.map((item, index) =>
+              item ? renderMobileMenuItem(item, "", `menu-item-${index}`) : null
+            )}
+
+            {/* Language switch */}
+            <div className="toll_free_lang" style={{ marginLeft: 0 }}>
               <div
                 onClick={() => setToggled(!isToggled)}
                 className={`nice-select ${isToggled ? "open" : ""}`}
               >
-                <span className="current">{isSelect}</span>
+                <span className="current">{language.toUpperCase()}</span>
                 <ul className="list">
                   <li
-                    onClick={() => handleLanguageChange("ESP")}
-                    className={`option ${
-                      isSelect === "ESP" ? "selected focus" : ""
-                    }`}
+                    onClick={() => handleLanguageChange("es")}
+                    className={`option ${language === "es" ? "selected focus" : ""}`}
                   >
                     ESP
                   </li>
                   <li
-                    onClick={() => handleLanguageChange("EU")}
-                    className={`option ${
-                      isSelect === "EU" ? "selected focus" : ""
-                    }`}
+                    onClick={() => handleLanguageChange("eu")}
+                    className={`option ${language === "eu" ? "selected focus" : ""}`}
                   >
                     EU
                   </li>
