@@ -6,7 +6,9 @@ import post from './schemaTypes/post'
 import author from './schemaTypes/author'
 import header from './schemaTypes/header'
 import localeString from './schemaTypes/localeString'
+import slider from './schemaTypes/slider'
+import sliderItem from './schemaTypes/sliderItem'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, author, category, blockContent, header, localeString],
+  types: [post, author, category, blockContent, header, localeString, slider, sliderItem],
 }

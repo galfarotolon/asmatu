@@ -11,14 +11,32 @@ import HomeTetimonial from "@/components/Home/HomeTetimonial";
 import HomeWhyChooseUs from "@/components/Home/HomeWhyChooseUs";
 import Layout from "@/layouts/layout";
 
+import {
+  getSliderData,
+  SliderData,
+  SliderItem,
+} from "@/sanity/lib/sanity-utils";
+import { notFound } from "next/navigation";
+
 interface HomeMainProps {
   locale: "es" | "eu";
 }
 
-export default function HomeMain({ locale }: HomeMainProps) {
+export default async function HomeMain({ locale }: HomeMainProps) {
+  // Fetch slider data
+  const sliderData: SliderData = await getSliderData("es");
+
+  // Optional: Handle case where no slider data is found
+  if (!sliderData || sliderData.slides.length === 0) {
+    console.error("No slider data available");
+    // You can choose to return null, a fallback UI, or proceed without the slider
+    // Here, we'll proceed without the slider
+  }
+
   return (
     <Layout locale={locale}>
-      <HomeSlider locale={locale} />
+      {/* Pass sliderData and locale to HomeSlider */}
+      <HomeSlider data={sliderData.slides} locale={locale} />
       <HomePrinciples locale={locale} />
       <HomeAbout locale={locale} />
       <HomeServices locale={locale} />

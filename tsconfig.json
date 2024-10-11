@@ -36,7 +36,7 @@
     "components/Home/HomeClients.js",
     "components/Blog/BlogSideBar.tsx",
     "app/noticias/[slug]/page.tsx"
-, "app/calidad/page.js", "layouts/layout.js"  ],
+, "app/calidad/page.js", "layouts/layout.js", "components/Home/HomeSlider.js"  ],
   "exclude": [
     "node_modules"
   ]
