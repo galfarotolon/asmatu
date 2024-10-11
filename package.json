@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@sanity/image-url": "^1.0.2",
+    "@sanity/language-filter": "^4.0.2",
     "@sanity/vision": "^3.49.0",
     "autoprefixer": "^10.4.19",
     "framer-motion": "^11.2.13",

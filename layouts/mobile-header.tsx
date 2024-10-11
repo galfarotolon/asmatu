@@ -147,7 +147,7 @@ export default function MobileHeader() {
                 className="nav-text"
                 onClick={toggleMobileMenu}
               >
-                {t("blog")}
+                blog
               </Link>
             </li>
             <li className="py-2">
@@ -156,7 +156,7 @@ export default function MobileHeader() {
                 className="nav-text"
                 onClick={toggleMobileMenu}
               >
-                {t("contact")}
+                contacto
               </Link>
             </li>
             <div className="toll_free_lang " style={{ marginLeft: 0 }}>

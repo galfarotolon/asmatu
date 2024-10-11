@@ -6,7 +6,7 @@ interface Translations {
 }
 
 const translations: Translations = {
-    ESP: {
+    es: {
         home: "Inicio",
         projects: "Proyectos",
         services: "Áreas de Actividad",
@@ -18,7 +18,7 @@ const translations: Translations = {
         blog: "Noticias",
         contact: "Contacto",
     },
-    EU: {
+    eu: {
         home: "Hasiera",
         projects: "Proiektuak",
         services: "Jarduera Eremuak",

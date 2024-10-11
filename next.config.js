@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
-    i18n: {
-        locales: ['es', 'eu'], // Add your locales here
-        defaultLocale: 'es', // Default locale
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+            },
+        ],
     },
+    transpilePackages: ['@sanity/overlays'],
 }
 
 module.exports = nextConfig
