@@ -111,7 +111,7 @@ export default function DesktopHeader() {
           <Link href={language === "es" ? "/" : "/eu"}>
             <Image
               className="desktop_logo"
-              src={headerData.logos.light || "/img/logotipo-asmatu.png"}
+              src={headerData.logos.light.url || "/img/logotipo-asmatu.png"}
               alt="Asmatu Logo"
               width={120}
               height={80}
@@ -119,7 +119,7 @@ export default function DesktopHeader() {
             />
             <Image
               className="desktop_logo_dark"
-              src={headerData.logos.dark || "/img/logotipo-asmatu.png"}
+              src={headerData.logos.dark.url || "/img/logotipo-asmatu.png"}
               alt="Asmatu Logo"
               width={120}
               height={80}
