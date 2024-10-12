@@ -194,3 +194,41 @@ export async function getPageData(locale: string, slug: string) {
     return null;
   }
 }
+
+
+export interface PrincipleItem {
+  title: { es: string; eu: string };
+  description: { es: string; eu: string };
+  number: number;
+  slug: { es: string; eu: string };
+}
+
+export async function getPrinciplesData(): Promise<PrincipleItem[]> {
+  const query = `*[_type == "principles"][0]{
+    principles[] {
+      title,
+      description,
+      number,
+      slug {
+        es,
+        eu
+      }
+    }
+  }`;
+
+  try {
+    const data = await client.fetch(query);
+    return data?.principles?.map((item: any) => ({
+      title: item.title,
+      description: item.description,
+      number: item.number,
+      slug: {
+        es: item.slug?.es?.current || "",
+        eu: item.slug?.eu?.current || ""
+      }
+    })) || [];
+  } catch (error) {
+    console.error('Error fetching principles data:', error);
+    return [];
+  }
+}

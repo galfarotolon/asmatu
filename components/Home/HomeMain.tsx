@@ -15,6 +15,7 @@ import {
   getSliderData,
   SliderData,
   SliderItem,
+  getPrinciplesData,
 } from "@/sanity/lib/sanity-utils";
 import { notFound } from "next/navigation";
 
@@ -24,7 +25,8 @@ interface HomeMainProps {
 
 export default async function HomeMain({ locale }: HomeMainProps) {
   // Fetch slider data
-  const sliderData: SliderData = await getSliderData("es");
+  const sliderData: SliderData = await getSliderData(locale);
+  const principlesData = await getPrinciplesData(locale);
 
   // Optional: Handle case where no slider data is found
   if (!sliderData || sliderData.slides.length === 0) {
@@ -37,7 +39,7 @@ export default async function HomeMain({ locale }: HomeMainProps) {
     <Layout locale={locale}>
       {/* Pass sliderData and locale to HomeSlider */}
       <HomeSlider data={sliderData.slides} locale={locale} />
-      <HomePrinciples locale={locale} />
+      <HomePrinciples data={principlesData} locale={locale} />
       <HomeAbout locale={locale} />
       <HomeServices locale={locale} />
       <HomeWhyChooseUs locale={locale} />
