@@ -1,7 +1,7 @@
 // context/LanguageContext.tsx
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
-import translations from "../app/utils/translations";
+import translations from "@/app/utils/translations"; // Create a simple translations file if needed
 
 type Language = "es" | "eu";
 
