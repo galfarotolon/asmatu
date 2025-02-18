@@ -1,41 +1,37 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
-import { SubmenuServices } from "@/data/services"; // Import services array
 
-export default function DesktopHeader() {
+export default function DesktopHeader({ navigation }) {
   const { language, switchLanguage, t } = useLanguage();
   const [isToggled, setToggled] = useState(false);
-  const toggleTrueFalse = () => setToggled(!isToggled);
   const [isSelect, setSelect] = useState(language);
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
+  const toggleTrueFalse = () => setToggled(!isToggled);
   const handleLanguageChange = (lang: "ESP" | "EU") => {
     setSelect(lang);
     switchLanguage(lang);
   };
 
-  const headerRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     const handleScroll = () => {
       if (headerRef.current) {
         if (window.scrollY > 50) {
-          // Adjust this value as needed
           headerRef.current.classList.add("nav-scrolled");
         } else {
           headerRef.current.classList.remove("nav-scrolled");
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <div ref={headerRef} className="industify_fn_header ">
+    <div ref={headerRef} className="industify_fn_header">
       <div className="header_inner">
         <div className="menu_logo">
           <Link href="/">
@@ -57,34 +53,36 @@ export default function DesktopHeader() {
         </div>
         <div className="menu_nav">
           <ul className="industify_fn_main_nav vert_nav">
-            <li>
-              <Link href="/">{t("home")}</Link>
-            </li>
-            <li>
-              <Link href="/proyectos">{t("projects")}</Link>
-            </li>
-            <li className="menu-item-has-children">
-              <Link href="/servicios">{t("services")}</Link>
-              <ul className="sub-menu">
-                {SubmenuServices.map((service, index) => (
-                  <li key={index}>
-                    <Link
-                      href={
-                        language === "ESP" ? service.linkEs : service.linkEu
-                      }
-                    >
-                      {service.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-            <li>
-              <Link href="/noticias">{t("blog")}</Link>
-            </li>
-            <li>
-              <Link href="/contacto">{t("contact")}</Link>
-            </li>
+            {navigation?.menuItems?.map((item, index) => (
+              <li key={index}>
+                <Link
+                  href={
+                    language === "ESP"
+                      ? item.slugESP?.current || "#"
+                      : item.slugEU?.current || "#"
+                  }
+                >
+                  {language === "ESP" ? item.labelESP : item.labelEU}
+                </Link>
+                {item.submenu && item.submenu.length > 0 && (
+                  <ul className="sub-menu">
+                    {item.submenu.map((sub, idx) => (
+                      <li key={idx}>
+                        <Link
+                          href={
+                            language === "ESP"
+                              ? sub.slugESP?.current || "#"
+                              : sub.slugEU?.current || "#"
+                          }
+                        >
+                          {language === "ESP" ? sub.labelESP : sub.labelEU}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="toll_free_lang">
@@ -96,17 +94,13 @@ export default function DesktopHeader() {
             <ul className="list">
               <li
                 onClick={() => handleLanguageChange("ESP")}
-                className={`option ${
-                  isSelect === "ESP" ? "selected focus" : ""
-                }`}
+                className={`option ${isSelect === "ESP" ? "selected focus" : ""}`}
               >
                 ESP
               </li>
               <li
                 onClick={() => handleLanguageChange("EU")}
-                className={`option ${
-                  isSelect === "EU" ? "selected focus" : ""
-                }`}
+                className={`option ${isSelect === "EU" ? "selected focus" : ""}`}
               >
                 EU
               </li>

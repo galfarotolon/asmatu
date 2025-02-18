@@ -1,0 +1,53 @@
+{
+    "menuItems": [
+      {
+        "labelESP": "Inicio",
+        "labelEU": "Hasiera",
+        "slugESP": { "current": "inicio" },
+        "slugEU": { "current": "hasiera" },
+        "submenu": []
+      },
+      {
+        "labelESP": "Proyectos",
+        "labelEU": "Proiektuak",
+        "slugESP": { "current": "proyectos" },
+        "slugEU": { "current": "proiektuak" },
+        "submenu": []
+      },
+      {
+        "labelESP": "Servicios",
+        "labelEU": "Zerbitzuak",
+        "slugESP": { "current": "servicios" },
+        "slugEU": { "current": "zerbitzuak" },
+        "submenu": [
+          {
+            "labelESP": "Consultoría",
+            "labelEU": "Aholkularitza",
+            "slugESP": { "current": "consultoria" },
+            "slugEU": { "current": "aholkularitza" }
+          },
+          {
+            "labelESP": "Ingeniería",
+            "labelEU": "Ingeniaritza",
+            "slugESP": { "current": "ingenieria" },
+            "slugEU": { "current": "ingeniaritza" }
+          }
+        ]
+      },
+      {
+        "labelESP": "Noticias",
+        "labelEU": "Albisteak",
+        "slugESP": { "current": "noticias" },
+        "slugEU": { "current": "albisteak" },
+        "submenu": []
+      },
+      {
+        "labelESP": "Contacto",
+        "labelEU": "Kontaktua",
+        "slugESP": { "current": "contacto" },
+        "slugEU": { "current": "kontaktua" },
+        "submenu": []
+      }
+    ]
+  }
+  

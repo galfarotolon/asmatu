@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import translations from "../app/utils/translations";
 
-type Language = "ESP" | "EU";
+type Language = "es" | "eu";
 
 interface LanguageContextProps {
   language: Language;
@@ -15,15 +15,24 @@ const LanguageContext = createContext<LanguageContextProps | undefined>(
   undefined
 );
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>("ESP");
+interface LanguageProviderProps {
+  children: ReactNode;
+  initialLanguage?: Language;
+}
+
+export const LanguageProvider = ({
+  children,
+  initialLanguage = "es",
+}: LanguageProviderProps) => {
+  const [language, setLanguage] = useState<Language>(initialLanguage);
 
   const switchLanguage = (lang: Language) => {
     setLanguage(lang);
+    document.cookie = `lang=${lang}; path=/; max-age=${60 * 60 * 24 * 365}`;
   };
 
   const t = (key: string) => {
-    return translations[language][key] || key;
+    return translations[language]?.[key] || key;
   };
 
   return (
@@ -33,10 +42,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useLanguage = (): LanguageContextProps => {
-  const context = useContext(LanguageContext);
-  if (!context) {
+export const useLanguage = () => {
+  const ctx = useContext(LanguageContext);
+  if (!ctx)
     throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
+  return ctx;
 };
