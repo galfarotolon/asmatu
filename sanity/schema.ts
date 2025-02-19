@@ -9,7 +9,8 @@ import slide from './schemaTypes/slide'
 import navigation from './schemaTypes/navigation'
 import projectPage from './schemaTypes/projectPage'
 import slugObject from './schemaTypes/slugObject'
+import principle from './schemaTypes/principle'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject],
+  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle],
 }

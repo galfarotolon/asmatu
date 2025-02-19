@@ -1,6 +1,6 @@
 // app/[lang]/page.tsx
 import { notFound } from "next/navigation";
-import { getHomepage, getNavigation } from "@/sanity/queries";
+import { getHomepage } from "@/sanity/queries";
 import HomeSlider from "@/components/Home/HomeSlider";
 import HomePrinciples from "@/components/Home/HomePrinciples";
 import HomeAbout from "@/components/Home/HomeAbout";
@@ -27,7 +27,7 @@ export default async function HomePage({
   return (
     <>
       <HomeSlider slides={homepageData.slides} />
-      <HomePrinciples />
+      <HomePrinciples principles={homepageData.principles} />
       <HomeAbout />
       <HomeServices />
       <HomeWhyChooseUs />

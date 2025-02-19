@@ -40,6 +40,10 @@ const DesktopHeader = dynamic(() => import("@/layouts/desktop-header"), {
   ssr: false,
 });
 
+const MobileHeader = dynamic(() => import("@/layouts/mobile-header"), {
+  ssr: false,
+});
+
 // Use the Metadata API (viewport must be exported separately)
 export const metadata: Metadata = {
   title: {
@@ -71,6 +75,7 @@ export default async function LangLayout({
         <LanguageProvider initialLanguage={lang as "es" | "eu"}>
           <Suspense fallback={<Loading />}>
             <DesktopHeader navigation={navigation} />
+            <MobileHeader navigation={navigation} />
             {children}
           </Suspense>
           <Footer />

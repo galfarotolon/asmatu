@@ -10,6 +10,13 @@ export async function getHomepage(lang: "es" | "eu") {
       subtitle{ ESP, EU },
       description{ ESP, EU },
       link{ ESP, EU }
+    },
+    principles[]{
+      title{ es, eu },
+      anchor{ es, eu },
+      description{ es, eu },
+      number,
+      slug
     }
   }`;
   return client.fetch(query);
