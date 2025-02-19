@@ -51,17 +51,15 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
       // Update language context AFTER API call.
       switchLanguage(newLang);
 
-      // Build new URL: if API returns a non-empty alternate slug, use it; otherwise, fallback to currentPath.
+      // Build new URL: if API returns a non-empty alternate slug, use it; otherwise, fallback to the language homepage.
       const newPath = alternateSlug
         ? `/${newLang}/${alternateSlug}`
-        : currentPath
-          ? `/${newLang}/${currentPath}`
-          : `/${newLang}`;
+        : `/${newLang}`;
       console.log("[Header] Redirecting to:", newPath);
       router.push(newPath);
     } catch (error) {
       console.error("[Header] Error in language switch:", error);
-      router.push(`/${newLang}/${currentPath}`);
+      router.push(`/${newLang}`);
     }
   };
 
@@ -75,19 +73,19 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Helper function to render links (unchanged)
-  const renderLink = (item: any, isSubmenu = false) => (
-    <Link
-      href={`/${language}/${
-        language === "es"
-          ? item.slugESP?.replace(/^\//, "")
-          : item.slugEU?.replace(/^\//, "")
-      }`}
-      className={isSubmenu ? "submenu-link" : ""}
-    >
-      {language === "es" ? item.labelESP : item.labelEU}
-    </Link>
-  );
+  // Updated renderLink function with arrow for submenu items
+  const renderLink = (item: any, isSubmenu = false) => {
+    // Get the appropriate slug based on the current language.
+    const rawSlug = language === "es" ? item.slugESP : item.slugEU;
+    const slug = rawSlug ? rawSlug.replace(/^\//, "") : "";
+    // Build the href: if slug is empty, just use the language prefix.
+    const href = slug ? `/${language}/${slug}` : `/${language}`;
+    return (
+      <Link href={href} className={isSubmenu ? "submenu-link" : ""}>
+        {language === "es" ? item.labelESP : item.labelEU}
+      </Link>
+    );
+  };
 
   return (
     <div ref={headerRef} className="industify_fn_header">
@@ -114,18 +112,45 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
         </div>
         <div className="menu_nav">
           <ul className="industify_fn_main_nav vert_nav">
-            {navigation?.menuItems?.map((item: any, index: number) => (
-              <li key={index}>
-                {renderLink(item)}
-                {item.submenu?.length > 0 && (
-                  <ul className="sub-menu">
-                    {item.submenu.map((sub: any, idx: number) => (
-                      <li key={idx}>{renderLink(sub, true)}</li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
+            {navigation?.menuItems?.map((item: any, index: number) => {
+              const hasSubmenu =
+                item.submenu &&
+                Array.isArray(item.submenu) &&
+                item.submenu.length > 0;
+              // Get the href for the parent link.
+              const rawSlug = language === "es" ? item.slugESP : item.slugEU;
+              const slug = rawSlug ? rawSlug.replace(/^\//, "") : "";
+              const href = slug ? `/${language}/${slug}` : `/${language}`;
+              return (
+                <li key={index} className={hasSubmenu ? "has-submenu" : ""}>
+                  <Link href={href}>
+                    {language === "es" ? item.labelESP : item.labelEU}
+                    {hasSubmenu && <span className="arrow">▼</span>}
+                  </Link>
+                  {hasSubmenu && (
+                    <ul className="sub-menu">
+                      {item.submenu.map((sub: any, idx: number) => {
+                        const subRawSlug =
+                          language === "es" ? sub.slugESP : sub.slugEU;
+                        const subSlug = subRawSlug
+                          ? subRawSlug.replace(/^\//, "")
+                          : "";
+                        const subHref = subSlug
+                          ? `/${language}/${subSlug}`
+                          : `/${language}`;
+                        return (
+                          <li key={idx}>
+                            <Link href={subHref} className="submenu-link">
+                              {language === "es" ? sub.labelESP : sub.labelEU}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="toll_free_lang">

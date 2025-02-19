@@ -8,6 +8,12 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ firstChild, SecondChild }) => {
   const href = firstChild.toLowerCase();
+
+  firstChild =
+    firstChild.split("")[0].toUpperCase() +
+    firstChild.slice(1, firstChild.length);
+
+  firstChild.split("")[0].toUpperCase() + firstChild.slice(1);
   return (
     <div className="industify_fn_pagetitle">
       <div className="container">

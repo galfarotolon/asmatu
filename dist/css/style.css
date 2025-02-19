@@ -6412,10 +6412,12 @@ blockquote{
     right: 0px;
     position: absolute;
 }
+
 .fn_cs_project_sticky .left_part a .arrow_hover svg,
 .fn_cs_project_sticky .left_part a .arrow_hover img{
 	opacity: 0;
     right: 20px;
+
 }
 .fn_cs_project_sticky .left_part a:hover .arrow svg{
 	opacity: 0;
@@ -6477,6 +6479,7 @@ blockquote{
     padding: 0px;
     line-height: 1;
 }
+
 .fn_cs_project_sticky .right_part .title_holder p a{
 	position: relative;
 	text-decoration: none;

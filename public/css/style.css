@@ -1810,7 +1810,7 @@ border-radius: 0px 0px 4px 4px;
 	right: 0px;
 	bottom: 0px;
 	z-index: 5;
-	
+
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -6412,6 +6412,7 @@ blockquote{
     right: 0px;
     position: absolute;
 }
+
 .fn_cs_project_sticky .left_part a .arrow_hover svg,
 .fn_cs_project_sticky .left_part a .arrow_hover img{
 	opacity: 0;
@@ -9427,3 +9428,12 @@ background-color: transparent !important;
   .terms-link:hover{
 	color: #45a2df !important;
 	}
+
+	.has-submenu > a .arrow {
+		position: absolute;
+	
+		top: 35%;
+margin-left: 10px;
+		font-size: 0.75rem; /* Adjust this to match your original design */
+		line-height: 1;
+	  }

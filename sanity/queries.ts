@@ -33,23 +33,30 @@ export async function getNavigation(lang: "es" | "eu") {
     return client.fetch(query);
   }
 
-export async function getPage(slug: string, lang: "es" | "eu") {
-  const slugField = `slug.${lang}.current`;
-  const query = `*[_type == "projectPage" && ${slugField} == $slug][0]{
-    _id,
-    title{ es, eu },
-    slug,
-    // Add other fields
-  }`;
-  return client.fetch(query, { slug });
-}
+  export async function getPage(slug: string, lang: "es" | "eu") {
+    const query = `
+      *[_type == "projectPage" && lower(slug.${lang}.current) == lower($slug)][0]{
+        _id,
+        _type,
+        title{ es, eu },
+        slug
+      }
+    `;
+    console.log("[getPage] Running query:", query, "with variables:", { slug });
+    const result = await client.fetch(query, { slug });
+    console.log("[getPage] Result from Sanity:", result);
+    return result;
+  }
+  
+  export async function getAllRoutes() {
+    const query = `
+      *[_type == "projectPage"]{
+        _id,
+        title,
+        slug,
+        _type
+      }
+    `;
+    return client.fetch(query);
+  }
 
-export async function getAllRoutes() {
-  const query = `*[_type == "projectPage"]{
-    "slugs": [
-      { "params": { "slug": slug.es.current }, "lang": "es" },
-      { "params": { "slug": slug.eu.current }, "lang": "eu" }
-    ]
-  }`;
-  return client.fetch(query);
-}

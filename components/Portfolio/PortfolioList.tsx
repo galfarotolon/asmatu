@@ -49,7 +49,7 @@ export default function PortfolioList() {
     <>
       <div className="industify_fn_portfolio_page">
         {/* PORTFOLIO LIST */}
-        <div className="portfolio_list">
+        <div className="portfolio_list ">
           <div className="container">
             <div className="filter">
               <a onClick={handleClick}>Todos los Proyectos</a>
@@ -117,22 +117,25 @@ export default function PortfolioList() {
               </ul>
             </div>
             <div className="list_in">
-              <ul className="industify_fn_portfolio_list">
+              <ul className="industify_fn_portfolio_list ">
                 {projects.map((project, i) => (
-                  <li className={`portfolio_item ${project.category}`} key={i}>
-                    <div className="item">
-                      <div className="item_in">
+                  <li
+                    className={`portfolio_item ${project.category} h-[400px]`}
+                    key={i}
+                  >
+                    <div className="item h-[400px]">
+                      <div className="item_in h-[400px]">
                         <Link
-                          href={`/${language === "ESP" ? "proyectos" : "proiektuak"}/${project.slugEs}`}
+                          href={`/${language === "es" ? "proyectos" : "proiektuak"}/${project.slugEs}`}
                         ></Link>
-                        <div className="img_holder">
+                        <div className="img_holder h-[400px]">
                           <img src="img/thumb/560-375.jpg" alt="" />
                           <div
-                            className="img_abs"
+                            className="img_abs h-[400px]"
                             style={{ backgroundImage: `url(${project.img})` }}
                           ></div>
                         </div>
-                        <div className="title_holder">
+                        <div className="title_holder ">
                           <h3>{project.title}</h3>
                           <p>
                             Ver Más

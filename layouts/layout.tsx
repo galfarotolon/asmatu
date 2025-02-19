@@ -14,14 +14,10 @@ interface LayoutProps {
 
 export default async function Layout({ children }: LayoutProps) {
   // Fetch navigation data once at the layout level
-  const navigation = await getNavigation();
 
   return (
     <>
-      <DesktopHeader navigation={navigation} />
-      <MobileHeader navigation={navigation} />
       <div className="content">{children}</div>
-      <Footer />
     </>
   );
 }
