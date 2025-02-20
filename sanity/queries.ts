@@ -1,4 +1,11 @@
 import { client } from "./client";
+import imageUrlBuilder from '@sanity/image-url';
+
+const builder = imageUrlBuilder(client);
+
+export function urlFor(source: any) {
+    return builder.image(source);
+  }
 
 export async function getHomepage(lang: "es" | "eu") {
   const query = `*[_type == "homepage"][0]{
@@ -17,6 +24,22 @@ export async function getHomepage(lang: "es" | "eu") {
       description{ es, eu },
       number,
       slug
+    },
+     about{
+      title{ es, eu },
+      bodyEs[]{
+        ...,
+        markDefs[]{ ... },
+        children[]{ ... }
+      },
+      bodyEu[]{
+        ...,
+        markDefs[]{ ... },
+        children[]{ ... }
+      },
+      signName{ es, eu },
+      signPosition{ es, eu },
+      rightImage{ asset->{ url } }
     }
   }`;
   return client.fetch(query);
@@ -67,3 +90,17 @@ export async function getNavigation(lang: "es" | "eu") {
     return client.fetch(query);
   }
 
+
+
+  export async function getServices() {
+    const query = `*[_type == "service"]{
+      _id,
+      title,
+      slug,
+      description,
+      summary,
+       image { asset->{ url }, alt },
+      features
+    }`;
+    return client.fetch(query);
+  }

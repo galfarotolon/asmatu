@@ -1,6 +1,6 @@
 // app/[lang]/page.tsx
 import { notFound } from "next/navigation";
-import { getHomepage } from "@/sanity/queries";
+import { getHomepage, getServices } from "@/sanity/queries";
 import HomeSlider from "@/components/Home/HomeSlider";
 import HomePrinciples from "@/components/Home/HomePrinciples";
 import HomeAbout from "@/components/Home/HomeAbout";
@@ -21,6 +21,7 @@ export default async function HomePage({
 }) {
   const lang = params.lang as "es" | "eu";
   const homepageData = await getHomepage(lang);
+  const servicesData = await getServices();
 
   if (!homepageData) return notFound();
 
@@ -28,8 +29,8 @@ export default async function HomePage({
     <>
       <HomeSlider slides={homepageData.slides} />
       <HomePrinciples principles={homepageData.principles} />
-      <HomeAbout />
-      <HomeServices />
+      <HomeAbout about={homepageData.about} lang={lang} />
+      <HomeServices services={servicesData} lang={lang} />
       <HomeWhyChooseUs />
       <HomeClients />
       <HomeCTA />

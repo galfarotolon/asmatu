@@ -10,7 +10,9 @@ import navigation from './schemaTypes/navigation'
 import projectPage from './schemaTypes/projectPage'
 import slugObject from './schemaTypes/slugObject'
 import principle from './schemaTypes/principle'
+import service from './schemaTypes/service'
+import imageObject from './schemaTypes/imageObject'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle],
+  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject],
 }
