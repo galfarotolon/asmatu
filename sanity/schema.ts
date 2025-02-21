@@ -12,7 +12,14 @@ import slugObject from './schemaTypes/slugObject'
 import principle from './schemaTypes/principle'
 import service from './schemaTypes/service'
 import imageObject from './schemaTypes/imageObject'
+import homepageWhyChooseUs from './schemaTypes/homepageWhyChooseUs'
+import client from './schemaTypes/client'
+import homeCTASection from './schemaTypes/homeCTASection'
+import homepageTestimonial from './schemaTypes/homepageTestimonial'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject],
+  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject,
+    homepageWhyChooseUs, client, homeCTASection, homepageTestimonial
+
+  ],
 }

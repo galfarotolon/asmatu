@@ -53,7 +53,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "scripts/importSlides.js", "sanity/scripts/importSlides.js"  ],
+, "scripts/importSlides.js", "sanity/scripts/importSlides.js", "components/Home/HomeWhyChooseUs.jsx"  ],
   "exclude": [
     "node_modules"
   ]

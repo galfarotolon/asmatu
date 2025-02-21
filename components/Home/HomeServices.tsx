@@ -23,12 +23,22 @@ export interface Service {
   features: string[];
 }
 
+export interface ServicesHeader {
+  title: { es: string; eu: string };
+  text: { es: string; eu: string };
+}
+
 interface HomeServicesProps {
   services: Service[];
+  servicesHeader: ServicesHeader;
   lang: "es" | "eu";
 }
 
-export default function HomeServices({ services, lang }: HomeServicesProps) {
+export default function HomeServices({
+  services,
+  servicesHeader,
+  lang,
+}: HomeServicesProps) {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.6,
@@ -46,8 +56,6 @@ export default function HomeServices({ services, lang }: HomeServicesProps) {
     const base = lang === "es" ? "servicios" : "services";
     return `/${base}/${slug}`;
   };
-
-  console.log(services);
 
   return (
     <div
@@ -67,12 +75,10 @@ export default function HomeServices({ services, lang }: HomeServicesProps) {
       >
         <div className="t_inner">
           <motion.h3 variants={FADE_UP_ANIMATION_VARIANTS}>
-            {lang === "es" ? "Nuestras Industrias" : "Gure Industriak"}
+            {lang === "es" ? servicesHeader.title.es : servicesHeader.title.eu}
           </motion.h3>
           <motion.span variants={FADE_UP_ANIMATION_VARIANTS}>
-            {lang === "es"
-              ? "Asmatu se especializa en diversas áreas, ofreciendo servicios integrales y personalizados en cada proyecto."
-              : "Asmatu sektore anitzetan espezializatzen da, proiektu bakoitzean zerbitzu integral eta pertsonalizatuak eskaintzen ditu."}
+            {lang === "es" ? servicesHeader.text.es : servicesHeader.text.eu}
           </motion.span>
           <div className="owl_control">
             <div className="fn_prev"></div>

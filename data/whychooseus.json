@@ -1,0 +1,108 @@
+{
+    "title": {
+      "es": "¿Por qué elegir nuestros servicios?",
+      "eu": "Zergatik aukeratu gure zerbitzuak?"
+    },
+    "description": {
+      "es": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "En Asmatu, creemos que nuestros valores fundamentales y nuestro compromiso con la excelencia nos distinguen de la competencia."
+            }
+          ],
+          "style": "normal"
+        }
+      ],
+      "eu": [
+        {
+          "_type": "block",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Asmatu-n, gure oinarrizko balioak eta arrakastan duen konpromisoa gure lehentasunak nola bereizten duten sinesten dugu."
+            }
+          ],
+          "style": "normal"
+        }
+      ]
+    },
+    "statistics": [
+      {
+        "number": 3000,
+        "label": {
+          "es": "Proyectos Completados",
+          "eu": "Amaitutako Proiektuak"
+        }
+      },
+      {
+        "number": 2000,
+        "label": {
+          "es": "Clientes Satisfechos",
+          "eu": "Beharrezko Bezeroak"
+        }
+      },
+      {
+        "number": 150,
+        "label": {
+          "es": "Trabajadores Dedicados",
+          "eu": "Lan-talde Dedicatuak"
+        }
+      }
+    ],
+    "badge": {
+      "title": {
+        "es": "Industria Líder",
+        "eu": "Industria Lidera"
+      },
+      "description": {
+        "es": "Certificado SGS",
+        "eu": "SGS Ziurtatua"
+      },
+      "yearsExperience": 32,
+      "badgeImage": {
+        "asset": {
+          "_ref": "image-abc123xyz-1024x768-jpg"
+        },
+        "alt": {
+          "es": "Imagen de Insignia",
+          "eu": "Insignia Irudia"
+        }
+      }
+    },
+    "featuresList": [
+      {
+        "text": {
+          "es": "El mejor talento en la industria.",
+          "eu": "Industria onena talentua."
+        }
+      },
+      {
+        "text": {
+          "es": "Una de las empresas más experimentadas.",
+          "eu": "Enpresa esperientziatuenetakoa."
+        }
+      },
+      {
+        "text": {
+          "es": "Hemos completado más de 3000 proyectos.",
+          "eu": "3000+ proiektu bete ditugu."
+        }
+      },
+      {
+        "text": {
+          "es": "El equipo más dedicado y apasionado.",
+          "eu": "Talde dedikatatu eta pasionatua."
+        }
+      },
+      {
+        "text": {
+          "es": "Más de 2000 trabajadores.",
+          "eu": "2000+ langile."
+        }
+      }
+    ]
+  }
+  

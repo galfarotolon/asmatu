@@ -69,12 +69,83 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'servicesSection',
+      title: 'Sección de Servicios',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'title',
+          title: 'Título (Servicios)',
+          type: 'object',
+          fields: [
+            { name: 'es', title: 'Título (Español)', type: 'string' },
+            { name: 'eu', title: 'Izenburua (Euskera)', type: 'string' },
+          ],
+        }),
+        defineField({
+          name: 'text',
+          title: 'Texto (Servicios)',
+          type: 'object',
+          fields: [
+            { name: 'es', title: 'Texto (Español)', type: 'string' },
+            { name: 'eu', title: 'Testua (Euskera)', type: 'string' },
+          ],
+        }),
+      ],
+    }),
     // Add a services reference field so you can choose which services to display
     defineField({
       name: "services",
       title: "Servicios Destacados",
       type: "array",
       of: [{ type: "reference", to: [{ type: "service" }] }],
+    }),
+    defineField({
+      name: "whyChooseUs",
+      title: "Sección – ¿Por qué elegir nuestros servicios?",
+      type: "homepageWhyChooseUs",
+    }),
+    defineField({
+      name: "clientsSection",
+      title: "Sección de Clientes",
+      type: "object",
+      fields: [
+        defineField({
+          name: "header",
+          title: "Encabezado",
+          type: "object",
+          fields: [
+            { name: "es", title: "Español", type: "string" },
+            { name: "eu", title: "Euskera", type: "string" },
+          ],
+        }),
+        defineField({
+          name: "subheader",
+          title: "Subencabezado",
+          type: "object",
+          fields: [
+            { name: "es", title: "Español", type: "string" },
+            { name: "eu", title: "Euskera", type: "string" },
+          ],
+        }),
+        defineField({
+          name: "clients",
+          title: "Clientes Destacados",
+          type: "array",
+          of: [{ type: "reference", to: [{ type: "client" }] }],
+        }),
+      ],
+    }),
+    defineField({
+      name: "ctaSection",
+      title: "Sección CTA",
+      type: "homeCTASection",
+    }),
+    defineField({
+      name: "testimonialSection",
+      title: "Sección Testimonios",
+      type: "homepageTestimonial",
     }),
   ],
   preview: {
