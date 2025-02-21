@@ -1,6 +1,6 @@
 // app/[lang]/page.tsx
 import { notFound } from "next/navigation";
-import { getHomepage } from "@/sanity/queries";
+import { getHomepage, getNavigation } from "@/sanity/queries";
 import HomeSlider from "@/components/Home/HomeSlider";
 import HomePrinciples from "@/components/Home/HomePrinciples";
 import HomeAbout from "@/components/Home/HomeAbout";
@@ -11,6 +11,7 @@ import HomeCTA from "@/components/Home/HomeCTA";
 import HomeTestimonial from "@/components/Home/HomeTestimonial";
 import HomeProjects from "@/components/Home/HomeProjects";
 import HomeBlog from "@/components/Home/HomeBlog";
+import { getBaseRoute } from "../lib/routing";
 
 export const revalidate = 30;
 
@@ -21,6 +22,10 @@ export default async function HomePage({
 }) {
   const lang = params.lang as "es" | "eu";
   const homepageData = await getHomepage(lang);
+
+  const baseBlogPath = await getBaseRoute("blog", lang);
+  const baseProjectPath = await getBaseRoute("projects", lang);
+  const baseServicePath = await getBaseRoute("services", lang);
 
   if (!homepageData) return notFound();
 
@@ -34,6 +39,7 @@ export default async function HomePage({
       <HomeServices
         services={homepageData.services}
         servicesHeader={homepageData.servicesSection}
+        baseServicePath={baseServicePath}
         lang={lang}
       />
       <HomeWhyChooseUs data={homepageData.whyChooseUs} lang={lang} />
@@ -43,9 +49,13 @@ export default async function HomePage({
       <HomeProjects
         projectsSection={homepageData.projectsSection}
         featuredProjects={homepageData.featuredProjects}
+        baseprojectPath={baseProjectPath}
         lang={lang}
       />
-      <HomeBlog blogSection={homepageData.blogSection} />
+      <HomeBlog
+        blogSection={homepageData.blogSection}
+        baseBlogPath={baseBlogPath}
+      />
     </>
   );
 }

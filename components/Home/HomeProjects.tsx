@@ -21,18 +21,18 @@ export interface ProjectsSectionData {
 interface HomeProjectProps {
   projectsSection: ProjectsSectionData;
   featuredProjects: ProjectRef[];
+  baseprojectPath: string;
   lang: "es" | "eu";
 }
 
 export default function HomeProject({
   projectsSection,
   featuredProjects,
+  baseprojectPath,
   lang,
 }: HomeProjectProps) {
-  // Determine the base URL for project links based on language.
-  const base = lang === "es" ? "proyectos" : "proiektuak";
   // Build the "View All Projects" link using the projectsLink field.
-  const allProjectsLink = `/${base}/${projectsSection.projectsLink[lang].current}`;
+  const allProjectsLink = `${lang}/${baseprojectPath}`;
 
   return (
     <div className="fn_cs_project_sticky_full">
@@ -56,7 +56,7 @@ export default function HomeProject({
                   lang === "es"
                     ? project.slug.es.current
                     : project.slug.eu.current;
-                const link = `/${base}/${slug}`;
+                const link = `/${allProjectsLink}/${slug}`;
                 return (
                   <ProjectItem
                     key={project._id}

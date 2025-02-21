@@ -68,7 +68,8 @@ export default async function LangLayout({
   params: { lang: string };
 }) {
   const lang = params.lang; // "es" or "eu"
-  const navigation = await getNavigation(lang as "es" | "eu");
+  const navigation = await getNavigation();
+
   return (
     <html lang={lang} className={`${openSans.className} ${rubik.className}`}>
       <body>

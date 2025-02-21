@@ -7,27 +7,26 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 interface NavItem {
-  labelESP: string;
-  labelEU: string;
-  slugESP?: string;
-  slugEU?: string;
+  title: { es: string; eu: string };
+  es: { current: string };
+  eu: { current: string };
   submenu?: NavItem[];
 }
 
 export default function MobileHeader({ navigation }: { navigation?: any }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { language, switchLanguage, t } = useLanguage();
+  const { language, switchLanguage } = useLanguage();
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openSubmenuIndex, setOpenSubmenuIndex] = useState<number | null>(null); // Track which submenu is open
-  const [isToggled, setToggled] = useState(false); // for your "nice-select"
+  const [openSubmenuIndex, setOpenSubmenuIndex] = useState<number | null>(null);
+  const [isToggled, setToggled] = useState(false);
   const [selectedLang, setSelectedLang] = useState(language);
 
-  // Toggle the mobile menu
+  // Toggle mobile menu open/close
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
 
-  // Toggle a particular submenu by index
+  // Toggle a specific submenu by index
   const toggleSubmenu = (idx: number) => {
     setOpenSubmenuIndex((prev) => (prev === idx ? null : idx));
   };
@@ -61,28 +60,17 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
     };
   }, [isMobileMenuOpen]);
 
-  // ============== Same handleLanguageChange logic as Desktop ================
+  // Language switch handling (same logic as DesktopHeader)
   const handleLanguageChange = async (newLang: "es" | "eu") => {
-    // Remove the current language prefix from pathname
     const currentPath = pathname
       .replace(/^\/(es|eu)(\/|$)/, "")
       .replace(/^\/+|\/+$/g, "")
       .toLowerCase();
 
-    // Determine the source lang from the URL or fallback to context
     const urlLangMatch = pathname.match(/^\/(es|eu)(\/|$)/);
     const sourceLangFromUrl = urlLangMatch
       ? (urlLangMatch[1] as "es" | "eu")
       : language;
-
-    console.log(
-      "[MobileHeader] Current path:",
-      currentPath,
-      "Source lang:",
-      sourceLangFromUrl,
-      "New lang:",
-      newLang
-    );
 
     try {
       const response = await fetch(
@@ -95,29 +83,23 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
       }
       const data = await response.json();
       const alternateSlug = data.alternateSlug;
-      console.log("[MobileHeader] Alternate slug:", alternateSlug);
-
       switchLanguage(newLang);
       setSelectedLang(newLang);
-
-      // Build new URL from alternate slug or fallback to homepage
       const newPath = alternateSlug
         ? `/${newLang}/${alternateSlug}`
         : `/${newLang}`;
-      console.log("[MobileHeader] Redirecting to:", newPath);
       router.push(newPath);
     } catch (error) {
       console.error("[MobileHeader] Error in language switch:", error);
       router.push(`/${newLang}`);
     }
   };
-  // ==========================================================================
 
-  // Build link from slug
-  const buildLink = (item: NavItem) => {
-    // Now we use the slug value directly.
-    const rawSlug = language === "es" ? item.slugESP : item.slugEU;
-    const slug = rawSlug ? rawSlug.replace(/^\//, "") : "";
+  // Build link from a navigation item using the new structure
+  const buildLink = (item: NavItem): string => {
+    const rawSlug =
+      item[language] && item[language].current ? item[language].current : "";
+    const slug = rawSlug.replace(/^\//, "");
     return slug ? `/${language}/${slug}` : `/${language}`;
   };
 
@@ -158,24 +140,19 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
       >
         <nav className="p-4 text-lg overflow-y-auto">
           <ul className="flex flex-col">
-            {/* Map over navigation items from prop */}
             {navigation?.menuItems?.map((item: NavItem, index: number) => {
               const hasSubmenu = item.submenu && item.submenu.length > 0;
               const linkHref = buildLink(item);
-
               return (
                 <li key={index} className="py-2 relative">
-                  {/* Parent link row */}
                   <div className="flex justify-between items-center">
-                    {/* Link itself (click navigates) */}
                     <Link
                       href={linkHref}
                       className="nav-text"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {language === "es" ? item.labelESP : item.labelEU}
+                      {item.title ? item.title[language] : ""}
                     </Link>
-                    {/* Submenu arrow if needed */}
                     {hasSubmenu && (
                       <span
                         className={`transition-transform cursor-pointer ${
@@ -190,7 +167,6 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
                       </span>
                     )}
                   </div>
-                  {/* Submenu list */}
                   {hasSubmenu && (
                     <ul
                       className={`transition-max-height overflow-y-auto ${
@@ -199,7 +175,7 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
                           : "max-h-0 opacity-0"
                       }`}
                     >
-                      {item.submenu?.map((sub, subIdx) => {
+                      {item.submenu?.map((sub: NavItem, subIdx: number) => {
                         const subHref = buildLink(sub);
                         return (
                           <li key={subIdx} style={{ padding: "0 1rem" }}>
@@ -209,7 +185,7 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
                               style={{ fontSize: "0.8rem" }}
                               onClick={() => setMobileMenuOpen(false)}
                             >
-                              {language === "es" ? sub.labelESP : sub.labelEU}
+                              {sub.title ? sub.title[language] : ""}
                             </Link>
                           </li>
                         );
@@ -220,7 +196,7 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
               );
             })}
 
-            {/* Language Switcher (unchanged classes) */}
+            {/* Language Switcher */}
             <div className="toll_free_lang" style={{ marginLeft: 0 }}>
               <div
                 onClick={() => setToggled(!isToggled)}

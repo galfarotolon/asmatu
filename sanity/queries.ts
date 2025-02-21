@@ -91,40 +91,21 @@ featuredProjects[]->{
   description{ es, eu },
   img{ asset->{ url } }
 },
- blogSection{
-      sectionData{
-        title{ es, eu },
-        leadText{ es, eu }
-      },
-      featuredBlogs[]->{
-        _id,
-        title{ es, eu },
-        slug{ es, eu },
-        mainImage{ asset->{ url } },
-        author,
-        date
-      }
-    }
+   blogSection{
+  sectionData{ title{ es, eu }, leadText{ es, eu } },
+  featuredBlogs[]->{ _id, title{ es, eu }, slug{ es, eu }, mainImage{ asset->{ url } }, author, date, location }
+},
   }`;
   return client.fetch(query);
 }
-export async function getNavigation(lang: "es" | "eu") {
-    const query = `*[_type == "navigation"][0]{
-      menuItems[]{
-        labelESP,
-        labelEU,
-        "slugESP": slugESP.current,
-        "slugEU": slugEU.current,
-        submenu[]{
-          labelESP,
-          labelEU,
-          "slugESP": slugESP.current,
-          "slugEU": slugEU.current
-        }
-      }
-    }`;
-    return client.fetch(query);
-  }
+export async function getNavigation() {
+  const query = `*[_type == "navigation"][0]{
+    menuItems,
+    footerItems
+  }`;
+  return client.fetch(query);
+}
+
 
   export async function getPage(slug: string, lang: "es" | "eu") {
     const query = `

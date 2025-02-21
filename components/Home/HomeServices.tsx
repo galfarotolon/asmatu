@@ -31,12 +31,14 @@ export interface ServicesHeader {
 interface HomeServicesProps {
   services: Service[];
   servicesHeader: ServicesHeader;
+  baseServicePath: string;
   lang: "es" | "eu";
 }
 
 export default function HomeServices({
   services,
   servicesHeader,
+  baseServicePath,
   lang,
 }: HomeServicesProps) {
   const { ref, inView } = useInView({
@@ -53,8 +55,8 @@ export default function HomeServices({
   const buildServiceLink = (service: Service) => {
     const slug =
       lang === "es" ? service.slug.es.current : service.slug.eu.current;
-    const base = lang === "es" ? "servicios" : "services";
-    return `/${base}/${slug}`;
+
+    return `${lang}/${baseServicePath}/${slug}`;
   };
 
   return (

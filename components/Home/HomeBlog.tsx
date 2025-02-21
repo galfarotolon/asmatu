@@ -1,4 +1,3 @@
-// /components/Home/HomeBlog.tsx
 "use client";
 
 import Link from "next/link";
@@ -12,6 +11,7 @@ export interface BlogPostRef {
   mainImage: { asset: { url: string } };
   date: string;
   author: string;
+  location: string;
 }
 
 export interface BlogSectionData {
@@ -22,16 +22,33 @@ export interface BlogSectionData {
   featuredBlogs: BlogPostRef[];
 }
 
-interface HomeBlogProps {
-  blogSection: BlogSectionData;
+export interface NavigationData {
+  menuItems: Array<{
+    _key: string;
+    key?: string; // The stable internal key, e.g. "blog"
+    title: { es: string; eu: string };
+    es: { current: string };
+    eu: { current: string };
+    // ... potentially submenu items
+  }>;
 }
 
-export default function HomeBlog({ blogSection }: HomeBlogProps) {
-  const { language } = useLanguage(); // e.g., "es" or "eu"
-  const { sectionData, featuredBlogs } = blogSection;
-  const base = "blog"; // Adjust if needed for language
+interface HomeBlogProps {
+  blogSection: BlogSectionData;
+  baseBlogPath: string;
+}
 
-  console.log(blogSection);
+export default function HomeBlog({ blogSection, baseBlogPath }: HomeBlogProps) {
+  const { language } = useLanguage();
+
+  // Destructure blogSection safely
+  const { sectionData, featuredBlogs = [] } = blogSection || {
+    sectionData: { title: { es: "", eu: "" }, leadText: { es: "", eu: "" } },
+    featuredBlogs: [],
+  };
+  console.log(featuredBlogs);
+
+  // Use the routing helper to get the blog base route from navigation.
 
   return (
     <div className="blog_section">
@@ -51,10 +68,7 @@ export default function HomeBlog({ blogSection }: HomeBlogProps) {
           <div className="inner">
             <ul>
               {featuredBlogs.map((blog) => {
-                const slug =
-                  language === "es"
-                    ? blog.slug.es.current
-                    : blog.slug.eu.current;
+                const postSlug = blog.slug[language].current;
                 return (
                   <li key={blog._id}>
                     <div className="item">
@@ -65,7 +79,6 @@ export default function HomeBlog({ blogSection }: HomeBlogProps) {
                         }}
                       >
                         <div className="time">
-                          {/* Example: extract date parts as needed */}
                           <span></span>
                           <h3>{new Date(blog.date).getDate()}</h3>
                           <h5>
@@ -75,28 +88,29 @@ export default function HomeBlog({ blogSection }: HomeBlogProps) {
                           </h5>
                           <h5>{new Date(blog.date).getFullYear()}</h5>
                         </div>
-                        <Link href={`/blog/${slug}`}></Link>
+                        <Link
+                          href={`/${language}/${baseBlogPath}/${postSlug}`}
+                        ></Link>
                         <img src="/img/thumb/370-250.jpg" alt="" />
                       </div>
                       <div className="title_holder">
                         <p className="t_header">
-                          Por{" "}
-                          <Link href="#">
-                            {/* Static or dynamic author */}
-                            {blog.author}
-                          </Link>{" "}
-                          — En{" "}
-                          <Link href="#">
-                            {/* Static or dynamic location */}España
-                          </Link>
+                          Por <Link href="#">{blog.author}</Link> — En{" "}
+                          <Link href="#">{blog.location}</Link>
                         </p>
                         <h3>
-                          <Link href={`/blog/${slug}`}>
+                          <Link
+                            href={`/${language}/${baseBlogPath}/${postSlug}`}
+                          >
                             {blog.title[language]}
                           </Link>
                         </h3>
                         <p className="t_footer">
-                          <Link href={`/blog/${slug}`}>Leer Más</Link>
+                          <Link
+                            href={`/${language}/${baseBlogPath}/${postSlug}`}
+                          >
+                            Leer Más
+                          </Link>
                         </p>
                       </div>
                     </div>
