@@ -9,7 +9,7 @@ import HomeWhyChooseUs from "@/components/Home/HomeWhyChooseUs";
 import HomeClients from "@/components/Home/HomeClients";
 import HomeCTA from "@/components/Home/HomeCTA";
 import HomeTestimonial from "@/components/Home/HomeTestimonial";
-import HomeProject from "@/components/Home/HomeProject";
+import HomeProjects from "@/components/Home/HomeProjects";
 import HomeBlog from "@/components/Home/HomeBlog";
 
 export const revalidate = 30;
@@ -40,8 +40,12 @@ export default async function HomePage({
       <HomeClients data={homepageData.clientsSection} lang={lang} />
       <HomeCTA ctaData={homepageData.ctaSection} lang={lang} />
       <HomeTestimonial data={homepageData.testimonialSection} lang={lang} />
-      <HomeProject />
-      <HomeBlog />
+      <HomeProjects
+        projectsSection={homepageData.projectsSection}
+        featuredProjects={homepageData.featuredProjects}
+        lang={lang}
+      />
+      <HomeBlog blogSection={homepageData.blogSection} />
     </>
   );
 }

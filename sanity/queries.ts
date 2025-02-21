@@ -78,7 +78,33 @@ export function urlFor(source: any) {
   quote{ es, eu },
   name{ es, eu },
   position{ es, eu }
-}
+},
+projectsSection{
+  header{ es, eu },
+  description{ es, eu },
+  projectsLink{ es, eu }
+},
+featuredProjects[]->{
+  _id,
+  title{ es, eu },
+  slug{ es, eu },
+  description{ es, eu },
+  img{ asset->{ url } }
+},
+ blogSection{
+      sectionData{
+        title{ es, eu },
+        leadText{ es, eu }
+      },
+      featuredBlogs[]->{
+        _id,
+        title{ es, eu },
+        slug{ es, eu },
+        mainImage{ asset->{ url } },
+        author,
+        date
+      }
+    }
   }`;
   return client.fetch(query);
 }
@@ -141,3 +167,25 @@ export async function getNavigation(lang: "es" | "eu") {
     }`;
     return client.fetch(query);
   }
+
+
+  export async function getProjects(lang: "es" | "eu") {
+    const query = `*[_type == "project"]{
+      _id,
+      category,
+      img{ asset->{ url } },
+      title{ es, eu },
+      slug{ es, eu },
+      description,
+      detailedInfo,
+      quote,
+      value,
+      client,
+      architect,
+      location,
+      completionDate,
+      squareFootage
+    }`;
+    return client.fetch(query);
+  }
+  

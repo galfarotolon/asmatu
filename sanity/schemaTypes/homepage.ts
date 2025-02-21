@@ -92,6 +92,7 @@ export default defineType({
             { name: 'eu', title: 'Testua (Euskera)', type: 'string' },
           ],
         }),
+        
       ],
     }),
     // Add a services reference field so you can choose which services to display
@@ -146,6 +147,48 @@ export default defineType({
       name: "testimonialSection",
       title: "Sección Testimonios",
       type: "homepageTestimonial",
+    }),
+    defineField({
+      name: "projectsSection",
+      title: "Sección de Proyectos",
+      type: "object",
+      fields: [
+        defineField({
+          name: "header",
+          title: "Título de la Sección",
+          type: "object",
+          fields: [
+            { name: "es", title: "Título (Español)", type: "string" },
+            { name: "eu", title: "Izenburua (Euskera)", type: "string" },
+          ],
+        }),
+        defineField({
+          name: "description",
+          title: "Descripción",
+          type: "object",
+          fields: [
+            { name: "es", title: "Descripción (Español)", type: "blockContent" },
+            { name: "eu", title: "Deskribapena (Euskera)", type: "blockContent" },
+          ],
+        }),
+        defineField({
+          name: "projectsLink",
+          title: "Enlace a Proyectos",
+          type: "slugObject", // Reusable slug object with es and eu
+        }),
+      ],
+    }),
+    // Reference for the featured projects
+    defineField({
+      name: "featuredProjects",
+      title: "Proyectos Destacados",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "project" }] }],
+    }),
+    defineField({
+      name: "blogSection",
+      title: "Sección de Blog",
+      type: "blogSection",
     }),
   ],
   preview: {

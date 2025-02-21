@@ -1,4 +1,4 @@
-// sanity/schema/slugObject.js
+import { SanityDocument } from "next-sanity";
 import { defineType, defineField } from "sanity";
 
 export default defineType({
@@ -12,6 +12,9 @@ export default defineType({
       type: "slug",
       options: {
         maxLength: 96,
+        source: (doc: SanityDocument) => doc.title?.es,
+        slugify: (input) =>
+          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
       },
     }),
     defineField({
@@ -20,6 +23,9 @@ export default defineType({
       type: "slug",
       options: {
         maxLength: 96,
+        source: (doc: SanityDocument) => doc.title?.eu,
+        slugify: (input) =>
+          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
       },
     }),
   ],
