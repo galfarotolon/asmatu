@@ -14,16 +14,17 @@ interface Params {
   slug?: string[];
 }
 
+export const revalidate = 30; // Revalidate every 60 seconds
+
 export async function generateStaticParams() {
   const paths: { lang: string; slug: string[] }[] = [];
 
-  // 1. Get the base route from navigation (using a recursive search if needed)
+  // 1. Use navigation to get the base route for services.
   const nav = await getNavigation();
-  const servicesNavItem = findNavItemByKey(nav.menuItems, "services"); // see recursive search below
+  const servicesNavItem = findNavItemByKey(nav.menuItems, "services");
   if (servicesNavItem) {
     if (servicesNavItem.es?.current) {
       const segments = servicesNavItem.es.current.split("/").filter(Boolean);
-      // This is the base route, e.g. ["areas-de-actividad"]
       paths.push({ lang: "es", slug: segments });
     }
     if (servicesNavItem.eu?.current) {
@@ -32,7 +33,7 @@ export async function generateStaticParams() {
     }
   }
 
-  // 2. Get all service documents and add their final slug segment
+  // 2. For each service document, combine the base route with the final slug.
   const services = await getServices();
   services.forEach((service: any) => {
     if (service.slug?.es?.current) {
@@ -47,7 +48,7 @@ export async function generateStaticParams() {
     }
   });
 
-  // Optionally: add routes for other document types (projectPage, etc.)
+  // 3. Optionally, add routes for other document types.
   const otherRoutes = await getAllRoutes();
   otherRoutes.forEach((doc: any) => {
     if (doc.slug) {
@@ -67,8 +68,8 @@ export async function generateStaticParams() {
 function findNavItemByKey(items: any[], key: string): any | null {
   for (const item of items) {
     if (item.key === key) return item;
-    if (item.subMenu) {
-      const found = findNavItemByKey(item.subMenu, key);
+    if (item.submenu) {
+      const found = findNavItemByKey(item.submenu, key);
       if (found) return found;
     }
   }
@@ -79,7 +80,6 @@ export default async function DynamicPage({ params }: { params: Params }) {
   if (!params.slug || params.slug.length === 0) {
     return redirect(`/${params.lang}`);
   }
-
   const slugStr = params.slug.join("/").toLowerCase();
   const pageData = await getPage(slugStr, params.lang);
   if (!pageData) return notFound();

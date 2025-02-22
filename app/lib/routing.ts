@@ -25,22 +25,24 @@ export const ROUTE_CODES = {
 };
 
 
+
 export async function getBaseRoute(code: string, lang: "es" | "eu"): Promise<string> {
-  // 1. Fetch the navigation data
-  const nav: any  = await getNavigation();
-
-  if (!nav || !nav.menuItems) {
-    // fallback if navigation is missing
-    return code; 
-  }
-
-  // 2. Find the menu item whose `key` equals `code`
-  const item = nav.menuItems.find((menuItem : any) => menuItem.key === code);
-
-  // 3. Return the item’s real slug in the specified language if found, otherwise fallback
+  const nav: any = await getNavigation();
+  if (!nav || !nav.menuItems) return code;
+  const item = findNavItemByKey(nav.menuItems, code);
   if (item && item[lang] && item[lang].current) {
     return item[lang].current;
-  } else {
-    return code; // fallback if not found
   }
+  return code;
+}
+
+export function findNavItemByKey(items: any[], key: string): any | null {
+  for (const item of items) {
+    if (item && item.key === key) return item;
+    if (item && item.submenu) {
+      const found = findNavItemByKey(item.submenu, key);
+      if (found) return found;
+    }
+  }
+  return null;
 }

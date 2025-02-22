@@ -1,6 +1,7 @@
 // components/PageComponent.tsx
 import React from "react";
 import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 
 interface PageComponentProps {
   data: any;
@@ -12,10 +13,10 @@ const Projects = dynamic(() => import("@/components/Portfolio/PortfolioList"));
 const ServicesPage = dynamic(
   () => import("@/components/Services/ServicesLanding")
 );
-
 const ServiceDetail = dynamic(
   () => import("@/components/Services/ServiceSingle1")
 );
+
 const PageComponent = ({ data, _type, lang }: PageComponentProps) => {
   let Component: React.ComponentType<any> | null = null;
   switch (_type) {
@@ -29,7 +30,7 @@ const PageComponent = ({ data, _type, lang }: PageComponentProps) => {
       Component = ServiceDetail;
       break;
     default:
-      return <p>Page not found</p>;
+      return notFound();
   }
   return <Component data={data} lang={lang} />;
 };

@@ -31,7 +31,6 @@ export default async function ServicesLanding({
   data,
   lang,
 }: ServicesLandingProps) {
-  // Await getBaseRoute so that we have a string.
   const servicesBaseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
   return (
     <Layout>
@@ -39,7 +38,7 @@ export default async function ServicesLanding({
       <div className="industify_fn_sidebarpage">
         <div className="container">
           <div className="s_inner">
-            {/* Main Sidebar: Left */}
+            {/* Left Sidebar: Service List */}
             <div className="industify_fn_leftsidebar">
               <ul className="industify_fn_service_list">
                 {data.services?.map((service) => (
@@ -50,7 +49,7 @@ export default async function ServicesLanding({
                           <div
                             className="img_abs"
                             style={{
-                              backgroundImage: `url(${service.image.asset.url})`,
+                              backgroundImage: `url(${service.image?.asset?.url || ""})`,
                             }}
                           ></div>
                           <Link
@@ -82,9 +81,7 @@ export default async function ServicesLanding({
                 ))}
               </ul>
             </div>
-            {/* Main Sidebar: Left */}
-
-            {/* Main Sidebar: Right */}
+            {/* Right Sidebar: Submenu and Sidebar */}
             <div className="industify_fn_rightsidebar">
               <div className="service_list_as_function">
                 <div className="title">
@@ -106,7 +103,6 @@ export default async function ServicesLanding({
               </div>
               <Sidebar />
             </div>
-            {/* Main Sidebar: Right */}
           </div>
         </div>
       </div>

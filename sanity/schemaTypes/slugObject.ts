@@ -14,7 +14,7 @@ export default defineType({
         maxLength: 96,
         source: (doc: SanityDocument) => doc.title?.es,
         slugify: (input) =>
-          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
+          input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "-").slice(0, 96),
       },
     }),
     defineField({
@@ -25,7 +25,7 @@ export default defineType({
         maxLength: 96,
         source: (doc: SanityDocument) => doc.title?.eu,
         slugify: (input) =>
-          input.toLowerCase().replace(/\s+/g, '-').slice(0, 96),
+          input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "-").slice(0, 96),
       },
     }),
   ],

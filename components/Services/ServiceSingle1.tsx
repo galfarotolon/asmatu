@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Sidebar from "@/layouts/sidebar";
 import { Check } from "@/public/svg/icon";
 import Link from "next/link";
@@ -8,14 +8,27 @@ import { usePathname } from "next/navigation";
 import { PortableText } from "@portabletext/react"; // Import PortableText
 import services, { Service } from "@/data/services"; // for sidebar list
 import Breadcrumb from "@/layouts/breadcrumb";
+import { getBaseRoute, ROUTE_CODES } from "@/app/lib/routing";
+import { TypedObject } from "sanity";
+import ServicesSidebar from "./ServicesSidebar";
 
 interface ServiceProps {
   data: Service;
-  lang: "es" | "eu";
+  lang: any;
 }
+
+const useBaseRoute = (code: string, lang: "es" | "eu") => {
+  const [base, setBase] = useState<string>("");
+  useEffect(() => {
+    getBaseRoute(code, lang).then((route) => setBase(route));
+  }, [code, lang]);
+  return base;
+};
 
 const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
   console.log("service data", data);
+  const contactBaseRoute = useBaseRoute(ROUTE_CODES.CONTACT, lang);
+  const servicesBaseRoute = useBaseRoute(ROUTE_CODES.SERVICES, lang);
 
   return (
     <>
@@ -32,6 +45,7 @@ const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
               <div className="industify_fn_service_single">
                 <div className="img_holder">
                   <Image
+                    //@ts-ignore
                     src={data.image?.asset?.url || ""}
                     alt={data.title?.[lang] || "Service"}
                     width={800}
@@ -41,7 +55,13 @@ const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
                 </div>
                 <div className="desc_holder">
                   {/* Render blockContent using PortableText */}
-                  <PortableText value={data.description?.[lang]} />
+                  <PortableText
+                    value={
+                      data.description?.[lang] as unknown as
+                        | TypedObject
+                        | TypedObject[]
+                    }
+                  />
                 </div>
                 {/* Check List Shortcode */}
                 <div className="fn_cs_check_list">
@@ -68,7 +88,9 @@ const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
                         <p>Contáctenos para obtener información detallada.</p>
                       </div>
                       <div className="link_holder">
-                        <Link href="/contacto">Contactanos</Link>
+                        <Link href={`/${lang}/${contactBaseRoute}`}>
+                          Contactanos
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -80,27 +102,11 @@ const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
             {/* Main Sidebar: Right */}
             <div className="industify_fn_rightsidebar">
               {/* Service List */}
-              <div className="service_list_as_function">
-                <div className="title">
-                  <h3>Lista Completa de Servicios</h3>
-                </div>
-                <div className="list_holder">
-                  <ul>
-                    {services.map((serviceItem, index) => (
-                      <li key={index}>
-                        <Link
-                          href={`/${lang}/${serviceItem.slugEs ? serviceItem.slugEs : serviceItem.slugEu}`}
-                        >
-                          {serviceItem.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <ServicesSidebar lang={lang} />
               {/* /Service List */}
               {/* Get Sidebar */}
               <Sidebar />
+
               {/* /Get Sidebar */}
             </div>
             {/* /Main Sidebar: Right */}

@@ -103,17 +103,12 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
         <div className="menu_nav">
           <ul className="industify_fn_main_nav vert_nav">
             {navigation?.menuItems?.map((item: any, index: number) => {
-              const hasSubmenu =
-                item.submenu &&
-                Array.isArray(item.submenu) &&
-                item.submenu.length > 0;
-              // Now, the slug is stored directly on the menu item as "es" or "eu"
-              const rawSlug =
-                item[language] && item[language].current
-                  ? item[language].current
-                  : "";
-              const slug = rawSlug ? rawSlug.replace(/^\//, "") : "";
-              const href = slug ? `/${language}/${slug}` : `/${language}`;
+              const hasSubmenu = item.submenu && item.submenu.length > 0;
+              const baseRawSlug = item[language]?.current || "";
+              const baseSlug = baseRawSlug.replace(/^\//, "");
+              const href = baseSlug
+                ? `/${language}/${baseSlug}`
+                : `/${language}`;
               return (
                 <li key={index} className={hasSubmenu ? "has-submenu" : ""}>
                   <Link href={href}>
@@ -123,20 +118,15 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
                   {hasSubmenu && (
                     <ul className="sub-menu">
                       {item.submenu.map((sub: any, idx: number) => {
-                        const subRawSlug =
-                          sub[language] && sub[language].current
-                            ? sub[language].current
-                            : "";
-                        const subSlug = subRawSlug
-                          ? subRawSlug.replace(/^\//, "")
-                          : "";
-                        const subHref = subSlug
-                          ? `/${language}/${slug}/${subSlug}`
+                        // Use the referenced service's slug:
+                        const serviceSlug = sub?.slug?.[language]?.current;
+                        const subHref = serviceSlug
+                          ? `/${language}/${baseSlug}/${serviceSlug}`
                           : `/${language}`;
                         return (
                           <li key={idx}>
                             <Link href={subHref} className="submenu-link">
-                              {sub.title ? sub.title[language] : ""}
+                              {sub?.title ? sub?.title[language] : ""}
                             </Link>
                           </li>
                         );

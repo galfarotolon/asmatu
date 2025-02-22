@@ -101,15 +101,29 @@ featuredProjects[]->{
 }
 export async function getNavigation() {
   const query = `*[_type == "navigation"][0]{
-    menuItems,
+    menuItems[]{
+      key,
+      title,
+      es,
+      eu,
+      submenu[]->{
+        _id,
+        title,
+        slug
+      }
+    },
     footerItems
   }`;
   return client.fetch(query);
 }
 
 
+// getPage: Given a slug and language, try to fetch a document.
+// First, try a direct match (for pages that store the full slug).
+// If not found, assume it's a service detail page: split into two segments,
+// check that the first equals the navigation base route, then query by final slug.
 export async function getPage(slug: string, lang: "es" | "eu") {
-  // 1. Try a direct match first (for pages that store full slug)
+  // 1. Try a direct match first:
   const fullQuery = `
     *[
       (_type == "projectPage" || _type == "service") &&
@@ -127,33 +141,32 @@ export async function getPage(slug: string, lang: "es" | "eu") {
   `;
   let result = await client.fetch(fullQuery, { slug });
   if (result) return result;
-  
+
   // 2. Split the slug into segments
   const segments = slug.split("/").filter(Boolean);
   if (segments.length === 2) {
-    const [baseSegment, serviceSegment] = segments;
-    // Get the services base route from navigation
+    const [baseSegment, finalSegment] = segments;
     const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
     if (baseRoute.toLowerCase() === baseSegment.toLowerCase()) {
-      // Now query for a service with the final slug matching serviceSegment
+      // Query for a service with a final slug that matches finalSegment
       const serviceQuery = `
-        *[_type == "service" && lower(slug.${lang}.current) == lower($serviceSegment)][0]{
+        *[_type == "service" && lower(slug.${lang}.current) == lower($finalSegment)][0]{
           _id,
           _type,
           title{ es, eu },
           slug,
           description,
           summary,
-           image{ asset->{ url } },
+          image{ asset->{ url } },
           features
         }
       `;
-      const serviceResult = await client.fetch(serviceQuery, { serviceSegment });
+      const serviceResult = await client.fetch(serviceQuery, { finalSegment });
       if (serviceResult) return serviceResult;
     }
   }
-  
-  // 3. Check if it is the services landing page (if the slug matches the base route exactly)
+
+  // 3. If the slug exactly equals the base route, return the services landing page.
   const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
   if (slug.toLowerCase() === baseRoute.toLowerCase()) {
     const servicesPage = await getServicesPage(lang);
@@ -163,19 +176,6 @@ export async function getPage(slug: string, lang: "es" | "eu") {
   
   return null;
 }
-  export async function getAllRoutes() {
-    const query = `
-      *[_type in ["projectPage", "servicesPage", "service"]]{ 
-        _id,
-        title,
-        slug,
-        _type
-      }
-    `;
-    return client.fetch(query);
-  }
-
-
 
   export async function getServices() {
     const query = `*[_type == "service"]{
@@ -233,6 +233,18 @@ export async function getServicesPage(lang: "es" | "eu") {
         image { asset->{ url } },
         // include additional fields as needed
       },
+    }
+  `;
+  return client.fetch(query);
+}
+
+export async function getAllRoutes() {
+  const query = `
+    *[_type in ["projectPage", "servicesPage", "service"]]{ 
+      _id,
+      title,
+      slug,
+      _type
     }
   `;
   return client.fetch(query);
