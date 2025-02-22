@@ -1,3 +1,4 @@
+import { getBaseRoute, ROUTE_CODES } from "@/app/lib/routing";
 import { client } from "./client";
 import imageUrlBuilder from '@sanity/image-url';
 
@@ -107,24 +108,64 @@ export async function getNavigation() {
 }
 
 
-  export async function getPage(slug: string, lang: "es" | "eu") {
-    const query = `
-      *[_type == "projectPage" && lower(slug.${lang}.current) == lower($slug)][0]{
-        _id,
-        _type,
-        title{ es, eu },
-        slug
-      }
-    `;
-    console.log("[getPage] Running query:", query, "with variables:", { slug });
-    const result = await client.fetch(query, { slug });
-    console.log("[getPage] Result from Sanity:", result);
-    return result;
+export async function getPage(slug: string, lang: "es" | "eu") {
+  // 1. Try a direct match first (for pages that store full slug)
+  const fullQuery = `
+    *[
+      (_type == "projectPage" || _type == "service") &&
+      lower(slug.${lang}.current) == lower($slug)
+    ][0]{
+      _id,
+      _type,
+      title{ es, eu },
+      slug,
+      description,
+      summary,
+      image,
+      features
+    }
+  `;
+  let result = await client.fetch(fullQuery, { slug });
+  if (result) return result;
+  
+  // 2. Split the slug into segments
+  const segments = slug.split("/").filter(Boolean);
+  if (segments.length === 2) {
+    const [baseSegment, serviceSegment] = segments;
+    // Get the services base route from navigation
+    const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
+    if (baseRoute.toLowerCase() === baseSegment.toLowerCase()) {
+      // Now query for a service with the final slug matching serviceSegment
+      const serviceQuery = `
+        *[_type == "service" && lower(slug.${lang}.current) == lower($serviceSegment)][0]{
+          _id,
+          _type,
+          title{ es, eu },
+          slug,
+          description,
+          summary,
+           image{ asset->{ url } },
+          features
+        }
+      `;
+      const serviceResult = await client.fetch(serviceQuery, { serviceSegment });
+      if (serviceResult) return serviceResult;
+    }
   }
   
+  // 3. Check if it is the services landing page (if the slug matches the base route exactly)
+  const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
+  if (slug.toLowerCase() === baseRoute.toLowerCase()) {
+    const servicesPage = await getServicesPage(lang);
+    servicesPage._type = "servicesPage";
+    return servicesPage;
+  }
+  
+  return null;
+}
   export async function getAllRoutes() {
     const query = `
-      *[_type == "projectPage"]{
+      *[_type in ["projectPage", "servicesPage", "service"]]{ 
         _id,
         title,
         slug,
@@ -170,3 +211,29 @@ export async function getNavigation() {
     return client.fetch(query);
   }
   
+
+
+export async function getServicesPage(lang: "es" | "eu") {
+  const query = `
+    *[_type == "servicesPage"][0]{
+      headerTitle{
+        es, eu
+      },
+      introText{
+        es, eu
+      },
+      linkLabel{
+        es, eu
+      },
+      services[]->{
+        _id,
+        title{ es, eu },
+        slug,
+        summary{ es, eu },
+        image { asset->{ url } },
+        // include additional fields as needed
+      },
+    }
+  `;
+  return client.fetch(query);
+}

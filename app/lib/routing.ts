@@ -12,6 +12,18 @@
 
 import { getNavigation } from "@/sanity/queries"
 
+//these route codes must be unique, they are used to identify the menu item in the navigation document in SANITY. 
+//VERY IMPORTANT!!! its for the sanity studio to know which menu item to use for the slug and centralize routing across
+// the website
+export const ROUTE_CODES = {
+  HOMEPAGE: "", // No slug for homepage
+  PROJECTS: "projects",
+  SERVICES: "services",
+  BLOG: "blog",
+  CONTACT: "contact",
+  // Add additional pages as needed
+};
+
 
 export async function getBaseRoute(code: string, lang: "es" | "eu"): Promise<string> {
   // 1. Fetch the navigation data

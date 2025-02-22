@@ -21,7 +21,7 @@ function importSlides() {
     client
       .createOrReplace(doc)
       .then((result) => {
-        console.log('Slides imported successfully:', result)
+
       })
       .catch((error) => {
         console.error('Error importing slides:', error)

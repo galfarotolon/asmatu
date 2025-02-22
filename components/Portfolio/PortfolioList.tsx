@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import projects from "@/data/projects";
 import { useLanguage } from "@/context/LanguageContext";
+import Breadcrumb from "@/layouts/breadcrumb";
 
 export default function PortfolioList() {
   const { language } = useLanguage();
@@ -47,6 +48,7 @@ export default function PortfolioList() {
 
   return (
     <>
+      <Breadcrumb firstChild={"Proyectos"} />
       <div className="industify_fn_portfolio_page">
         {/* PORTFOLIO LIST */}
         <div className="portfolio_list ">

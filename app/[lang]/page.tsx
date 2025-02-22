@@ -29,8 +29,6 @@ export default async function HomePage({
 
   if (!homepageData) return notFound();
 
-  console.log("homepage", homepageData.clientsSection);
-
   return (
     <>
       <HomeSlider slides={homepageData.slides} />

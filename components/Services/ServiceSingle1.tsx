@@ -3,18 +3,26 @@ import { FC } from "react";
 import Sidebar from "@/layouts/sidebar";
 import { Check } from "@/public/svg/icon";
 import Link from "next/link";
-import services, { Service } from "@/data/services";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { PortableText } from "@portabletext/react"; // Import PortableText
+import services, { Service } from "@/data/services"; // for sidebar list
+import Breadcrumb from "@/layouts/breadcrumb";
+
 interface ServiceProps {
-  service: Service;
-  lang: string;
+  data: Service;
+  lang: "es" | "eu";
 }
 
-const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
-  const pathname = usePathname();
+const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
+  console.log("service data", data);
+
   return (
     <>
+      <Breadcrumb
+        firstChild={lang === "es" ? "Servicios" : "Zerbitzuak"}
+        SecondChild={data.title[lang]}
+      />
       <div className="industify_fn_sidebarpage">
         <div className="container">
           <div className="s_inner">
@@ -24,33 +32,33 @@ const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
               <div className="industify_fn_service_single">
                 <div className="img_holder">
                   <Image
-                    src={service.image}
-                    alt={service.title}
+                    src={data.image?.asset?.url || ""}
+                    alt={data.title?.[lang] || "Service"}
                     width={800}
                     height={600}
                     layout="responsive"
                   />
                 </div>
                 <div className="desc_holder">
-                  <p>{service.description}</p>
+                  {/* Render blockContent using PortableText */}
+                  <PortableText value={data.description?.[lang]} />
                 </div>
                 {/* Check List Shortcode */}
                 <div className="fn_cs_check_list">
                   <h3>Características del Servicio</h3>
                   <div className="list">
                     <ul>
-                      {service.features.map((feature, index) => (
+                      {data.features.map((feature, index) => (
                         <li key={index}>
                           <div className="item">
                             <Check className="fn__svg" />
-                            <p>{feature}</p>
+                            <p>{feature?.[lang]}</p>
                           </div>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
-                {/* /Check List Shortcode */}
                 {/* Call to Action Shortcode (with corner) */}
                 <div className="fn_cs_call_to_action corner">
                   <div className="container">
@@ -65,7 +73,6 @@ const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
                     </div>
                   </div>
                 </div>
-                {/* /Call to Action Shortcode (with corner) */}
               </div>
               {/* /Single Service */}
             </div>
@@ -80,27 +87,9 @@ const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
                 <div className="list_holder">
                   <ul>
                     {services.map((serviceItem, index) => (
-                      <li
-                        key={index}
-                        className={
-                          pathname ===
-                          `/${lang === "es" ? "servicios" : "zerbitzuak"}/${
-                            lang === "es"
-                              ? serviceItem.slugEs
-                              : serviceItem.slugEu
-                          }`
-                            ? "active"
-                            : ""
-                        }
-                      >
+                      <li key={index}>
                         <Link
-                          href={`/${
-                            lang === "es" ? "servicios" : "zerbitzuak"
-                          }/${
-                            lang === "es"
-                              ? serviceItem.slugEs
-                              : serviceItem.slugEu
-                          }`}
+                          href={`/${lang}/${serviceItem.slugEs ? serviceItem.slugEs : serviceItem.slugEu}`}
                         >
                           {serviceItem.title}
                         </Link>
@@ -114,7 +103,7 @@ const ServicesSingle1: FC<ServiceProps> = ({ service, lang }) => {
               <Sidebar />
               {/* /Get Sidebar */}
             </div>
-            {/* Main Sidebar: Right */}
+            {/* /Main Sidebar: Right */}
           </div>
         </div>
       </div>

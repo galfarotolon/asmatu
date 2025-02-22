@@ -46,7 +46,6 @@ export default function HomeBlog({ blogSection, baseBlogPath }: HomeBlogProps) {
     sectionData: { title: { es: "", eu: "" }, leadText: { es: "", eu: "" } },
     featuredBlogs: [],
   };
-  console.log(featuredBlogs);
 
   // Use the routing helper to get the blog base route from navigation.
 

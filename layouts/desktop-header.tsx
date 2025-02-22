@@ -77,8 +77,6 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  console.log("Navigation data:", navigation);
-
   return (
     <div ref={headerRef} className="industify_fn_header">
       <div className="header_inner">
