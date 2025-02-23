@@ -5,6 +5,7 @@ import {
   getAllRoutes,
   getNavigation,
   getServices,
+  getBlogPosts,
 } from "@/sanity/queries";
 import PageComponent from "@/components/PageComponent";
 import Layout from "@/layouts/layout";
@@ -14,7 +15,7 @@ interface Params {
   slug?: string[];
 }
 
-export const revalidate = 30; // Revalidate every 60 seconds
+export const revalidate = 10; // Revalidate every 60 seconds
 
 export async function generateStaticParams() {
   const paths: { lang: string; slug: string[] }[] = [];
@@ -45,6 +46,32 @@ export async function generateStaticParams() {
       const base =
         servicesNavItem?.eu?.current.split("/").filter(Boolean) || [];
       paths.push({ lang: "eu", slug: [...base, service.slug.eu.current] });
+    }
+  });
+
+  // BLOG: Get base route from navigation:
+  const blogNavItem = findNavItemByKey(nav.menuItems, "blog");
+  if (blogNavItem) {
+    if (blogNavItem.es?.current) {
+      const segments = blogNavItem.es.current.split("/").filter(Boolean);
+      paths.push({ lang: "es", slug: segments });
+    }
+    if (blogNavItem.eu?.current) {
+      const segments = blogNavItem.eu.current.split("/").filter(Boolean);
+      paths.push({ lang: "eu", slug: segments });
+    }
+  }
+
+  // For each blog post, combine base route with final slug.
+  const blogPosts = await getBlogPosts();
+  blogPosts.forEach((post: any) => {
+    if (post.slug?.es?.current) {
+      const base = blogNavItem?.es?.current.split("/").filter(Boolean) || [];
+      paths.push({ lang: "es", slug: [...base, post.slug.es.current] });
+    }
+    if (post.slug?.eu?.current) {
+      const base = blogNavItem?.eu?.current.split("/").filter(Boolean) || [];
+      paths.push({ lang: "eu", slug: [...base, post.slug.eu.current] });
     }
   });
 

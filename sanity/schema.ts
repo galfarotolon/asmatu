@@ -20,10 +20,12 @@ import project from './schemaTypes/project'
 import blogPost from './schemaTypes/blogPost'
 import blogSection from './schemaTypes/blogSection'
 import servicesPage from './schemaTypes/servicesPage'
+import blogPage from './schemaTypes/blogPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject,
-    homepageWhyChooseUs, client, homeCTASection, homepageTestimonial, project, blogPost, blogSection, servicesPage
+    homepageWhyChooseUs, client, homeCTASection, homepageTestimonial, project, blogPost, blogSection, servicesPage,
+    blogPage
 
   ],
 }

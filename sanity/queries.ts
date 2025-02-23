@@ -123,10 +123,10 @@ export async function getNavigation() {
 // If not found, assume it's a service detail page: split into two segments,
 // check that the first equals the navigation base route, then query by final slug.
 export async function getPage(slug: string, lang: "es" | "eu") {
-  // 1. Try a direct match first:
+  // 1. Try a direct match for projectPage, service, or blogPost (full slug stored in document)
   const fullQuery = `
     *[
-      (_type == "projectPage" || _type == "service") &&
+      (_type == "projectPage" || _type == "service" || _type == "blogPost") &&
       lower(slug.${lang}.current) == lower($slug)
     ][0]{
       _id,
@@ -136,7 +136,17 @@ export async function getPage(slug: string, lang: "es" | "eu") {
       description,
       summary,
       image,
-      features
+      features,
+      date,
+      mainImage { asset->{ url } },
+      content{ es, eu },
+      quote{ es, eu },
+      tags[]{ es, eu },
+      category,
+      author,
+      authorUrl,
+      listItems[]{ es, eu },
+      location
     }
   `;
   let result = await client.fetch(fullQuery, { slug });
@@ -144,11 +154,13 @@ export async function getPage(slug: string, lang: "es" | "eu") {
 
   // 2. Split the slug into segments
   const segments = slug.split("/").filter(Boolean);
+
+  // 2a. Check services branch if segments.length === 2
   if (segments.length === 2) {
     const [baseSegment, finalSegment] = segments;
-    const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
-    if (baseRoute.toLowerCase() === baseSegment.toLowerCase()) {
-      // Query for a service with a final slug that matches finalSegment
+    const servicesBaseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
+    if (servicesBaseRoute.toLowerCase() === baseSegment.toLowerCase()) {
+      // Query for a service detail using the final segment
       const serviceQuery = `
         *[_type == "service" && lower(slug.${lang}.current) == lower($finalSegment)][0]{
           _id,
@@ -157,7 +169,7 @@ export async function getPage(slug: string, lang: "es" | "eu") {
           slug,
           description,
           summary,
-          image{ asset->{ url } },
+          image { asset->{ url } },
           features
         }
       `;
@@ -166,17 +178,58 @@ export async function getPage(slug: string, lang: "es" | "eu") {
     }
   }
 
-  // 3. If the slug exactly equals the base route, return the services landing page.
-  const baseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
-  if (slug.toLowerCase() === baseRoute.toLowerCase()) {
+  // 3. If slug exactly equals the base route for services, return servicesPage.
+  const servicesBaseRoute = await getBaseRoute(ROUTE_CODES.SERVICES, lang);
+  if (slug.toLowerCase() === servicesBaseRoute.toLowerCase()) {
     const servicesPage = await getServicesPage(lang);
-    servicesPage._type = "servicesPage";
-    return servicesPage;
+    return { ...servicesPage, _type: "servicesPage" };
+  }
+
+  // 4. BLOG: Get blog base route
+  const blogBaseRoute = await getBaseRoute(ROUTE_CODES.BLOG, lang);
+  // If slug exactly equals the blog base route, return the blog landing page.
+  if (slug.toLowerCase() === blogBaseRoute.toLowerCase()) {
+    const blogPage = await getBlogPage(lang);
+    return { ...blogPage, _type: "blogPage" };
+  }
+
+  // 5. BLOG POST: If the slug has two segments, assume it's a blog post.
+  if (segments.length === 2) {
+    const [baseSegment, postSlug] = segments;
+    console.log("blogBaseRoute:", blogBaseRoute);
+    console.log("URL segments:", segments);
+    console.log("postSlug:", postSlug);
+    if (baseSegment.toLowerCase() === blogBaseRoute.toLowerCase()) {
+      // Query explicitly for a blogPost document.
+      const blogPostQuery = `
+        *[_type == "blogPost" && lower(slug.${lang}.current) == lower($postSlug)][0]{
+          _id,
+          _type,
+          title{ es, eu },
+          slug,
+          date,
+          mainImage { asset->{ url } },
+          description{ es, eu },
+          summary{ es, eu },
+          content{ es, eu },
+          quote{ es, eu },
+          tags[]{ es, eu },
+          category,
+          author,
+          authorUrl,
+          listItems[]{ es, eu },
+          location
+        }
+      `;
+      const trimmedSlug = postSlug.trim();
+      const blogPost = await client.fetch(blogPostQuery, { postSlug: trimmedSlug });
+      if (blogPost) return blogPost;
+    }
   }
   
+  // No matching document found
   return null;
 }
-
   export async function getServices() {
     const query = `*[_type == "service"]{
       _id,
@@ -240,7 +293,7 @@ export async function getServicesPage(lang: "es" | "eu") {
 
 export async function getAllRoutes() {
   const query = `
-    *[_type in ["projectPage", "servicesPage", "service"]]{ 
+    *[_type in ["projectPage", "servicesPage", "service", "blogPage", "blogPost"]]{ 
       _id,
       title,
       slug,
@@ -248,4 +301,71 @@ export async function getAllRoutes() {
     }
   `;
   return client.fetch(query);
+}
+
+
+export async function getBlogPage(lang: "es" | "eu") {
+  const query = `
+    *[_type == "blogPage"][0]{
+      headerTitle{ es, eu },
+      introText{ es, eu },
+      featuredPosts[]->{
+        _id,
+        title{ es, eu },
+        slug,
+        date,
+        mainImage { asset->{ url } },
+        description,
+        summary,
+           author,
+    authorUrl,
+    location
+      }
+    }
+  `;
+  return client.fetch(query);
+}
+
+export async function getBlogPosts() {
+  const query = `*[_type == "blogPost"] | order(date desc){
+    _id,
+    title,
+    slug,
+    date,
+    mainImage { asset->{ url } },
+    description{ es, eu },
+    summary{ es, eu },
+    content{ es, eu },
+    quote{ es, eu },
+    tags[]{ es, eu },
+    category,
+    author,
+    authorUrl,
+    listItems[]{ es, eu },
+    location
+  }`;
+  return client.fetch(query);
+}
+
+export async function getBlogPost(slug: string, lang: "es" | "eu") {
+  const query = `
+    *[_type == "blogPost" && lower(slug.${lang}.current) == lower($slug)][0]{
+      _id,
+      title{ es, eu },
+      slug,
+      date,
+      mainImage { asset->{ url } },
+      description{ es, eu },
+      summary{ es, eu },
+      content{ es, eu },
+      quote{ es, eu },
+      tags[]{ es, eu },
+      category,
+      author,
+      authorUrl,
+      listItems[]{ es, eu },
+      location
+    }
+  `;
+  return client.fetch(query, { slug });
 }

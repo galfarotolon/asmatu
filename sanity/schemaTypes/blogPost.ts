@@ -1,13 +1,13 @@
 // /sanity/schemaTypes/blogPost.ts
 import { defineType, defineField } from "sanity";
-import slugObject from "./slugObject"; // We'll reuse slugObject for full blog posts
+import slugObject from "./slugObject"; // Reusable slug object
 
 export default defineType({
   name: "blogPost",
   title: "Blog Post",
   type: "document",
   fields: [
-    // Localized title (existing)
+    // Localized title
     defineField({
       name: "title",
       title: "Título",
@@ -17,7 +17,7 @@ export default defineType({
         { name: "eu", title: "Izenburua (Euskera)", type: "string" },
       ],
     }),
-    // Slug (using slugObject)
+    // Slug using slugObject (stores final slug)
     defineField({
       name: "slug",
       title: "Slug",
@@ -36,7 +36,7 @@ export default defineType({
       type: "image",
       options: { hotspot: true },
     }),
-    // Summary (for blog card)
+    // Summary for blog card
     defineField({
       name: "summary",
       title: "Resumen",
@@ -56,13 +56,18 @@ export default defineType({
         { name: "eu", title: "Edukia (Euskera)", type: "blockContent" },
       ],
     }),
-    // New fields:
+    // Description for blog card (localized)
     defineField({
       name: "description",
       title: "Descripción",
-      type: "string",
+      type: "object",
+      fields: [
+        { name: "es", title: "Descripción (Español)", type: "string" },
+        { name: "eu", title: "Deskribapena (Euskera)", type: "string" },
+      ],
       description: "Una breve descripción o resumen del post.",
     }),
+    // Category, authorUrl, location, etc.
     defineField({
       name: "category",
       title: "Categoría",
@@ -73,29 +78,51 @@ export default defineType({
       title: "URL del Autor",
       type: "url",
     }),
+    // List Items as localized objects
     defineField({
       name: "listItems",
       title: "Elementos de Lista",
       type: "array",
-      of: [{ type: "string" }],
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "es", title: "Elemento (Español)", type: "string" },
+            { name: "eu", title: "Elementu (Euskera)", type: "string" },
+          ],
+        },
+      ],
     }),
+    // Quote as localized object
     defineField({
       name: "quote",
       title: "Cita",
-      type: "string",
+      type: "object",
+      fields: [
+        { name: "es", title: "Cita (Español)", type: "string" },
+        { name: "eu", title: "Zitat (Euskera)", type: "string" },
+      ],
     }),
+    // Tags as localized objects (optional)
     defineField({
       name: "tags",
       title: "Etiquetas",
       type: "array",
-      of: [{ type: "string" }],
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "es", title: "Etiqueta (Español)", type: "string" },
+            { name: "eu", title: "Etiketa (Euskera)", type: "string" },
+          ],
+        },
+      ],
     }),
     defineField({
       name: "location",
       title: "Ubicación",
       type: "string",
     }),
-    // Author name (if not already present)
     defineField({
       name: "author",
       title: "Autor",
