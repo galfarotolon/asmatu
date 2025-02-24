@@ -6,6 +6,7 @@ import {
   getNavigation,
   getServices,
   getBlogPosts,
+  getProjects,
 } from "@/sanity/queries";
 import PageComponent from "@/components/PageComponent";
 import Layout from "@/layouts/layout";
@@ -15,82 +16,7 @@ interface Params {
   slug?: string[];
 }
 
-export const revalidate = 10; // Revalidate every 60 seconds
-
-export async function generateStaticParams() {
-  const paths: { lang: string; slug: string[] }[] = [];
-
-  // 1. Use navigation to get the base route for services.
-  const nav = await getNavigation();
-  const servicesNavItem = findNavItemByKey(nav.menuItems, "services");
-  if (servicesNavItem) {
-    if (servicesNavItem.es?.current) {
-      const segments = servicesNavItem.es.current.split("/").filter(Boolean);
-      paths.push({ lang: "es", slug: segments });
-    }
-    if (servicesNavItem.eu?.current) {
-      const segments = servicesNavItem.eu.current.split("/").filter(Boolean);
-      paths.push({ lang: "eu", slug: segments });
-    }
-  }
-
-  // 2. For each service document, combine the base route with the final slug.
-  const services = await getServices();
-  services.forEach((service: any) => {
-    if (service.slug?.es?.current) {
-      const base =
-        servicesNavItem?.es?.current.split("/").filter(Boolean) || [];
-      paths.push({ lang: "es", slug: [...base, service.slug.es.current] });
-    }
-    if (service.slug?.eu?.current) {
-      const base =
-        servicesNavItem?.eu?.current.split("/").filter(Boolean) || [];
-      paths.push({ lang: "eu", slug: [...base, service.slug.eu.current] });
-    }
-  });
-
-  // BLOG: Get base route from navigation:
-  const blogNavItem = findNavItemByKey(nav.menuItems, "blog");
-  if (blogNavItem) {
-    if (blogNavItem.es?.current) {
-      const segments = blogNavItem.es.current.split("/").filter(Boolean);
-      paths.push({ lang: "es", slug: segments });
-    }
-    if (blogNavItem.eu?.current) {
-      const segments = blogNavItem.eu.current.split("/").filter(Boolean);
-      paths.push({ lang: "eu", slug: segments });
-    }
-  }
-
-  // For each blog post, combine base route with final slug.
-  const blogPosts = await getBlogPosts();
-  blogPosts.forEach((post: any) => {
-    if (post.slug?.es?.current) {
-      const base = blogNavItem?.es?.current.split("/").filter(Boolean) || [];
-      paths.push({ lang: "es", slug: [...base, post.slug.es.current] });
-    }
-    if (post.slug?.eu?.current) {
-      const base = blogNavItem?.eu?.current.split("/").filter(Boolean) || [];
-      paths.push({ lang: "eu", slug: [...base, post.slug.eu.current] });
-    }
-  });
-
-  // 3. Optionally, add routes for other document types.
-  const otherRoutes = await getAllRoutes();
-  otherRoutes.forEach((doc: any) => {
-    if (doc.slug) {
-      if (doc.slug.es?.current) {
-        const segments = doc.slug.es.current.split("/").filter(Boolean);
-        paths.push({ lang: "es", slug: segments });
-      }
-      if (doc.slug.eu?.current) {
-        const segments = doc.slug.eu.current.split("/").filter(Boolean);
-        paths.push({ lang: "eu", slug: segments });
-      }
-    }
-  });
-  return paths;
-}
+export const revalidate = 10;
 
 function findNavItemByKey(items: any[], key: string): any | null {
   for (const item of items) {
@@ -101,6 +27,98 @@ function findNavItemByKey(items: any[], key: string): any | null {
     }
   }
   return null;
+}
+
+// Helper: push a route if a final slug exists
+function pushRoute(
+  paths: { lang: string; slug: string[] }[],
+  lang: "es" | "eu",
+  base: string[],
+  finalSlug: string | undefined
+) {
+  if (finalSlug) {
+    paths.push({ lang, slug: [...base, finalSlug] });
+  }
+}
+
+export async function generateStaticParams() {
+  const paths: { lang: string; slug: string[] }[] = [];
+  const nav = await getNavigation();
+  const langs: ("es" | "eu")[] = ["es", "eu"];
+
+  // SERVICES
+  const servicesNavItem = findNavItemByKey(nav.menuItems, "services");
+  if (servicesNavItem) {
+    langs.forEach((lang) => {
+      if (servicesNavItem?.[lang]?.current) {
+        const segments = servicesNavItem[lang].current
+          .split("/")
+          .filter(Boolean);
+        paths.push({ lang, slug: segments });
+      }
+    });
+    const services = await getServices();
+    services.forEach((service: any) => {
+      langs.forEach((lang) => {
+        const base =
+          servicesNavItem?.[lang]?.current.split("/").filter(Boolean) || [];
+        pushRoute(paths, lang, base, service.slug?.[lang]?.current);
+      });
+    });
+  }
+
+  // BLOG
+  const blogNavItem = findNavItemByKey(nav.menuItems, "blog");
+  if (blogNavItem) {
+    langs.forEach((lang) => {
+      if (blogNavItem?.[lang]?.current) {
+        const segments = blogNavItem[lang].current.split("/").filter(Boolean);
+        paths.push({ lang, slug: segments });
+      }
+    });
+    const blogPosts = await getBlogPosts();
+    blogPosts.forEach((post: any) => {
+      langs.forEach((lang) => {
+        const base =
+          blogNavItem?.[lang]?.current.split("/").filter(Boolean) || [];
+        pushRoute(paths, lang, base, post.slug?.[lang]?.current);
+      });
+    });
+  }
+
+  // PROJECTS
+  const projectsNavItem = findNavItemByKey(nav.menuItems, "projects");
+  if (projectsNavItem) {
+    langs.forEach((lang) => {
+      if (projectsNavItem?.[lang]?.current) {
+        const segments = projectsNavItem[lang].current
+          .split("/")
+          .filter(Boolean);
+        paths.push({ lang, slug: segments });
+      }
+    });
+    const projects = await getProjects(); // You might want to loop for both languages
+    projects.forEach((project: any) => {
+      langs.forEach((lang) => {
+        const base =
+          projectsNavItem?.[lang]?.current.split("/").filter(Boolean) || [];
+        pushRoute(paths, lang, base, project.slug?.[lang]?.current);
+      });
+    });
+  }
+
+  // Other routes (if any)
+  const otherRoutes = await getAllRoutes();
+  otherRoutes.forEach((doc: any) => {
+    langs.forEach((lang) => {
+      if (doc.slug?.[lang]?.current) {
+        const segments = doc.slug[lang].current.split("/").filter(Boolean);
+        paths.push({ lang, slug: segments });
+      }
+    });
+  });
+
+  return paths;
 }
 
 export default async function DynamicPage({ params }: { params: Params }) {

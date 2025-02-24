@@ -1,4 +1,4 @@
-// sanity/schema/projectPage.js
+// /sanity/schemaTypes/projectPage.js
 import { defineType, defineField } from "sanity";
 
 export default defineType({
@@ -7,27 +7,32 @@ export default defineType({
   type: "document",
   fields: [
     defineField({
-      name: "title",
-      title: "Title",
+      name: "headerTitle",
+      title: "Header Title",
       type: "object",
       fields: [
-        defineField({
-          name: "es",
-          title: "Title (Spanish)",
-          type: "string",
-        }),
-        defineField({
-          name: "eu",
-          title: "Title (Basque)",
-          type: "string",
-        }),
+        { name: "es", title: "Header Title (Español)", type: "string" },
+        { name: "eu", title: "Header Title (Basque)", type: "string" },
       ],
     }),
     defineField({
-      name: "slug",
-      title: "Slug",
-      type: "slugObject",
+      name: "introText",
+      title: "Introduction Text",
+      type: "object",
+      fields: [
+        { name: "es", title: "Introduction (Español)", type: "string" },
+        { name: "eu", title: "Introduction (Basque)", type: "string" },
+      ],
     }),
-    // Additional fields as needed...
+    // (Optional: Add a linkLabel if you need a call-to-action on the page.)
+    defineField({
+      name: "linkLabel",
+      title: "Link Label",
+      type: "object",
+      fields: [
+        { name: "es", title: "Link Label (Español)", type: "string" },
+        { name: "eu", title: "Link Label (Basque)", type: "string" },
+      ],
+    }),
   ],
 });

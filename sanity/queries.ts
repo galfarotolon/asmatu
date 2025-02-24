@@ -226,6 +226,47 @@ export async function getPage(slug: string, lang: "es" | "eu") {
       if (blogPost) return blogPost;
     }
   }
+
+    // 4. PROJECTS: Get project base route
+
+  const projectsBaseRoute = await getBaseRoute(ROUTE_CODES.PROJECTS, lang);
+  if (slug.toLowerCase() === projectsBaseRoute.toLowerCase()) {
+    // This is the project landing page
+    const projectPage = await getProjectPage(lang);
+    return { ...projectPage, _type: "projectPage" };
+  }
+  
+  if (segments.length === 2) {
+    const [baseSegment, finalSegment] = segments;
+    if (baseSegment.toLowerCase() === projectsBaseRoute.toLowerCase()) {
+      // Fetch single project detail
+      const projectDetailQuery = `
+        *[_type == "project" && lower(slug.${lang}.current) == lower($finalSegment)][0]{
+          _id,
+          _type,
+          "category": category->{
+            _id,
+            name{ es, eu },
+            slug
+          },
+          img{ asset->{ url } },
+          title{ es, eu },
+          slug{ es, eu },
+          description{ es, eu },
+          detailedInfo{ es, eu },
+          quote{ es, eu },
+          value{ es, eu },
+          client{ es, eu },
+          architect{ es, eu },
+          location{ es, eu },
+          completionDate{ es, eu },
+          squareFootage{ es, eu }
+        }
+      `;
+      const projectDetail = await client.fetch(projectDetailQuery, { finalSegment });
+      if (projectDetail) return projectDetail;
+    }
+  }
   
   // No matching document found
   return null;
@@ -243,29 +284,71 @@ export async function getPage(slug: string, lang: "es" | "eu") {
     return client.fetch(query);
   }
 
-
-  export async function getProjects(lang: "es" | "eu") {
-    const query = `*[_type == "project"]{
-      _id,
-      category,
-      img{ asset->{ url } },
-      title{ es, eu },
-      slug{ es, eu },
-      description,
-      detailedInfo,
-      quote,
-      value,
-      client,
-      architect,
-      location,
-      completionDate,
-      squareFootage
-    }`;
+  export async function getProjectPage(lang: "es" | "eu") {
+    // optional doc for page header
+    const pageDoc = await client.fetch(`
+      *[_type == "projectPage"][0]{
+        headerTitle{ es, eu },
+        introText{ es, eu }
+      }
+    `);
+    // fetch all projects
+    const projects = await getProjects();
+    // fetch all categories
+    const categories = await getCategories();
+  
+    // merge them
+    return {
+      ...pageDoc,
+      projects,
+      categories,
+    };
+  }
+  export async function getProjects() {
+    const query = `
+      *[_type == "project"]{
+        _id,
+        // We "populate" the array of category references
+        categories[]->{
+          _id,
+          name{ es, eu },
+          slug
+        },
+        img{ asset->{ url } },
+        title{ es, eu },
+        slug{ es, eu },
+        description{ es, eu }
+        // Omit extra fields for the landing page if you want
+      }
+    `;
     return client.fetch(query);
   }
-  
-
-
+  export async function getProject(slug: string, lang: "es" | "eu") {
+    // Fetch full project details for the detail page
+    const query = `
+      *[_type == "project" && lower(slug.${lang}.current) == lower($slug)][0]{
+        _id,
+        "category": category->{
+          _id,
+          name{ es, eu },
+          slug
+        },
+        img{ asset->{ url } },
+        title{ es, eu },
+        slug{ es, eu },
+        description{ es, eu },
+        detailedInfo{ es, eu },
+        quote{ es, eu },
+        value{ es, eu },
+        client{ es, eu },
+        architect{ es, eu },
+        location{ es, eu },
+        completionDate{ es, eu },
+        squareFootage{ es, eu }
+      }
+    `;
+    return client.fetch(query, { slug });
+  }
 export async function getServicesPage(lang: "es" | "eu") {
   const query = `
     *[_type == "servicesPage"][0]{
@@ -368,4 +451,15 @@ export async function getBlogPost(slug: string, lang: "es" | "eu") {
     }
   `;
   return client.fetch(query, { slug });
+}
+
+export async function getCategories() {
+  const query = `
+    *[_type == "category"]{
+      _id,
+      name{ es, eu },
+      slug
+    }
+  `;
+  return client.fetch(query);
 }

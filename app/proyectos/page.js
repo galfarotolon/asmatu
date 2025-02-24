@@ -8,7 +8,7 @@ export const metadata = {
 
 const PortfolioList = dynamic(
     () => {
-        return import("@/components/Portfolio/PortfolioList");
+        return import("@/components/Portfolio/ProjectsList");
     },
     { ssr: false }
 );
