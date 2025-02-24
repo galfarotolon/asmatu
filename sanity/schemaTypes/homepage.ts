@@ -190,6 +190,11 @@ export default defineType({
       title: "Sección de Blog",
       type: "blogSection",
     }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo", // Or "reference" to the SEO doc if you prefer
+    }),
   ],
   preview: {
     select: {

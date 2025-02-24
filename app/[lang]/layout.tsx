@@ -44,17 +44,6 @@ const MobileHeader = dynamic(() => import("@/layouts/mobile-header"), {
   ssr: false,
 });
 
-// Use the Metadata API (viewport must be exported separately)
-export const metadata: Metadata = {
-  title: {
-    template: "Asmatu | %s",
-    default: "Asmatu | Asmatu es tu ingeniería en Donostia-San Sebastián",
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
-
 export const viewport = {
   width: "device-width",
   initialScale: 1,

@@ -96,6 +96,14 @@ featuredProjects[]->{
   sectionData{ title{ es, eu }, leadText{ es, eu } },
   featuredBlogs[]->{ _id, title{ es, eu }, slug{ es, eu }, mainImage{ asset->{ url } }, author, date, location }
 },
+ seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    },
   }`;
   return client.fetch(query);
 }
@@ -146,7 +154,15 @@ export async function getPage(slug: string, lang: "es" | "eu") {
       author,
       authorUrl,
       listItems[]{ es, eu },
-      location
+      location,
+       seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    }
     }
   `;
   let result = await client.fetch(fullQuery, { slug });
@@ -170,7 +186,15 @@ export async function getPage(slug: string, lang: "es" | "eu") {
           description,
           summary,
           image { asset->{ url } },
-          features
+          features,
+           seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    }
         }
       `;
       const serviceResult = await client.fetch(serviceQuery, { finalSegment });
@@ -260,7 +284,15 @@ export async function getPage(slug: string, lang: "es" | "eu") {
           architect{ es, eu },
           location{ es, eu },
           completionDate{ es, eu },
-          squareFootage{ es, eu }
+          squareFootage{ es, eu },
+           seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    },
         }
       `;
       const projectDetail = await client.fetch(projectDetailQuery, { finalSegment });
@@ -285,19 +317,28 @@ export async function getPage(slug: string, lang: "es" | "eu") {
   }
 
   export async function getProjectPage(lang: "es" | "eu") {
-    // optional doc for page header
+    // Fetch header info and localized SEO data from the projectPage document.
     const pageDoc = await client.fetch(`
       *[_type == "projectPage"][0]{
         headerTitle{ es, eu },
-        introText{ es, eu }
+        introText{ es, eu },
+        linkLabel{ es, eu },
+        seo{
+          metaTitle{ es, eu },
+          metaDescription{ es, eu },
+          metaKeywords,
+          ogTitle{ es, eu },
+          ogDescription{ es, eu },
+          "ogImage": ogImage{ asset->{ url } }
+        }
       }
     `);
-    // fetch all projects
+    // Fetch all projects (for cards)
     const projects = await getProjects();
-    // fetch all categories
+    // Fetch all categories
     const categories = await getCategories();
-  
-    // merge them
+    
+    // Merge the header data, projects, and categories into one object.
     return {
       ...pageDoc,
       projects,
@@ -344,7 +385,15 @@ export async function getPage(slug: string, lang: "es" | "eu") {
         architect{ es, eu },
         location{ es, eu },
         completionDate{ es, eu },
-        squareFootage{ es, eu }
+        squareFootage{ es, eu },
+         seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    },
       }
     `;
     return client.fetch(query, { slug });
@@ -369,6 +418,14 @@ export async function getServicesPage(lang: "es" | "eu") {
         image { asset->{ url } },
         // include additional fields as needed
       },
+       seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    },
     }
   `;
   return client.fetch(query);
@@ -403,7 +460,15 @@ export async function getBlogPage(lang: "es" | "eu") {
            author,
     authorUrl,
     location
-      }
+      },
+       seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    },
     }
   `;
   return client.fetch(query);

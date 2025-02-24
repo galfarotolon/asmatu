@@ -77,6 +77,11 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo", // Or "reference" to the SEO doc if you prefer
+    }),
   ],
   preview: {
     select: {

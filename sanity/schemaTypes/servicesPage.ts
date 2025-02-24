@@ -43,7 +43,13 @@ export default defineType({
       type: "array",
       of: [{ type: "reference", to: [{ type: "service" }] }],
     }),
+    
     // (Optional) Add SEO fields if needed:
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo", // Or "reference" to the SEO doc if you prefer
+    }),
 
   ],
 });

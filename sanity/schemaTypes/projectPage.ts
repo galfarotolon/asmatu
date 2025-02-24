@@ -34,5 +34,11 @@ export default defineType({
         { name: "eu", title: "Link Label (Basque)", type: "string" },
       ],
     }),
+
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo", // Or "reference" to the SEO doc if you prefer
+    }),
   ],
 });

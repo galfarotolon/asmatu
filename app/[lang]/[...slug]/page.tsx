@@ -18,6 +18,36 @@ interface Params {
 
 export const revalidate = 10;
 
+// Define generateMetadata to fetch SEO data from Sanity
+export async function generateMetadata({ params }: { params: Params }) {
+  const lang = params.lang;
+  const slugStr = params.slug ? params.slug.join("/").toLowerCase() : "";
+  const pageData = await getPage(slugStr, lang);
+
+  if (pageData && pageData.seo) {
+    return {
+      title:
+        `Asmatu | ${pageData.seo.metaTitle?.[lang]}` ||
+        `Asmatu | ${pageData.headerTitle?.[lang]}` ||
+        "Asmatu",
+      description: pageData.seo.metaDescription?.[lang] || "Asmatu",
+      openGraph: {
+        title:
+          pageData.seo.ogTitle?.[lang] ||
+          pageData.headerTitle?.[lang] ||
+          "Asmatu",
+        description: pageData.seo.ogDescription?.[lang] || "Asmatu",
+        images: pageData.seo.ogImage
+          ? [{ url: pageData.seo.ogImage.asset?.url || "" }]
+          : [],
+      },
+    };
+  }
+  return {
+    title: pageData?.headerTitle?.[lang] || "Asmatu",
+    description: "Asmatu",
+  };
+}
 function findNavItemByKey(items: any[], key: string): any | null {
   for (const item of items) {
     if (item.key === key) return item;
@@ -97,7 +127,7 @@ export async function generateStaticParams() {
         paths.push({ lang, slug: segments });
       }
     });
-    const projects = await getProjects(); // You might want to loop for both languages
+    const projects = await getProjects();
     projects.forEach((project: any) => {
       langs.forEach((lang) => {
         const base =
@@ -107,7 +137,7 @@ export async function generateStaticParams() {
     });
   }
 
-  // Other routes (if any)
+  // Other routes
   const otherRoutes = await getAllRoutes();
   otherRoutes.forEach((doc: any) => {
     langs.forEach((lang) => {

@@ -15,6 +15,36 @@ import { getBaseRoute } from "../lib/routing";
 
 export const revalidate = 30;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { lang: string };
+}) {
+  const lang = params.lang as "es" | "eu";
+  const homepageData = await getHomepage(lang);
+
+  // Assume homepageData.seo exists if you add an SEO field to the homepage schema.
+  if (homepageData && homepageData.seo) {
+    return {
+      title: `Asmatu | ${homepageData.seo.metaTitle?.[lang]}` || "Homepage",
+      description:
+        homepageData.seo.metaDescription?.[lang] || "Homepage description",
+      openGraph: {
+        title: homepageData.seo.ogTitle?.[lang] || "Homepage",
+        description:
+          homepageData.seo.ogDescription?.[lang] || "Homepage description",
+        images: homepageData.seo.ogImage
+          ? [{ url: homepageData.seo.ogImage.asset?.url || "" }]
+          : [],
+      },
+    };
+  }
+  return {
+    title: "Homepage",
+    description: "Homepage description",
+  };
+}
+
 export default async function HomePage({
   params,
 }: {

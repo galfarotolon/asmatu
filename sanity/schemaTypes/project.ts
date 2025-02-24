@@ -7,19 +7,21 @@ export default defineType({
   title: "Project",
   type: "document",
   fields: [
-    // Instead of a single reference, we allow an array for multiple categories:
+    // Allow multiple categories via references
     defineField({
       name: "categories",
       title: "Categorías",
       type: "array",
       of: [{ type: "reference", to: [{ type: "category" }] }],
     }),
+    // Main image
     defineField({
       name: "img",
       title: "Imagen",
       type: "image",
       options: { hotspot: true },
     }),
+    // Localized title
     defineField({
       name: "title",
       title: "Título",
@@ -29,11 +31,13 @@ export default defineType({
         { name: "eu", title: "Izenburua (Euskera)", type: "string" },
       ],
     }),
+    // Localized slug
     defineField({
       name: "slug",
       title: "Slug",
       type: "slugObject",
     }),
+    // Localized description (for card display)
     defineField({
       name: "description",
       title: "Descripción",
@@ -43,8 +47,92 @@ export default defineType({
         { name: "eu", title: "Deskribapena (Euskera)", type: "blockContent" },
       ],
     }),
-    // Detailed info, quote, etc. omitted for brevity
-    // ...
+    // Detailed information as rich text
+    defineField({
+      name: "detailedInfo",
+      title: "Información Detallada",
+      type: "object",
+      fields: [
+        { name: "es", title: "Información Detallada (Español)", type: "blockContent" },
+        { name: "eu", title: "Xehetasunak (Euskera)", type: "blockContent" },
+      ],
+    }),
+    // Quote
+    defineField({
+      name: "quote",
+      title: "Cita",
+      type: "object",
+      fields: [
+        { name: "es", title: "Cita (Español)", type: "string" },
+        { name: "eu", title: "Aipamena (Euskera)", type: "string" },
+      ],
+    }),
+    // Value
+    defineField({
+      name: "value",
+      title: "Valor",
+      type: "object",
+      fields: [
+        { name: "es", title: "Valor (Español)", type: "string" },
+        { name: "eu", title: "Balioa (Euskera)", type: "string" },
+      ],
+    }),
+    // Client
+    defineField({
+      name: "client",
+      title: "Cliente",
+      type: "object",
+      fields: [
+        { name: "es", title: "Cliente (Español)", type: "string" },
+        { name: "eu", title: "Bezeroa (Euskera)", type: "string" },
+      ],
+    }),
+    // Architect
+    defineField({
+      name: "architect",
+      title: "Arquitecto",
+      type: "object",
+      fields: [
+        { name: "es", title: "Arquitecto (Español)", type: "string" },
+        { name: "eu", title: "Arkitektoa (Euskera)", type: "string" },
+      ],
+    }),
+    // Location
+    defineField({
+      name: "location",
+      title: "Ubicación",
+      type: "object",
+      fields: [
+        { name: "es", title: "Ubicación (Español)", type: "string" },
+        { name: "eu", title: "Kokapena (Euskera)", type: "string" },
+      ],
+    }),
+    // Completion Date
+    defineField({
+      name: "completionDate",
+      title: "Fecha de Finalización",
+      type: "object",
+      fields: [
+        { name: "es", title: "Fecha de Finalización (Español)", type: "string" },
+        { name: "eu", title: "Amaierako Data (Euskera)", type: "string" },
+      ],
+    }),
+    // Square Footage
+    defineField({
+      name: "squareFootage",
+      title: "Superficie (m²)",
+      type: "object",
+      fields: [
+        { name: "es", title: "Superficie (Español)", type: "string" },
+        { name: "eu", title: "Azalera (Euskera)", type: "string" },
+      ],
+    }),
+    // SEO field (embedded SEO document)
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo",
+    }),
   ],
   preview: {
     select: {
