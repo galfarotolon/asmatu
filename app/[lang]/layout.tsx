@@ -18,8 +18,9 @@ import "../../public/css/swiper.css";
 
 import { Open_Sans, Rubik } from "next/font/google";
 import Loading from "../loading";
-import { getNavigation } from "@/sanity/queries";
+import { getNavigation, getSiteSettings } from "@/sanity/queries";
 import Footer from "@/layouts/footer";
+import { notFound } from "next/navigation";
 
 export const revalidate = 30; // Optional: Revalidate every 60 seconds if using SSG/ISR
 
@@ -58,6 +59,7 @@ export default async function LangLayout({
 }) {
   const lang = params.lang; // "es" or "eu"
   const navigation = await getNavigation();
+  const settings = await getSiteSettings();
 
   // <MobileHeader navigation={navigation} />
   return (
@@ -69,7 +71,7 @@ export default async function LangLayout({
 
             {children}
           </Suspense>
-          <Footer />
+          <Footer navigation={navigation} settings={settings} />
         </LanguageProvider>
       </body>
     </html>

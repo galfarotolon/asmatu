@@ -22,11 +22,14 @@ import blogSection from './schemaTypes/blogSection'
 import servicesPage from './schemaTypes/servicesPage'
 import blogPage from './schemaTypes/blogPage'
 import seo from './schemaTypes/seo'
+import siteSettings from './schemaTypes/siteSettings'
+import footer from './schemaTypes/footer'
+import mediaBlock from './schemaTypes/mediaBlock'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject,
     homepageWhyChooseUs, client, homeCTASection, homepageTestimonial, project, blogPost, blogSection, servicesPage,
-    blogPage, seo
+    blogPage, seo, footer, siteSettings, mediaBlock
 
   ],
 }

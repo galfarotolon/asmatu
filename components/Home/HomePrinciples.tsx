@@ -18,6 +18,9 @@ interface HomePrinciplesProps {
 export default function HomePrinciples({ principles }: HomePrinciplesProps) {
   const { language } = useLanguage();
 
+  //change to true when links are fixed for principles
+  const showLink = false;
+
   return (
     <div className="fn_cs_principles_modern">
       <div className="container">
@@ -31,9 +34,12 @@ export default function HomePrinciples({ principles }: HomePrinciplesProps) {
               <li key={index}>
                 <div className="item">
                   <div className="title_holder">
-                    <Link
-                      href={`/principles#${language === "es" ? item.anchor.es : item.anchor.eu}`}
-                    ></Link>
+                    {showLink && (
+                      <Link
+                        href={`/principles#${language === "es" ? item.anchor.es : item.anchor.eu}`}
+                      ></Link>
+                    )}
+
                     <h3>{language === "es" ? item.title.es : item.title.eu}</h3>
                     <p>
                       {language === "es"
@@ -41,7 +47,7 @@ export default function HomePrinciples({ principles }: HomePrinciplesProps) {
                         : item.description.eu}
                     </p>
                     <span className="icon">
-                      <Arrow_r className="fn__svg" />
+                      {showLink && <Arrow_r className="fn__svg" />}
                     </span>
                   </div>
                   <div className="number_holder">{item.number}</div>

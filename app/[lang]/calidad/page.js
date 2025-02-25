@@ -19,7 +19,7 @@ const Calidad = () => {
     return (
         <Layout>
             <div className='px-10 md:px-20 lg:px-40'>
-                <Breadcrumb firstChild="Inicio" SecondChild="Calidad" />
+                <Breadcrumb firstChild="Calidad" />
                 <div className="container mx-auto px-4 py-12 flex flex-col">
                     <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 gap-8"

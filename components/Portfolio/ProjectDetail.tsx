@@ -1,10 +1,7 @@
-// components/Portfolio/ProjectDetail.tsx
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
-import Sidebar from "@/layouts/sidebar";
 import Breadcrumb from "@/layouts/breadcrumb";
 
 interface CategoryRef {
@@ -12,15 +9,22 @@ interface CategoryRef {
   name: { es: string; eu: string };
 }
 
+interface MediaBlock {
+  mediaType: string;
+  image?: { asset: { url: string } };
+  altText?: string;
+  videoFile?: { asset: { url: string } };
+  description?: { es: string; eu: string };
+}
+
 interface Project {
   _id: string;
-  // Assuming each project references one (or more) categories. Here we use the first category for display.
-  category: CategoryRef;
+  categories: CategoryRef[];
   img: { asset: { url: string } };
   title: { es: string; eu: string };
   slug: { es: { current: string }; eu: { current: string } };
-  description: { es: any; eu: any }; // blockContent
-  detailedInfo: { es: any; eu: any }; // blockContent
+  description: { es: any; eu: any };
+  detailedInfo: { es: any; eu: any };
   quote: { es: string; eu: string };
   value: { es: string; eu: string };
   client: { es: string; eu: string };
@@ -28,6 +32,7 @@ interface Project {
   location: { es: string; eu: string };
   completionDate: { es: string; eu: string };
   squareFootage: { es: string; eu: string };
+  media?: MediaBlock[];
 }
 
 interface ProjectDetailProps {
@@ -41,19 +46,19 @@ export default function ProjectDetail({
   lang,
   baseRoute,
 }: ProjectDetailProps) {
-  // Compute the base route. For now, we assume that the base route is static.
-  // You might get this value from your server logic; here we'll hardcode it:
   const projectBaseRoute = lang === "es" ? "proyectos" : "proiektuak";
   const slug = data.slug[lang].current;
-  const categoryName = data.category?.name
-    ? data.category.name[lang]
-    : "Uncategorized";
+  const firstCategory = data.categories?.[0];
+  const categoryName =
+    firstCategory?.name?.[lang] ||
+    (lang === "es" ? "Sin Categoría" : "Kategori gabe");
 
   return (
     <>
       <Breadcrumb firstChild={baseRoute} SecondChild={data.title[lang]} />
       <div className="industify_fn_psingle_content">
         <div className="container flex flex-col items-left">
+          {/* Main Image */}
           <div className="w-full mb-10 relative h-[400px] md:h-[600px]">
             <Image
               src={data.img.asset.url}
@@ -76,7 +81,7 @@ export default function ProjectDetail({
                 <blockquote>{data.quote[lang]}</blockquote>
                 <div className="share_box">
                   <div className="industify_fn_share_icons">
-                    <label>Share:</label>
+                    <label>{lang === "es" ? "Compartir:" : "Partekatu:"}</label>
                     <ul>
                       <li>
                         <Link
@@ -96,33 +101,7 @@ export default function ProjectDetail({
                           <i className="xcon-twitter"></i>
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          href={`https://plus.google.com/share?url=https://example.com/${projectBaseRoute}/${slug}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <i className="xcon-gplus"></i>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`http://pinterest.com/pin/create/button/?url=https://example.com/${projectBaseRoute}/${slug}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <i className="xcon-pinterest"></i>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href={`https://www.vk.com/sharer.php?url=https://example.com/${projectBaseRoute}/${slug}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <i className="xcon-vkontakte"></i>
-                        </Link>
-                      </li>
+                      {/* Add additional share links if needed */}
                     </ul>
                   </div>
                 </div>
@@ -131,38 +110,104 @@ export default function ProjectDetail({
             <div className="helpful_part">
               <div className="hp_inner">
                 <ul>
-                  <li>
-                    <p>Category</p>
-                    <span>{categoryName}</span>
-                  </li>
-                  <li>
-                    <p>Value</p>
-                    <span>{data.value[lang]}</span>
-                  </li>
-                  <li>
-                    <p>Client</p>
-                    <span>{data.client[lang]}</span>
-                  </li>
-                  <li>
-                    <p>Architect</p>
-                    <span>{data.architect[lang]}</span>
-                  </li>
-                  <li>
-                    <p>Location</p>
-                    <span>{data.location[lang]}</span>
-                  </li>
-                  <li>
-                    <p>Completion Date</p>
-                    <span>{data.completionDate[lang]}</span>
-                  </li>
-                  <li>
-                    <p>Square Footage</p>
-                    <span>{data.squareFootage[lang]}</span>
-                  </li>
+                  {data.categories && data.categories.length > 0 && (
+                    <li>
+                      <p>{lang === "es" ? "Categoría" : "Kategori"}</p>
+                      <span>{categoryName}</span>
+                    </li>
+                  )}
+                  {data.value?.[lang] && (
+                    <li>
+                      <p>{lang === "es" ? "Valor" : "Balioa"}</p>
+                      <span>{data.value[lang]}</span>
+                    </li>
+                  )}
+                  {data.client?.[lang] && (
+                    <li>
+                      <p>{lang === "es" ? "Cliente" : "Bezeroa"}</p>
+                      <span>{data.client[lang]}</span>
+                    </li>
+                  )}
+                  {data.architect?.[lang] && (
+                    <li>
+                      <p>{lang === "es" ? "Arquitecto" : "Arkitektoa"}</p>
+                      <span>{data.architect[lang]}</span>
+                    </li>
+                  )}
+                  {data.location?.[lang] && (
+                    <li>
+                      <p>{lang === "es" ? "Ubicación" : "Kokapena"}</p>
+                      <span>{data.location[lang]}</span>
+                    </li>
+                  )}
+                  {data.completionDate?.[lang] && (
+                    <li>
+                      <p>
+                        {lang === "es"
+                          ? "Fecha de Finalización"
+                          : "Amaierako Data"}
+                      </p>
+                      <span>{data.completionDate[lang]}</span>
+                    </li>
+                  )}
+                  {data.squareFootage?.[lang] && (
+                    <li>
+                      <p>
+                        {lang === "es" ? "Superficie (m²)" : "Azalera (m²)"}
+                      </p>
+                      <span>{data.squareFootage[lang]}</span>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
           </div>
+          {/* Media block – keep it exactly below the helpful part */}
+          {data.media && data.media.length > 0 && (
+            <div className="project-media">
+              {data.media.map((item, idx) => {
+                if (item.mediaType === "image" && item.image) {
+                  return (
+                    <div key={idx} className="project-media-item my-10">
+                      <Image
+                        src={item.image.asset.url}
+                        alt={item.altText || data.title[lang]}
+                        layout="responsive"
+                        width={1200}
+                        height={800}
+                        className="rounded-lg"
+                      />
+                      {item.description && item.description[lang] && (
+                        <p className="mt-4 text-center">
+                          {item.description[lang]}
+                        </p>
+                      )}
+                    </div>
+                  );
+                } else if (item.mediaType === "video" && item.videoFile) {
+                  return (
+                    <div key={idx} className="project-media-item my-10">
+                      <video controls width="100%">
+                        <source
+                          src={item.videoFile.asset.url}
+                          type="video/mp4"
+                        />
+                        {lang === "es"
+                          ? "Tu navegador no soporta el video."
+                          : "Zure nabigatzaileak bideoa ez du onartzen."}
+                      </video>
+                      {item.description && item.description[lang] && (
+                        <p className="mt-4 text-center">
+                          {item.description[lang]}
+                        </p>
+                      )}
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>

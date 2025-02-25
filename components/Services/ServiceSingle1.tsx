@@ -26,7 +26,6 @@ const useBaseRoute = (code: string, lang: "es" | "eu") => {
 };
 
 const ServicesSingle1: FC<ServiceProps> = ({ data, lang }) => {
-  console.log("service data", data);
   const contactBaseRoute = useBaseRoute(ROUTE_CODES.CONTACT, lang);
   const servicesBaseRoute = useBaseRoute(ROUTE_CODES.SERVICES, lang);
 

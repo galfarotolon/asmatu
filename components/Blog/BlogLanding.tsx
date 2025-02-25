@@ -24,8 +24,6 @@ export default async function BlogLanding({ data, lang }: BlogLandingProps) {
   // Get the blog base route from navigation (e.g. "noticias")
   const blogBaseRoute = await getBaseRoute(ROUTE_CODES.BLOG, lang);
 
-  console.log("yo works", data);
-
   return (
     <>
       <div className="px-0 sm:px-10 md:px-20 lg:px-40 overflow-x-hidden">

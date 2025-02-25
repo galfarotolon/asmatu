@@ -22,6 +22,7 @@ export const revalidate = 10;
 export async function generateMetadata({ params }: { params: Params }) {
   const lang = params.lang;
   const slugStr = params.slug ? params.slug.join("/").toLowerCase() : "";
+
   const pageData = await getPage(slugStr, lang);
 
   if (pageData && pageData.seo) {

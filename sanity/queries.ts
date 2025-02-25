@@ -220,9 +220,7 @@ export async function getPage(slug: string, lang: "es" | "eu") {
   // 5. BLOG POST: If the slug has two segments, assume it's a blog post.
   if (segments.length === 2) {
     const [baseSegment, postSlug] = segments;
-    console.log("blogBaseRoute:", blogBaseRoute);
-    console.log("URL segments:", segments);
-    console.log("postSlug:", postSlug);
+  
     if (baseSegment.toLowerCase() === blogBaseRoute.toLowerCase()) {
       // Query explicitly for a blogPost document.
       const blogPostQuery = `
@@ -242,7 +240,15 @@ export async function getPage(slug: string, lang: "es" | "eu") {
           author,
           authorUrl,
           listItems[]{ es, eu },
-          location
+          location,
+           seo{
+      metaTitle{ es, eu },
+      metaDescription{ es, eu },
+      metaKeywords,
+      ogTitle{ es, eu },
+      ogDescription{ es, eu },
+      "ogImage": ogImage{ asset->{ url } }
+    }
         }
       `;
       const trimmedSlug = postSlug.trim();
@@ -268,11 +274,11 @@ export async function getPage(slug: string, lang: "es" | "eu") {
         *[_type == "project" && lower(slug.${lang}.current) == lower($finalSegment)][0]{
           _id,
           _type,
-          "category": category->{
-            _id,
-            name{ es, eu },
-            slug
-          },
+     categories[]->{
+  _id,
+  name{ es, eu },
+  slug
+},
           img{ asset->{ url } },
           title{ es, eu },
           slug{ es, eu },
@@ -285,6 +291,13 @@ export async function getPage(slug: string, lang: "es" | "eu") {
           location{ es, eu },
           completionDate{ es, eu },
           squareFootage{ es, eu },
+          media[]{
+        mediaType,
+        image{ asset->{ url } },
+        altText,
+        videoFile{ asset->{ url } },
+        description{ es, eu }
+      },
            seo{
       metaTitle{ es, eu },
       metaDescription{ es, eu },
@@ -524,6 +537,66 @@ export async function getCategories() {
       _id,
       name{ es, eu },
       slug
+    }
+  `;
+  return client.fetch(query);
+}
+
+
+export async function getSiteSettings() {
+  const query = `
+    *[_type == "siteSettings"][0]{
+      companyName,
+      logo{
+        asset->{ url }
+      },
+      address,
+      phone,
+      email,
+      workingHours,
+      notFoundTitle{
+        es, eu
+      },
+      notFoundMessage{
+        es, eu
+      },
+      notFoundButton{es, eu}
+    }
+  `;
+  return client.fetch(query);
+}
+
+
+
+
+export async function getFooter() {
+  const query = `
+    *[_type == "footer"][0]{
+      column1{
+        title,
+        lines,
+        linkLabel,
+        linkHref
+      },
+      column2{
+        title,
+        schedule[]{
+          day,
+          hours
+        }
+      },
+      column3{
+        title,
+        links[]{
+          label,
+          href
+        }
+      },
+      bottomLinks[]{
+        label,
+        href
+      },
+      copyright
     }
   `;
   return client.fetch(query);

@@ -127,6 +127,13 @@ export default defineType({
         { name: "eu", title: "Azalera (Euskera)", type: "string" },
       ],
     }),
+    // Media Blocks
+    defineField({
+      name: "media",
+      title: "Media Adicional",
+      type: "array",
+      of: [{ type: "mediaBlock" }],
+    }),
     // SEO field (embedded SEO document)
     defineField({
       name: "seo",

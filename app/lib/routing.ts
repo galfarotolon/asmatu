@@ -21,6 +21,9 @@ export const ROUTE_CODES = {
   SERVICES: "services",
   BLOG: "blog",
   CONTACT: "contact",
+  COMPANY: "company",
+  QUALITY: "quality",
+
   // Add additional pages as needed
 };
 

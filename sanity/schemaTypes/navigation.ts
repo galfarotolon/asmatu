@@ -78,7 +78,56 @@ export default defineType({
         },
       ],
     }),
-    // ... any additional fields like footerItems
+    defineField({
+      name: "footerItems",
+      title: "Elementos del pie de pagina",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          title: "Elemento del pie de pagina",
+          fields: [
+            defineField({
+              name: "key",
+              title: "Key (Internal)",
+              type: "string",
+            }),
+            defineField({
+              name: "title",
+              title: "Título",
+              type: "object",
+              fields: [
+                { name: "es", title: "Título (Español)", type: "string" },
+                { name: "eu", title: "Título (Euskera)", type: "string" },
+              ],
+            }),
+            // Base route slug for the main item
+            defineField({
+              name: "es",
+              title: "Slug (Spanish)",
+              type: "slug",
+              options: {
+                maxLength: 96,
+                source: (doc, { parent }) => (parent as any).title?.es,
+                slugify: (input) =>
+                  input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "-").slice(0, 96),
+              },
+            }),
+            defineField({
+              name: "eu",
+              title: "Slug (Basque)",
+              type: "slug",
+              options: {
+                maxLength: 96,
+                source: (doc, { parent }) => (parent as any).title?.eu,
+                slugify: (input) =>
+                  input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "-").slice(0, 96),
+              },
+            }),
+          ],
+        },
+      ],
+    }),
   ],
   preview: {
     select: { menuItems: "menuItems" },

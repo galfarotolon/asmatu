@@ -51,6 +51,10 @@ export default async function PageComponent({
     case "blogPost":
       Component = BlogDetail;
       break;
+    case "companyPage":
+      Component = BlogDetail;
+      basePageUrl = await getBaseRoute(ROUTE_CODES.COMPANY, lang);
+      break;
     default:
       return notFound();
   }

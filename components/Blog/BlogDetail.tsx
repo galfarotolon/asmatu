@@ -14,7 +14,6 @@ interface BlogDetailProps {
 export default async function BlogDetail({ data, lang }: BlogDetailProps) {
   // Since this is a server component, we can await the base route directly.
   const blogBaseRoute = await getBaseRoute(ROUTE_CODES.BLOG, lang);
-  console.log("Blog base route:", blogBaseRoute);
 
   return (
     <>
