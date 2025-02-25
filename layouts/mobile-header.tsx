@@ -107,7 +107,7 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
     <div className="industify_fn_header displayed">
       {/* LOGO & HAMBURGER */}
       <div
-        className="bg-white-opacity-90 backdrop-blur-lg p-4 items-center justify-between w-full flex px-10"
+        className="bg-white-opacity-90 backdrop-blur-lg p-4 items-center justify-between w-full flex px-10 h-full"
         style={{ justifyContent: "space-between", padding: "0 5%" }}
       >
         <div className="menu_logo">

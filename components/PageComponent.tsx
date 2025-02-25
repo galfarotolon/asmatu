@@ -10,18 +10,27 @@ interface PageComponentProps {
   lang: "es" | "eu";
 }
 
-const Projects = dynamic(() => import("@/components/Portfolio/ProjectsList"));
+const Projects = dynamic(() => import("@/components/Portfolio/ProjectsList"), {
+  ssr: false,
+});
 const ProjectDetail = dynamic(
-  () => import("@/components/Portfolio/ProjectDetail")
+  () => import("@/components/Portfolio/ProjectDetail"),
+  { ssr: false }
 );
 const ServicesPage = dynamic(
-  () => import("@/components/Services/ServicesLanding")
+  () => import("@/components/Services/ServicesLanding"),
+  { ssr: false }
 );
 const ServiceDetail = dynamic(
-  () => import("@/components/Services/ServiceSingle1")
+  () => import("@/components/Services/ServiceSingle1"),
+  { ssr: false }
 );
-const BlogLanding = dynamic(() => import("@/components/Blog/BlogLanding"));
-const BlogDetail = dynamic(() => import("@/components/Blog/BlogDetail"));
+const BlogLanding = dynamic(() => import("@/components/Blog/BlogLanding"), {
+  ssr: false,
+});
+const BlogDetail = dynamic(() => import("@/components/Blog/BlogDetail"), {
+  ssr: false,
+});
 
 export default async function PageComponent({
   data,
@@ -50,10 +59,6 @@ export default async function PageComponent({
       break;
     case "blogPost":
       Component = BlogDetail;
-      break;
-    case "companyPage":
-      Component = BlogDetail;
-      basePageUrl = await getBaseRoute(ROUTE_CODES.COMPANY, lang);
       break;
     default:
       return notFound();

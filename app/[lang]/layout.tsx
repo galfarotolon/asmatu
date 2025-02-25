@@ -61,14 +61,14 @@ export default async function LangLayout({
   const navigation = await getNavigation();
   const settings = await getSiteSettings();
 
-  // <MobileHeader navigation={navigation} />
+  //
   return (
     <html lang={lang} className={`${openSans.className} ${rubik.className}`}>
       <body>
         <LanguageProvider initialLanguage={lang as "es" | "eu"}>
           <Suspense fallback={<Loading />}>
             <DesktopHeader navigation={navigation} />
-
+            <MobileHeader navigation={navigation} />
             {children}
           </Suspense>
           <Footer navigation={navigation} settings={settings} />

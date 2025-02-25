@@ -1810,7 +1810,7 @@ border-radius: 0px 0px 4px 4px;
 	right: 0px;
 	bottom: 0px;
 	z-index: 5;
-	
+
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -3886,6 +3886,7 @@ blockquote{
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
+	
 }
 .fn_cs_about .dots{
 	position: absolute;
@@ -4262,7 +4263,7 @@ blockquote{
 	width: 100%;
 	float: left;
 	clear: both;
-	padding: 150px 0;
+
 }
 .fn_cs_about_with_rating{
 	width: 100%;
@@ -6417,7 +6418,6 @@ blockquote{
 .fn_cs_project_sticky .left_part a .arrow_hover img{
 	opacity: 0;
     right: 20px;
-
 }
 .fn_cs_project_sticky .left_part a:hover .arrow svg{
 	opacity: 0;
@@ -6479,7 +6479,6 @@ blockquote{
     padding: 0px;
     line-height: 1;
 }
-
 .fn_cs_project_sticky .right_part .title_holder p a{
 	position: relative;
 	text-decoration: none;
@@ -9430,3 +9429,12 @@ background-color: transparent !important;
   .terms-link:hover{
 	color: #45a2df !important;
 	}
+
+	.has-submenu > a .arrow {
+		position: absolute;
+	
+		top: 35%;
+margin-left: 10px;
+		font-size: 0.75rem; /* Adjust this to match your original design */
+		line-height: 1;
+	  }

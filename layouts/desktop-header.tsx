@@ -15,12 +15,10 @@ function findAlternateSlug(
 ): string {
   if (!navigation || !navigation.menuItems) return "";
 
-  // Check each top-level menu item
   for (const item of navigation.menuItems) {
     if (item[sourceLang] && item[sourceLang].current === currentPath) {
       return item[targetLang] ? item[targetLang].current : "";
     }
-    // If there is a submenu, check its items
     if (item.submenu && Array.isArray(item.submenu)) {
       for (const sub of item.submenu) {
         if (sub[sourceLang] && sub[sourceLang].current === currentPath) {
@@ -39,7 +37,7 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
   const [isToggled, setToggled] = useState(false);
   const headerRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleTrueFalse = () => setToggled(!isToggled);
+  const toggleTrueFalse = () => setToggled((prev) => !prev);
 
   // Extract source language from URL
   const urlLangMatch = pathname.match(/^\/(es|eu)(\/|$)/);
@@ -49,32 +47,41 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
 
   // When language changes, compute alternate slug from navigation data
   const handleLanguageChange = (newLang: "es" | "eu") => {
-    const currentPath = pathname
-      .replace(/^\/(es|eu)(\/|$)/, "")
-      .replace(/^\/+|\/+$/g, "")
-      .toLowerCase();
-    // Try to find a matching alternate slug from navigation data
-    const alternateSlug = findAlternateSlug(
-      navigation,
-      currentPath,
-      sourceLangFromUrl,
-      newLang
-    );
-    switchLanguage(newLang);
-    const newPath = alternateSlug
-      ? `/${newLang}/${alternateSlug}`
-      : `/${newLang}`;
-    router.push(newPath);
+    // Only run on the client
+    if (typeof window !== "undefined") {
+      const currentPath = pathname
+        .replace(/^\/(es|eu)(\/|$)/, "")
+        .replace(/^\/+|\/+$/g, "")
+        .toLowerCase();
+      const alternateSlug = findAlternateSlug(
+        navigation,
+        currentPath,
+        sourceLangFromUrl,
+        newLang
+      );
+      switchLanguage(newLang);
+      const newPath = alternateSlug
+        ? `/${newLang}/${alternateSlug}`
+        : `/${newLang}`;
+      router.push(newPath);
+    }
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (headerRef.current) {
+      if (headerRef.current && typeof window !== "undefined") {
         headerRef.current.classList.toggle("nav-scrolled", window.scrollY > 50);
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("scroll", handleScroll);
+      }
+    };
   }, []);
 
   return (
@@ -118,7 +125,6 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
                   {hasSubmenu && (
                     <ul className="sub-menu">
                       {item.submenu.map((sub: any, idx: number) => {
-                        // Use the referenced service's slug:
                         const serviceSlug = sub?.slug?.[language]?.current;
                         const subHref = serviceSlug
                           ? `/${language}/${baseSlug}/${serviceSlug}`
@@ -126,7 +132,7 @@ export default function DesktopHeader({ navigation }: { navigation?: any }) {
                         return (
                           <li key={idx}>
                             <Link href={subHref} className="submenu-link">
-                              {sub?.title ? sub?.title[language] : ""}
+                              {sub?.title ? sub.title[language] : ""}
                             </Link>
                           </li>
                         );
