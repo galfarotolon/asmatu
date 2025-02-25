@@ -63,11 +63,7 @@ export default function ProjectsList({
         masonry: {
           columnWidth: ".portfolio_item",
         },
-        animationOptions: {
-          duration: 750,
-          easing: "linear",
-          queue: false,
-        },
+        transitionDuration: "0.75s",
       });
     }, 1000);
   }, []);
