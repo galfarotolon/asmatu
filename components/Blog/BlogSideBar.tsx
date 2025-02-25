@@ -3,6 +3,7 @@ import Sidebar from "@/layouts/sidebar";
 import { FC } from "react";
 
 interface BlogPostItem {
+  location: React.ReactNode | Iterable<React.ReactNode>;
   _id: string;
   date: string;
   mainImage?: { asset: { url: string } };
