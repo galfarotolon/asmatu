@@ -257,7 +257,7 @@ export async function getPage(slug: string, lang: "es" | "eu") {
     }
   }
 
-    // 4. PROJECTS: Get project base route
+    // 6. PROJECTS: Get project base route
 
   const projectsBaseRoute = await getBaseRoute(ROUTE_CODES.PROJECTS, lang);
   if (slug.toLowerCase() === projectsBaseRoute.toLowerCase()) {
@@ -312,10 +312,21 @@ export async function getPage(slug: string, lang: "es" | "eu") {
       if (projectDetail) return projectDetail;
     }
   }
-  
+
+
+  // 7. CALIDAD: Get calidad base route
+  const calidadBaseRoute = await getBaseRoute(ROUTE_CODES.QUALITY, lang); // e.g., "calidad"
+  if (slug.toLowerCase() === calidadBaseRoute.toLowerCase()) {
+    const calidadPage = await getCalidadPage(lang);
+    return { ...calidadPage, _type: "calidadPage" };
+  }
   // No matching document found
   return null;
 }
+
+
+
+
   export async function getServices() {
     const query = `*[_type == "service"]{
       _id,
@@ -600,4 +611,45 @@ export async function getFooter() {
     }
   `;
   return client.fetch(query);
+}
+
+export async function getAllClients() {
+  const query = '*[_type=="client"]{ name, image, altText, isPublic }';
+  return await client.fetch(query);
+}
+
+export async function getCalidadPage(lang: "es" | "eu") {
+  const query = `
+    *[_type == "calidadPage"][0]{
+      _id,
+      _type,
+      headerTitle{ es, eu },
+      section1{
+        title,
+        content{ es, eu }
+      },
+      section2{
+        title,
+        bulletPoints{ es, eu },
+        content{ es, eu }
+      },
+      logos[]{
+        src{
+          asset->{
+            url
+          }
+        },
+        altText{ es, eu }
+      },
+      seo{
+        metaTitle{ es, eu },
+        metaDescription{ es, eu },
+        metaKeywords,
+        ogTitle{ es, eu },
+        ogDescription{ es, eu },
+        "ogImage": ogImage{ asset->{ url } }
+      }
+    }
+  `;
+  return await client.fetch(query);
 }

@@ -136,7 +136,7 @@ export default function MobileHeader({ navigation }: { navigation?: any }) {
         id="mobile-menu"
         className={`transition-all duration-500 ease-in-out ${
           isMobileMenuOpen ? "block" : "hidden"
-        } backdrop-blur-lg header_mobile fixed top-0 left-0 right-0 bottom-0 overflow-y-auto`}
+        } backdrop-blur-lg header_mobile  top-0 left-0 right-0  overflow-y-auto`}
       >
         <nav className="p-4 text-lg overflow-y-auto">
           <ul className="flex flex-col">

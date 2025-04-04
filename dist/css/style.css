@@ -1543,7 +1543,7 @@ border-radius: 0px 0px 4px 4px;
 	border-radius: 5px;
 	top: 100%;
 	left: 0px;
-	
+	min-width: max-content;
 	opacity: 0;
 	visibility: hidden;
 	

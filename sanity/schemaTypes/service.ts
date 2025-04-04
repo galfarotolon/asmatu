@@ -5,7 +5,7 @@ import imageObject from "./imageObject"; // This should define an image with alt
 
 export default defineType({
   name: "service",
-  title: "Service",
+  title: "Servicio",
   type: "document",
   fields: [
     // Title field with translations

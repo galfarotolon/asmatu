@@ -2,7 +2,7 @@ import { defineType, defineField } from "sanity";
 
 export default defineType({
   name: "siteSettings",
-  title: "Site Settings",
+  title: "Configuración del Sitio",
   type: "document",
   fields: [
     // This alone doesn't enforce a single doc. It's just a hidden marker.

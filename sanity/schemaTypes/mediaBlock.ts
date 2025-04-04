@@ -3,7 +3,7 @@ import { defineType, defineField } from "sanity";
 
 export default defineType({
   name: "mediaBlock",
-  title: "Media Block",
+  title: "Bloque de Medios",
   type: "object",
   fields: [
     defineField({

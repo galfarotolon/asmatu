@@ -4,7 +4,7 @@ import slugObject from "./slugObject"; // Reusable slug object
 
 export default defineType({
   name: "blogPost",
-  title: "Blog Post",
+  title: "Publicación de Blog",
   type: "document",
   fields: [
     // Localized title

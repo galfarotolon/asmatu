@@ -26,11 +26,10 @@ export interface AboutData {
   };
   // For the right image, we use an object that contains the image (from asset.url) and alt texts per language.
   rightImage?: {
-    image?: {
-      asset?: {
-        url?: string;
-      };
+    asset?: {
+      url?: string;
     };
+
     alt?: {
       es?: string;
       eu?: string;
@@ -72,7 +71,7 @@ export default function HomeAbout({ about, lang }: HomeAboutProps) {
 
   // For the right image, if no image is provided from Sanity, fallback to the original path.
   const rightImageUrl =
-    about.rightImage?.image?.asset?.url || "/img/thumb/500-560.jpg";
+    about.rightImage?.asset?.url || "/img/thumb/500-560.jpg";
   const rightImageAlt =
     lang === "es"
       ? about.rightImage?.alt?.es || "Thumbnail"

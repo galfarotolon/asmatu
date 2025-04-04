@@ -18,6 +18,7 @@ export default defineType({
               name: "key",
               title: "Key (Internal)",
               type: "string",
+              hidden: true,
             }),
             defineField({
               name: "title",
@@ -91,6 +92,7 @@ export default defineType({
               name: "key",
               title: "Key (Internal)",
               type: "string",
+              hidden: true,
             }),
             defineField({
               name: "title",
@@ -100,7 +102,19 @@ export default defineType({
                 { name: "es", title: "Título (Español)", type: "string" },
                 { name: "eu", title: "Título (Euskera)", type: "string" },
               ],
+              preview: {
+                select: {
+                  titleEs: "title.es",
+                  titleEu: "title.eu",
+                  key: "key",
+                },
+                prepare(selection) {
+                  const { titleEs, titleEu, key } = selection;
+                  return { title: titleEs || titleEu || "Sin título", subtitle: key ? `(${key})` : "" };
+                },
+              },
             }),
+            
             // Base route slug for the main item
             defineField({
               name: "es",
@@ -130,7 +144,7 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { menuItems: "menuItems" },
+    select: { menuItems: "menuItems"},
     prepare(selection) {
       const count = selection.menuItems ? selection.menuItems.length : 0;
       return { title: "Navegación", subtitle: `${count} elemento${count === 1 ? "" : "s"}` };

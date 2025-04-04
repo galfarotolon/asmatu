@@ -4,7 +4,7 @@ import { defineType, defineField } from "sanity";
 // We'll assume there's only one footer doc, but if you want to allow multiple, omit the "singleton" approach
 export default defineType({
   name: "footer",
-  title: "Footer",
+  title: "Pie de página",
   type: "document",
   fields: [
     // Column 1: Parque Empresarial Zuatzu

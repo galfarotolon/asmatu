@@ -25,11 +25,12 @@ import seo from './schemaTypes/seo'
 import siteSettings from './schemaTypes/siteSettings'
 import footer from './schemaTypes/footer'
 import mediaBlock from './schemaTypes/mediaBlock'
+import calidadPage from './schemaTypes/calidadPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, author, category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject,
+  types: [category, blockContent, homepage, slide, navigation, projectPage, slugObject, principle, service, imageObject,
     homepageWhyChooseUs, client, homeCTASection, homepageTestimonial, project, blogPost, blogSection, servicesPage,
-    blogPage, seo, footer, siteSettings, mediaBlock
+    blogPage, seo, footer, siteSettings, mediaBlock, calidadPage
 
   ],
 }

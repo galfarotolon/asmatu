@@ -138,6 +138,20 @@ export async function generateStaticParams() {
     });
   }
 
+  // CALIDAD: Get the base route for Calidad from the footer navigation.
+  // For example, assume in your footerItems, the key is "quality"
+  const calidadNavItem = findNavItemByKey(nav.footerItems, "quality");
+  if (calidadNavItem) {
+    langs.forEach((lang) => {
+      if (calidadNavItem?.[lang]?.current) {
+        const segments = calidadNavItem[lang].current
+          .split("/")
+          .filter(Boolean);
+        paths.push({ lang, slug: segments });
+      }
+    });
+  }
+
   // Other routes
   const otherRoutes = await getAllRoutes();
   otherRoutes.forEach((doc: any) => {

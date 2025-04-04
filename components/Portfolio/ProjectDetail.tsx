@@ -61,7 +61,7 @@ export default function ProjectDetail({
           {/* Main Image */}
           <div className="w-full mb-10 relative h-[400px] md:h-[600px]">
             <Image
-              src={data.img.asset.url}
+              src={data?.img?.asset?.url}
               alt={data.title[lang]}
               layout="fill"
               objectFit="cover"

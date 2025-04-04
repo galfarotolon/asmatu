@@ -31,6 +31,9 @@ const BlogLanding = dynamic(() => import("@/components/Blog/BlogLanding"), {
 const BlogDetail = dynamic(() => import("@/components/Blog/BlogDetail"), {
   ssr: false,
 });
+const Calidad = dynamic(() => import("@/components/Calidad/CalidadLanding"), {
+  ssr: false,
+});
 
 export default async function PageComponent({
   data,
@@ -59,6 +62,11 @@ export default async function PageComponent({
       break;
     case "blogPost":
       Component = BlogDetail;
+      break;
+    case "calidadPage":
+      Component = Calidad;
+      basePageUrl = await getBaseRoute(ROUTE_CODES.QUALITY, lang);
+
       break;
     default:
       return notFound();

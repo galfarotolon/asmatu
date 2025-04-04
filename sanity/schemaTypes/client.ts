@@ -1,9 +1,8 @@
-import { defineType, defineField } from 'sanity'
-import imageObject from './imageObject' // Reusable image object that includes asset and alt text
+import { defineType, defineField } from 'sanity';
 
 export default defineType({
   name: 'client',
-  title: 'Client',
+  title: 'Cliente',
   type: 'document',
   fields: [
     defineField({
@@ -12,25 +11,31 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-        name: "image",
-        title: "Imagen",
-        type: "image",
-        options: { hotspot: true },
-      }),
-      defineField({
-        name: "altText",
-        title: "Texto Alternativo",
-        type: "object",
-        fields: [
-          { name: "es", title: "Texto Alternativo (Español)", type: "string" },
-          { name: "eu", title: "Teksto Alternatiboa (Euskera)", type: "string" },
-        ],
-      }),
+      name: "image",
+      title: "Imagen",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "altText",
+      title: "Texto Alternativo",
+      type: "object",
+      fields: [
+        { name: "es", title: "Texto Alternativo (Español)", type: "string" },
+        { name: "eu", title: "Teksto Alternatiboa (Euskera)", type: "string" },
+      ],
+    }),
+    defineField({
+      name: "isPublic",
+      title: "Es entidad publica",
+      type: "boolean",
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {
       title: 'name',
-      media: 'logo.asset',
+      media: 'image',
     },
   },
-})
+});

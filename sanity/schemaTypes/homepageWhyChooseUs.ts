@@ -2,7 +2,7 @@ import { defineType, defineField } from 'sanity';
 
 export default defineType({
   name: 'homepageWhyChooseUs',
-  title: 'Homepage – Why Choose Us Section',
+  title: 'Sección de Por qué Elegirnos (Pagina inicio)',
   type: 'object',
   fields: [
     // Section Title (localized)

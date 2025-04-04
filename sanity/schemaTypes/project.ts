@@ -4,7 +4,7 @@ import slugObject from "./slugObject";
 
 export default defineType({
   name: "project",
-  title: "Project",
+  title: "Proyecto",
   type: "document",
   fields: [
     // Allow multiple categories via references
