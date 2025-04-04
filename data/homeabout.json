@@ -1,0 +1,72 @@
+{
+    "about": {
+      "title": {
+        "es": "Somos Asmatu",
+        "eu": "Asmatu gara"
+      },
+      "bodyEs": [
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "En Asmatu, desde nuestra fundación en 1992 por el Ingeniero Pedro Idarreta Lapazaran, hemos sido pioneros en la prestación de servicios de consultoría civil y de edificación, abarcando desde expedientes técnicos hasta el Project Management. Nuestro compromiso con la excelencia y la innovación nos ha permitido expandirnos continuamente, incorporando en 2009 un departamento de medio ambiente y embarcándonos en un proceso de internacionalización en Perú entre 2012 y 2016.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Nos diferenciamos por nuestro enfoque integral y personalizado en cada proyecto, utilizando tecnologías de vanguardia y un equipo de más de 30 profesionales altamente cualificados. Nuestra misión es proporcionar soluciones eficientes y sostenibles que superen las expectativas de nuestros clientes, asegurando siempre los más altos estándares de calidad y profesionalismo.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "bodyEu": [
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Asmatu-n, 1992tik gure sorrera, Pedro Idarreta Lapazaran Ingeniariaren eskutik, gure zerbitzuak eskaintzen hasita, eraikuntza eta eraikuntza kontsultoretza zerbitzuak aurrera eramatea lehenengo izan dugu. Gure ezin hobea den konpromisoa eta berrikuntza gure hedapen etengabekoaren oinarria izan dira, 2009an ingurumen departamentua sortuz eta 2012 eta 2016 artean Peruan nazioarteko prozesu batean murgiltuz.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "_type": "block",
+          "style": "normal",
+          "children": [
+            {
+              "_type": "span",
+              "text": "Gure proiektu bakoitzan, gure ikuspegi integrala eta pertsonalizatua erabiltzen ditugula nabarmentzen da, aurrerapen teknologiko modernoak eta 30 baino profesional oso prestakuntza duten talde baten bidez. Gure helburua gure bezeroen itxaropenak gainditzeko eta kalitate eta profesionaltasun maila altuenak bermatzeko irtenbide eraginkorrak eta iraunkorrak eskaintzea da.",
+              "marks": []
+            }
+          ]
+        }
+      ],
+      "signName": {
+        "es": "Jokin Idarreta",
+        "eu": "Jokin Idarreta"
+      },
+      "signPosition": {
+        "es": "Director Ejecutivo",
+        "eu": "Zuzendari Exekutiboa"
+      },
+      "rightImage": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-xyz456-500x560-jpg",
+          "_type": "reference"
+        }
+      }
+    }
+  }
+  

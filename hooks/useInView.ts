@@ -1,7 +1,11 @@
 // src/hooks/useInView.ts
 import { useState, useEffect, useRef } from "react";
 
-const useInView = () => {
+interface UseInViewOptions {
+  triggerOnce?: boolean;
+}
+
+const useInView = (options: UseInViewOptions = {}) => {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -10,7 +14,13 @@ const useInView = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          observer.unobserve(entry.target);
+          if (options.triggerOnce) {
+            observer.unobserve(entry.target);
+          }
+        } else {
+          if (!options.triggerOnce) {
+            setIsInView(false);
+          }
         }
       },
       { threshold: 0.1 }
@@ -25,7 +35,7 @@ const useInView = () => {
         observer.unobserve(ref.current);
       }
     };
-  }, []);
+  }, [options.triggerOnce]);
 
   return [ref, isInView] as const;
 };

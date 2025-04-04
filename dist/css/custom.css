@@ -1,0 +1,197 @@
+:where(html) {
+    --mm-transition-timing-function: ease;
+    --mm-trantisition-duration: 0.35s;
+  }
+  .mmenu .mm-collapse:not(.mm-show) {
+    display: none;
+  }
+  
+  /* .mmenu .mm-collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    transition: height var(--mm-trantisition-duration) var(--mm-transition-timing-function);
+  } */
+  
+  .mmenu .has-arrow {
+    position: relative;
+  }
+  
+  .mmenu .has-arrow::after {
+    position: absolute;
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: initial;
+    inset-inline-end: 1em;
+    transform: rotate(45deg) translate(0, -50%);
+    transform-origin: top;
+    top: 50%;
+    transition: transform var(--mm-trantisition-duration) var(--mm-transition-timing-function);
+  }
+.masonry{
+    display: flex;
+    flex-wrap: wrap;
+}
+.masonry_in:nth-child(1) {
+    padding-top: 50px;
+    
+}
+
+.masonry_in:nth-child(3) {
+    padding-top: 50px;
+    
+}
+
+
+@media (max-width: 1200px){
+    .masonry_in:nth-child(1){
+        padding-top: 0px;
+    }
+    .masonry_in:nth-child(3){
+        padding-top: 0px;
+    }
+}
+
+
+/* Metis Menu CSS Start */
+.industify_fn_mobilemenu_wrap .mmenu{
+	margin: 0 0px 10px 0px;
+	list-style-type: none;
+	/* margin-left: 20px; */
+	/* display: none; */
+	position: relative;
+	overflow: hidden;
+}
+.industify_fn_mobilemenu_wrap .mmenu a{
+	text-decoration: none;
+	color: #ccc;
+	font-size: 18px;
+	line-height: 27px;
+	text-transform: uppercase;
+	display: block;
+	position: relative;
+	font-family: 'Rubik';
+    
+}
+.industify_fn_mobilemenu_wrap .mmenu a:hover{
+	color: #fff;
+}
+.industify_fn_mobilemenu_wrap .mmenu a:focus{
+	outline:none;
+}
+.industify_fn_mobilemenu_wrap .mmenu ul a{
+	text-transform: none;
+    margin-left: 10px;;
+}
+.industify_fn_mobilemenu_wrap .mmenu li{
+	margin: 0px;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.mmenu .has-arrow::after{
+    transform: rotate(225deg) translate(0, -50%) !important;
+    -webkit-transform: rotate(225deg) translate(0, -50%) !important;
+    position: absolute;
+    content: "";
+    width: 0.5em;
+    height: 0.5em;
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: initial;
+    inset-inline-end: 1em;
+    /* transform: rotate(45deg) translate(0, -50%); */
+    transform-origin: top;
+    top: 50%;
+    transition: transform var(--mm-trantisition-duration) var(--mm-transition-timing-function);
+}
+.mmenu .mm-active.has-arrow::after, .mmenu .has-arrow[aria-expanded=true]::after{
+   transform: rotate(315deg) translate(0, -50%) !important;
+   -webkit-transform: rotate(315deg) translate(0, -50%) !important;
+}
+
+.fn_cs_gallery_grid {
+    width: 100%;
+    float: left;
+    clear: both;
+    padding: 10px 10px 0 10px
+}
+
+.fn_cs_gallery_grid ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-left: -10px
+}
+
+.fn_cs_gallery_grid ul li {
+    width: 25%;
+    float: left;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    margin-bottom: 10px
+}
+
+.fn_cs_gallery_grid ul li img {
+    opacity: 0;
+    min-width: 100%;
+    margin-bottom: calc(35%)
+}
+
+.fn_cs_gallery_grid ul li .item {
+    width: 100%;
+    float: left;
+    clear: both;
+    position: relative;
+    overflow: hidden
+}
+
+.fn_cs_gallery_grid ul li .abs_img {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all 1s ease;
+    will-change: transform
+}
+
+.fn_cs_gallery_grid ul li .item:hover .abs_img {
+    transform: scale(1.2) translateZ(0)
+}
+
+.fn_cs_gallery_grid[data-cols="3"] ul li {
+    width: 33.3333%
+}
+
+.fn_cs_gallery_grid[data-cols="2"] ul li {
+    width: 50%
+}
+
+.fn_cs_gallery_grid[data-cols="1"] ul li {
+    width: 100%
+}
+
+@media(max-width: 1040px) {
+    .fn_cs_gallery_grid[data-cols="2"] ul li,.fn_cs_gallery_grid[data-cols="3"] ul li,.fn_cs_gallery_grid[data-cols="4"] ul li {
+        width:50%
+    }
+}
+
+@media(max-width: 768px) {
+    .fn_cs_gallery_grid[data-cols="2"] ul li,.fn_cs_gallery_grid[data-cols="3"] ul li,.fn_cs_gallery_grid[data-cols="4"] ul li {
+        width:100%
+    }
+}
+
+.lightbox {
+    cursor: pointer
+}

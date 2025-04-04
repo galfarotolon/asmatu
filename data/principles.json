@@ -1,0 +1,33 @@
+[
+    {
+      "title": { "es": "Honestidad", "eu": "Egiaizkia" },
+      "anchor": { "es": "Honesty", "eu": "Egia" },
+      "description": {
+        "es": "Ser humilde en todos los tratos con nuestros socios, clientes y miembros del equipo. La verdadera sabiduría y comprensión pertenecen a los humildes.",
+        "eu": "Guztien artean apaltasuna izatea. Benetako jakintza eta ulermena apalentzat da."
+      },
+      "number": "01",
+      "slug": { "es": "honestidad", "eu": "egiaizkia" }
+    },
+    {
+      "title": { "es": "Pasión", "eu": "Pasio" },
+      "anchor": { "es": "Passion", "eu": "Pasio" },
+      "description": {
+        "es": "El éxito es cuando podemos lograr resultados en las cosas que nos apasionan y sentimos que estamos haciendo una diferencia.",
+        "eu": "Arrakasta pasio duten gauzak gauzatzean eta aldaketa egiten ari garen sentitzen dugunean da."
+      },
+      "number": "02",
+      "slug": { "es": "pasion", "eu": "pasio" }
+    },
+    {
+      "title": { "es": "Trabajo de Calidad", "eu": "Kalitatezko Lana" },
+      "anchor": { "es": "Quality", "eu": "Kalitatea" },
+      "description": {
+        "es": "Nos aseguramos de que todos los proyectos se realicen con la máxima profesionalidad utilizando materiales de calidad.",
+        "eu": "Proiektu guztia profesionaltasun handienez burutzen dela ziurtatzen dugu, kalitatezko materialak erabiliz."
+      },
+      "number": "03",
+      "slug": { "es": "trabajo-de-calidad", "eu": "kalitatezko-lana" }
+    }
+  ]
+  

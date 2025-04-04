@@ -1,42 +1,59 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    },
+    // ESNext ensures modern JS features are allowed
+    "target": "ESNext",
+    // We commonly include DOM, DOM.Iterable, and ESNext for web apps
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
     ],
+    // If you have .js files in the project and want to allow them, keep this true
     "allowJs": true,
+    // If you're fully migrating to TS, you could set allowJs to false
+    // Skip type checking of all .d.ts files in node_modules
     "skipLibCheck": true,
-    "strict": false,
+    // Strict mode is recommended, but you can set to false if you need leniency
+    "strict": true,
+    // Don’t emit compiled files; Next.js handles the build
     "noEmit": true,
+    // Speeds up subsequent builds by storing incremental data
     "incremental": true,
+    // Common for Next.js
     "module": "esnext",
-    "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // For React in Next.js, usually "preserve" or "react-jsx"
+    // "preserve" is fine, and Next.js will transform it later
     "jsx": "preserve",
+    // Force consistent import naming
+    "esModuleInterop": true,
+    // Allows strict null checks, recommended if "strict" is true
+    // (If you keep "strict": false, you might want to remove or override this.)
+    "forceConsistentCasingInFileNames": true,
+    // Next.js plugin for improved IntelliSense
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "strictNullChecks": true,
-    "target": "ES2017"
+    // Aliases for convenience
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
+    // Generated Next.js type definitions
     "next-env.d.ts",
-    ".next/types/**/*.ts",
+    // All your TypeScript & TSX files
     "**/*.ts",
     "**/*.tsx",
-    "components/Home/HomeClients.js",
-    "components/Blog/BlogSideBar.tsx",
-    "app/noticias/[slug]/page.tsx"
-, "app/calidad/page.js"  ],
+    ".next/types/**/*.ts"
+, "scripts/importSlides.js", "sanity/scripts/importSlides.js", "components/Home/HomeWhyChooseUs.jsx"  ],
   "exclude": [
     "node_modules"
   ]

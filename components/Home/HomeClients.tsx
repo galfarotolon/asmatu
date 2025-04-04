@@ -1,32 +1,32 @@
 "use client";
+
 import React from "react";
 import { motion } from "framer-motion";
-import useInView from "@/hooks/useInView";
 import Image from "next/image";
+import { useInView } from "react-intersection-observer";
 
-const itemVariants = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0 },
-};
+interface Client {
+  _id: string;
+  name: string;
+  image: {
+    asset: { url: string };
+    altText: { es: string; eu: string };
+  };
+}
 
-const clients = [
-  { name: "Client 1", logo: "/img/clients/arcelor.png" },
-  { name: "Client 2", logo: "/img/clients/gobierno-vasco.png" },
-  { name: "Client 3", logo: "/img/clients/loar.png" },
-  // Add more clients as needed
-];
+interface ClientsCollectionData {
+  header: { es: string; eu: string };
+  subheader: { es: string; eu: string };
+  clients: Client[];
+}
+
+interface HomeClientsProps {
+  data: ClientsCollectionData;
+  lang: "es" | "eu";
+}
 
 const FADE_UP_ANIMATION_VARIANTS = {
   hidden: { opacity: 0, y: 100 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", duration: 0.8, delay: 2 },
-  },
-};
-
-const TEXT_ANIMATION_VARIANTS = {
-  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
@@ -34,10 +34,14 @@ const TEXT_ANIMATION_VARIANTS = {
   },
 };
 
-const HomeClients: React.FC = () => {
-  const [headerRef, headerInView] = useInView();
-  const [textRef, textInView] = useInView();
-  const [containerRef, containerInView] = useInView();
+export default function HomeClients({ data, lang }: HomeClientsProps) {
+  const { ref: headerRef, inView: headerInView } = useInView({
+    triggerOnce: true,
+  });
+  const { ref: textRef, inView: textInView } = useInView({ triggerOnce: true });
+  const { ref: containerRef, inView: containerInView } = useInView({
+    triggerOnce: true,
+  });
 
   return (
     <div className="py-10 bg-gray-100">
@@ -45,31 +49,29 @@ const HomeClients: React.FC = () => {
         className="text-3xl font-bold text-center mb-8"
         ref={headerRef}
         initial="hidden"
-        animate={headerInView ? "show" : "hidden"}
+        animate={headerInView ? "visible" : "hidden"}
         variants={FADE_UP_ANIMATION_VARIANTS}
       >
-        Conoce nuestros clientes
+        {lang === "es" ? data.header.es : data.header.eu}
       </motion.h2>
       <motion.p
+        className="text-center mb-8"
         ref={textRef}
         initial="hidden"
         animate={textInView ? "visible" : "hidden"}
-        variants={TEXT_ANIMATION_VARIANTS}
-        className="text-center mb-8"
+        variants={FADE_UP_ANIMATION_VARIANTS}
       >
-        Entidades públicas y privadas han confiado desde hace años en nosotros
-        por nuestra experiencia y saber hacer.
+        {lang === "es" ? data.subheader.es : data.subheader.eu}
       </motion.p>
       <div
         ref={containerRef}
         className="container mx-auto px-4 flex flex-wrap justify-center"
       >
-        {clients.map((client, index) => (
+        {data.clients.map((client, index) => (
           <motion.div
-            key={client.name}
-            initial="hidden"
-            animate={containerInView ? "visible" : "hidden"}
-            variants={itemVariants}
+            key={client._id}
+            initial={{ opacity: 0, x: -50 }}
+            animate={containerInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: index * 0.3, duration: 0.5 }}
             className="mx-4 my-6"
           >
@@ -78,12 +80,22 @@ const HomeClients: React.FC = () => {
               className="flex flex-col items-center"
             >
               <div className="relative w-40 h-40 mb-6">
-                <Image
-                  src={client.logo}
-                  alt={client.name}
-                  layout="fill"
-                  className="object-contain"
-                />
+                {client.image?.asset?.url ? (
+                  <Image
+                    src={client.image.asset?.url}
+                    alt={
+                      lang === "es"
+                        ? client.image.altText?.es
+                        : client.image.altText?.eu
+                    }
+                    fill
+                    className="object-contain"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                    {client.name}
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
@@ -91,6 +103,4 @@ const HomeClients: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default HomeClients;
+}

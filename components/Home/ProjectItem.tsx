@@ -1,9 +1,12 @@
+"use client";
+
 import { Arrow_r } from "@/public/svg/icon";
 import Link from "next/link";
+import { PortableText } from "@portabletext/react";
 
 interface ProjectItemProps {
   title: string;
-  description: string;
+  description: any[]; // Changed to any[] to accept block content
   imageUrl: string;
   link: string;
 }
@@ -28,7 +31,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
           <h3>
             <Link href={link}>{title}</Link>
           </h3>
-          <span className="desc">{description}</span>
+          <div className="desc">
+            {/* Render the block content using PortableText */}
+            <PortableText value={description} />
+          </div>
           <p>
             <Link href={link}>
               <span className="text">Más Detalles</span>

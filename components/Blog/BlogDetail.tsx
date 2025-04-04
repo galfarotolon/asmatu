@@ -1,65 +1,65 @@
+// components/Blog/BlogDetail.tsx
 import Sidebar from "@/layouts/sidebar";
 import Link from "next/link";
 import Image from "next/image";
-
-interface Blog {
-  id: number;
-  title: string;
-  slug: string;
-  img: string;
-  description: string;
-  listItems: string[];
-  text: string[];
-  quote: string;
-  tags: string[];
-}
+import { PortableText } from "@portabletext/react";
+import Breadcrumb from "@/layouts/breadcrumb";
+import { getBaseRoute, ROUTE_CODES } from "@/app/lib/routing";
 
 interface BlogDetailProps {
-  blog: Blog;
+  data: any; // blogPost data from Sanity
+  lang: "es" | "eu";
 }
 
-const BlogDetail: React.FC<BlogDetailProps> = ({ blog }) => {
+export default async function BlogDetail({ data, lang }: BlogDetailProps) {
+  // Since this is a server component, we can await the base route directly.
+  const blogBaseRoute = await getBaseRoute(ROUTE_CODES.BLOG, lang);
+
   return (
     <>
+      <Breadcrumb firstChild={blogBaseRoute} SecondChild={data.title[lang]} />
       <div className="industify_fn_sidebarpage">
         <div className="container">
           <div className="s_inner">
             {/* Main Sidebar: Left */}
             <div className="industify_fn_leftsidebar">
-              {/* Single Blog */}
               <div className="industify_fn_blog_single">
                 <div className="img_holder">
-                  <Image src={blog.img} alt="" width={500} height={500} />
+                  <Image
+                    src={data.mainImage?.asset?.url || ""}
+                    alt={data.title[lang]}
+                    width={500}
+                    height={500}
+                    layout="responsive"
+                  />
                 </div>
                 <div className="desc_holder">
-                  <h5 className="text-3xl py-5">{blog.description}</h5>
+                  <h1>{data.title[lang]}</h1>
+                  <p>{data.description[lang]}</p>
+                  <PortableText value={data.content[lang]} />
                   <ul>
-                    {blog.listItems.map((item, index) => (
-                      <li key={index}>{item}</li>
+                    {data.listItems?.map((item: any, index: number) => (
+                      <li key={index}>{item[lang]}</li>
                     ))}
                   </ul>
-                  {blog.text.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
-                  <blockquote className="my-10">{blog.quote}</blockquote>
+                  <blockquote className="my-10">
+                    {data.quote?.[lang]}
+                  </blockquote>
                 </div>
                 <div className="industify_fn_tags">
                   <label>Etiquetas:</label>
-                  {blog.tags.map((tag, index) => (
+                  {data.tags?.map((tag: any, index: number) => (
                     <Link href="#" key={index}>
-                      {tag}
+                      {tag[lang]}
                     </Link>
                   ))}
                 </div>
               </div>
-              {/* /Single Blog */}
             </div>
             {/* /Main Sidebar: Left */}
             {/* Main Sidebar: Right */}
             <div className="industify_fn_rightsidebar">
-              {/* Get Sidebar */}
               <Sidebar />
-              {/* /Get Sidebar */}
             </div>
             {/* /Main Sidebar: Right */}
           </div>
@@ -67,6 +67,4 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ blog }) => {
       </div>
     </>
   );
-};
-
-export default BlogDetail;
+}
