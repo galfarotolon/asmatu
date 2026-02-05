@@ -24,7 +24,7 @@
     "isotope-layout": "^3.0.6",
     "metismenujs": "^1.4.0",
     "negotiator": "^1.0.0",
-    "next": "^14.2.4",
+    "next": "14.2.35",
     "next-sanity": "^9.4.2",
     "postcss": "^8.4.39",
     "react": "^18",
